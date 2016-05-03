@@ -17,8 +17,8 @@ namespace HCT_Client
         {
             dataDictTH = new Dictionary<string, string>();
             dataDictEN = new Dictionary<string, string>();
-            dataDictTH.Add("a1","กกกก");
-            dataDictEN.Add("a1", "aaaa");
+            dataDictTH.Add("FormExecuteExam.TimerLabel","เหลือเวลา");
+            dataDictEN.Add("FormExecuteExam.TimerLabel", "Time Remain");
         }
 
         public static LocalizedTextManager Instance

@@ -22,9 +22,9 @@ namespace HCT_Client
             this.MinimizeBox = false;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-            System.Drawing.Rectangle workingRectangle = Screen.PrimaryScreen.WorkingArea;
-            SCREEN_WIDTH = workingRectangle.Width;
-            SCREEN_HEIGHT = workingRectangle.Height;
+       
+            SCREEN_WIDTH = SystemInformation.VirtualScreen.Width;
+            SCREEN_HEIGHT = SystemInformation.VirtualScreen.Height;
         }
     }
 }

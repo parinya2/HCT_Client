@@ -7,7 +7,8 @@ namespace HCT_Client
 {
     public class FormsManager
     {
-        public Form1 instanceForm1;
+        private Form1 instanceForm1;
+        private FormExecuteExam instanceFormExecuteExam;
         private static FormsManager instance;
 
         private FormsManager()
@@ -42,6 +43,15 @@ namespace HCT_Client
                 Instance.instanceForm1 = new Form1();
             }
             return Instance.instanceForm1;
+        }
+
+        public static FormExecuteExam GetFormExecuteExam()
+        {
+            if (Instance.instanceFormExecuteExam == null)
+            {
+                Instance.instanceFormExecuteExam = new FormExecuteExam();
+            }
+            return Instance.instanceFormExecuteExam;
         }
     }
 }

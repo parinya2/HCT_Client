@@ -43,17 +43,19 @@ namespace HCT_Client
         void ButtonClickedTH(object sender, EventArgs e)
         {
             LocalizedTextManager.SetLanguage(0);
-            Form1 instanceForm1 = FormsManager.GetForm1();
+            FormExecuteExam instanceForm1 = FormsManager.GetFormExecuteExam();
             instanceForm1.Visible = true;
             instanceForm1.BringToFront();
+            this.Visible = false;
         }
 
         void ButtonClickedEN(object sender, EventArgs e)
         {
             LocalizedTextManager.SetLanguage(1);
-            Form1 instanceForm1 = FormsManager.GetForm1();
+            FormExecuteExam instanceForm1 = FormsManager.GetFormExecuteExam();
             instanceForm1.Visible = true;
             instanceForm1.BringToFront();
+            this.Visible = false;
         }
     }
 }
