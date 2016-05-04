@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasePhotoLabel.cs">
+    <Compile Include="BaseImageLabel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BaseTextLabel.cs">
@@ -83,6 +83,11 @@
     <Compile Include="LocalizedTextManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuizChoicePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="QuizManager.cs" />
+    <Compile Include="SingleQuizObject.cs" />
     <Compile Include="SingleQuizStatusPanel.cs">
       <SubType>Component</SubType>
     </Compile>

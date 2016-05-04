@@ -7,9 +7,9 @@ using System.Drawing;
 
 namespace HCT_Client
 {
-    public class BasePhotoLabel : Label
+    public class BaseImageLabel : Label
     {
-        public BasePhotoLabel() 
+        public BaseImageLabel() 
         {
             this.Width = 100;
             this.Height = 100;

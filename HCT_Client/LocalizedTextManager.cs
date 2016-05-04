@@ -17,8 +17,14 @@ namespace HCT_Client
         {
             dataDictTH = new Dictionary<string, string>();
             dataDictEN = new Dictionary<string, string>();
-            dataDictTH.Add("FormExecuteExam.TimerLabel","เหลือเวลา");
-            dataDictEN.Add("FormExecuteExam.TimerLabel", "Time Remain");
+
+            SetDictValueForKey("FormExecuteExam.TimerLabel", "เหลือเวลา", "Time Remain");
+            SetDictValueForKey("FormExecuteExam.QuizTextLabel.Header", "ข้อที่", "Question No.");
+
+            SetDictValueForKey("QuizChoicePanel.ChoiceHeader.1", "ก", "A");
+            SetDictValueForKey("QuizChoicePanel.ChoiceHeader.2", "ข", "B");
+            SetDictValueForKey("QuizChoicePanel.ChoiceHeader.3", "ค", "C");
+            SetDictValueForKey("QuizChoicePanel.ChoiceHeader.4", "ง", "D");       
         }
 
         public static LocalizedTextManager Instance
@@ -39,6 +45,12 @@ namespace HCT_Client
             {
                 instance = new LocalizedTextManager();
             }
+        }
+
+        private void SetDictValueForKey(string key, string valueTH, string valueEN)
+        {
+            dataDictTH.Add(key, valueTH);
+            dataDictEN.Add(key, valueEN);
         }
 
         public static void SetLanguage(int languageMode)

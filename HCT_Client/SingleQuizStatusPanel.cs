@@ -22,7 +22,7 @@ namespace HCT_Client
             numberLabel = new Label();
             numberLabel.Width = this.Width / 2;
             numberLabel.Height = this.Height;
-            numberLabel.Text = quizNumber + "";
+            numberLabel.Text = (quizNumber + 1) + "";
             numberLabel.TextAlign = ContentAlignment.MiddleCenter;
             numberLabel.Font = new Font(this.Font.FontFamily, 10);
             numberLabel.ForeColor = Color.Black;
