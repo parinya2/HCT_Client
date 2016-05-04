@@ -12,6 +12,7 @@ namespace HCT_Client
     public partial class FormExecuteExam : FixedSizeForm
     {
         int QUIZ_COUNT = 50;
+        int TOTAL_EXAM_TIME_SECONDS = 1;
         int currentQuizNumber = 0;
         Panel monitorPanel;
         Panel quizListPanel;
@@ -22,6 +23,7 @@ namespace HCT_Client
         BaseImageLabel photoLabel;
         BaseTextLabel timerLabel;
         Stopwatch stopwatch;
+        SignalClock signalClock;
 
         BaseTextLabel quizTextLabel;
         BaseImageLabel quizImageLabel;
@@ -29,6 +31,12 @@ namespace HCT_Client
 
         QuizManager quizManager;
         SingleQuizObject[] quizArray;
+
+        FormLargeMessageBox timeoutMessageBox;
+        FormFadeView fadeForm;
+
+        bool userHasTappedChoice = false;
+        int signalClockState = -1;
 
         public FormExecuteExam()
         {
@@ -39,6 +47,13 @@ namespace HCT_Client
             quizManager.LoadQuiz();
             quizArray = quizManager.GetQuizArray();
             SetContentForQuizPanel(0);
+
+            timeoutMessageBox = new FormLargeMessageBox(0);
+            timeoutMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.Button");
+            timeoutMessageBox.Visible = false;
+            
+
+            fadeForm = new FormFadeView();
         }
 
         void RenderUI()
@@ -46,8 +61,11 @@ namespace HCT_Client
             RenderMonitorPanelUI();
             RenderQuizPanelUI();
 
-            stopwatch = new Stopwatch(100);
-            stopwatch.TheTimeChanged += new Stopwatch.TimerTickHandler(TimeHasChanged);
+            stopwatch = new Stopwatch(TOTAL_EXAM_TIME_SECONDS);
+            stopwatch.TheTimeChanged += new Stopwatch.TimerTickHandler(StopwatchHasChanged);
+
+            signalClock = new SignalClock(30);
+            signalClock.TheTimeChanged += new SignalClock.SignalClockTickHandler(SignalClockHasChanged);
         }
 
         private void RenderQuizPanelUI()
@@ -206,6 +224,54 @@ namespace HCT_Client
 
             SingleQuizStatusPanel singleQuizPanel = singleQuizStatusPanelArray[quizNumber];
             singleQuizPanel.selectedAnswerLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (choiceNumber + 1));
+
+            userHasTappedChoice = true;
+        }
+
+        void GoToQuiz(int newQuizNumber)
+        {
+            if (newQuizNumber != currentQuizNumber)
+            {
+                SingleQuizStatusPanel oldObj = (SingleQuizStatusPanel)singleQuizStatusPanelArray[currentQuizNumber];
+                SingleQuizStatusPanel newObj = (SingleQuizStatusPanel)singleQuizStatusPanelArray[newQuizNumber];
+                oldObj.SetActiveQuiz(false);
+                newObj.SetActiveQuiz(true);
+
+                currentQuizNumber = newQuizNumber;
+
+                SetContentForQuizPanel(currentQuizNumber);
+            }
+        }
+
+        void GoToNextUnansweredQuiz()
+        {
+            bool shouldStop = false;
+            int counter = 0;
+            int index = currentQuizNumber;
+            int nextUnansweredQuizNumber = -1;
+            while (!shouldStop)
+            {
+                index = (index == quizArray.Length - 1) ? 0 : (index + 1);
+                SingleQuizObject quizObj = quizArray[index];
+                if (quizObj.selectedChoice == -1)
+                {
+                    nextUnansweredQuizNumber = index;
+                    shouldStop = true;
+                }
+
+                counter++;
+                if (counter > quizArray.Length)
+                {
+                    shouldStop = true;
+                }
+            }
+
+            if (nextUnansweredQuizNumber != -1)
+            {
+                GoToQuiz(nextUnansweredQuizNumber);
+            }
+            
+            
         }
 
         void ChoicePanelClicked(object sender, EventArgs e)
@@ -234,22 +300,50 @@ namespace HCT_Client
         {
             Label obj = (Label)sender;
             int newQuizNumber = (int)obj.Tag;
-            if (newQuizNumber != currentQuizNumber)
+            GoToQuiz(newQuizNumber);
+        }
+
+        protected void StopwatchHasChanged(string newTime)
+        {
+            if (newTime != null)
             {
-                SingleQuizStatusPanel oldObj = (SingleQuizStatusPanel)singleQuizStatusPanelArray[currentQuizNumber];
-                SingleQuizStatusPanel newObj = (SingleQuizStatusPanel)singleQuizStatusPanelArray[newQuizNumber];
-                oldObj.SetActiveQuiz(false);
-                newObj.SetActiveQuiz(true);
+                timerLabel.Text = newTime;
+            }
+            else
+            {
+                if (!timeoutMessageBox.Visible)
+                {                    
+                    fadeForm.Visible = true;
+                    fadeForm.BringToFront();
 
-                currentQuizNumber = newQuizNumber;
-
-                SetContentForQuizPanel(currentQuizNumber);
+                    timeoutMessageBox.Visible = true;
+                    timeoutMessageBox.BringToFront();
+                    timeoutMessageBox.Location = new Point((SCREEN_WIDTH - timeoutMessageBox.Width) / 2,
+                          (SCREEN_HEIGHT - timeoutMessageBox.Height) / 2);
+                    this.Enabled = false;                  
+                }
             }
         }
 
-        protected void TimeHasChanged(string newTime)
+        protected void SignalClockHasChanged(int state)
         {
-            timerLabel.Text = newTime;
+            if (userHasTappedChoice)
+            {
+                if (signalClockState == -1)
+                {
+                    signalClockState = state;
+                }
+                else
+                {
+                    if (signalClockState == state)
+                    {
+                        
+                        signalClockState = -1;
+                        userHasTappedChoice = false;
+                        GoToNextUnansweredQuiz();
+                    }
+                }
+            }
         }
     }
 }

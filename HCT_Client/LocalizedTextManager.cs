@@ -24,7 +24,10 @@ namespace HCT_Client
             SetDictValueForKey("QuizChoicePanel.ChoiceHeader.1", "ก", "A");
             SetDictValueForKey("QuizChoicePanel.ChoiceHeader.2", "ข", "B");
             SetDictValueForKey("QuizChoicePanel.ChoiceHeader.3", "ค", "C");
-            SetDictValueForKey("QuizChoicePanel.ChoiceHeader.4", "ง", "D");       
+            SetDictValueForKey("QuizChoicePanel.ChoiceHeader.4", "ง", "D");
+
+            SetDictValueForKey("TimeoutMessageBox.Text", "หมดเวลาทำข้อสอบ กรุณากดปุ่ม 'ส่งคำตอบ'", "Time is over, please click 'Submit' button");
+            SetDictValueForKey("TimeoutMessageBox.Button", "ส่งคำตอบ", "Submit"); 
         }
 
         public static LocalizedTextManager Instance

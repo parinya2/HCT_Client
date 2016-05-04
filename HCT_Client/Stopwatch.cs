@@ -35,8 +35,15 @@ namespace HCT_Client
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            totalSeconds--;
-            TheTime = GetOfficialTimeText(totalSeconds);
+            if (totalSeconds >= 0)
+            {         
+                TheTime = GetOfficialTimeText(totalSeconds);
+                totalSeconds--;
+            }
+            else
+            {
+                TheTime = null;
+            }
         }
 
         private string GetOfficialTimeText(int seconds)

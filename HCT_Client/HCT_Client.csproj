@@ -76,6 +76,18 @@
     <Compile Include="FormExecuteExam.Designer.cs">
       <DependentUpon>FormExecuteExam.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormFadeView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFadeView.Designer.cs">
+      <DependentUpon>FormFadeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLargeMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLargeMessageBox.Designer.cs">
+      <DependentUpon>FormLargeMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormsManager.cs" />
     <Compile Include="LargeButton.cs">
       <SubType>Component</SubType>
@@ -87,6 +99,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="QuizManager.cs" />
+    <Compile Include="SignalClock.cs" />
     <Compile Include="SingleQuizObject.cs" />
     <Compile Include="SingleQuizStatusPanel.cs">
       <SubType>Component</SubType>
