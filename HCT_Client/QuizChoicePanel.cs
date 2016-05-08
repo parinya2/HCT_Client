@@ -27,7 +27,7 @@ namespace HCT_Client
         {
             choiceHeaderLabel = new BaseTextLabel();
             choiceHeaderLabel.Location = new Point(0, 0);
-            choiceHeaderLabel.Width = (int)(this.Width * 0.2);
+            choiceHeaderLabel.Width = (int)(this.Width * 0.1);
             choiceHeaderLabel.Height = this.Height;
             choiceHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (this.choiceNumber + 1)) + ". ";
             choiceHeaderLabel.BackColor = Color.Black;
@@ -35,10 +35,11 @@ namespace HCT_Client
 
             choiceTextLabel = new BaseTextLabel();
             choiceTextLabel.Location = new Point(choiceHeaderLabel.Width, 0);
-            choiceTextLabel.Width = (int)(this.Width * 0.6);
+            choiceTextLabel.Width = (int)(this.Width * 0.75);
             choiceTextLabel.Height = this.Height;
             choiceTextLabel.BackColor = Color.Black;
             choiceTextLabel.Tag = this.choiceNumber;
+            choiceTextLabel.TextAlign = ContentAlignment.TopLeft;
 
             choiceCorrectStatusImage = new BaseImageLabel();
             choiceCorrectStatusImage.Location = new Point(choiceHeaderLabel.Width + choiceTextLabel.Width, 0);

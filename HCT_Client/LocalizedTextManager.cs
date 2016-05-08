@@ -40,6 +40,22 @@ namespace HCT_Client
             SetDictValueForKey("FormExamResult.PassExam", "คุณสอบผ่าน !!", "You passed !!");
             SetDictValueForKey("FormExamResult.FailExam", "คุณสอบตก !!", "You failed !!");
             SetDictValueForKey("FormExamResult.ScoreText", "คุณได้คะแนน ", "You scored ");
+
+            SetDictValueForKey("MockQuiz.QuizText", "สัญลักษณ์นี้หมายความว่าอย่างไร ", "What does this sign mean ?");
+            SetDictValueForKey("MockQuiz.1.Choice.1", "ห้ามเลี้ยวซ้าย", "Do not turn left");
+            SetDictValueForKey("MockQuiz.1.Choice.2", "ห้ามเลี้ยวขวา", "Do not turn right");
+            SetDictValueForKey("MockQuiz.1.Choice.3", "ห้ามกลับรถ", "Do not U-turn");
+            SetDictValueForKey("MockQuiz.1.Choice.4", "ห้ามตรงไป", "Do not go straight");
+
+            SetDictValueForKey("MockQuiz.2.Choice.1", "ถนนลื่น", "Slippery road");
+            SetDictValueForKey("MockQuiz.2.Choice.2", "ถนนขรุขระ", "Bumpy road");
+            SetDictValueForKey("MockQuiz.2.Choice.3", "ห้ามเลี้ยวซ้าย", "Do not turn left");
+            SetDictValueForKey("MockQuiz.2.Choice.4", "ห้ามเลี้ยวขวา", "Do not turn right");
+
+            SetDictValueForKey("MockQuiz.3.Choice.1", "จำกัดความเร็ว 40 กม.ต่อชั่วโมง", "Speed limit at 40 km/h");
+            SetDictValueForKey("MockQuiz.3.Choice.2", "ห้ามเลี้ยวซ้าย", "Do not turn left");
+            SetDictValueForKey("MockQuiz.3.Choice.3", "ถนนลื่น", "Slippery road");
+            SetDictValueForKey("MockQuiz.3.Choice.4", "ถนนขรุขระ", "Bumpy road");
         }
 
         public static LocalizedTextManager Instance

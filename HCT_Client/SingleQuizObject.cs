@@ -9,7 +9,7 @@ namespace HCT_Client
     public class SingleQuizObject
     {
         public string quizText;
-        public Image quizImage;
+        public Bitmap quizImage;
         public string[] choiceTextArray;
         public int correctChoice;
         public int selectedChoice;

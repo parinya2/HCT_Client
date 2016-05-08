@@ -26,7 +26,7 @@ namespace HCT_Client
         SignalClock signalClock;
 
         BaseTextLabel quizTextLabel;
-        BaseImageLabel quizImageLabel;
+        PictureBox quizImagePictureBox;
         QuizChoicePanel[] choicePanelArray;
 
         MediumButton submitExamButton;
@@ -38,6 +38,9 @@ namespace HCT_Client
         FormLargeMessageBox timeoutMessageBox;
         FormLargeMessageBox quizNotCompletedMessageBox;
         FormFadeView fadeForm;
+
+        Color correctAnswerColor = Color.ForestGreen;
+        Color wrongAnswerColor = Color.Red;
 
         bool modeShowAnswer = false;
 
@@ -90,6 +93,7 @@ namespace HCT_Client
             {
                 SingleQuizStatusPanel obj = singleQuizStatusPanelArray[i];
                 obj.selectedAnswerLabel.Text = "-";
+                obj.selectedAnswerLabel.BackColor = Color.Transparent;
                 obj.SetActiveQuiz(i == 0);
             }
 
@@ -133,12 +137,12 @@ namespace HCT_Client
             quizTextLabel.Location = new Point(quizTextLabelOffsetX, quizTextLabelOffsetY);
             quizTextLabel.ForeColor = Color.Black;
 
-            quizImageLabel = new BaseImageLabel();
-            quizImageLabel.Width = quizTextLabel.Width;
-            quizImageLabel.Height = 300;
-            quizImageLabel.Location = new Point(quizTextLabel.Location.X, 
+            quizImagePictureBox = new PictureBox();
+            quizImagePictureBox.Width = quizTextLabel.Width;
+            quizImagePictureBox.Height = 300;
+            quizImagePictureBox.Location = new Point(quizTextLabel.Location.X, 
                 quizTextLabel.Location.Y + quizTextLabel.Height + quizTextLabelOffsetY);
-            quizImageLabel.BackColor = Color.Transparent;
+            quizImagePictureBox.BackColor = Color.Transparent;
 
             int choiceLabelOffsetX = 20;
             int choiceLabelOffsetY = 20;
@@ -146,26 +150,26 @@ namespace HCT_Client
             for (int i = 0; i < choicePanelArray.Length; i++)
             {
                 int objWidth = (quizPanel.Width - (choiceLabelOffsetX * 3)) / 2;
-                int objHeight = (quizPanel.Height - quizImageLabel.Location.Y - quizImageLabel.Height - (choiceLabelOffsetY * 3)) / 2;
+                int objHeight = (quizPanel.Height - quizImagePictureBox.Location.Y - quizImagePictureBox.Height - (choiceLabelOffsetY * 3)) / 2;
                
                 QuizChoicePanel obj = new QuizChoicePanel(objWidth, objHeight, i);
                 switch (i) 
                 {
                     case 0:
                         obj.Location = new Point(choiceLabelOffsetX,
-                                            quizImageLabel.Location.Y + quizImageLabel.Height + choiceLabelOffsetY);
+                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + choiceLabelOffsetY);
                         break;
                     case 1:
                         obj.Location = new Point(obj.Width + (choiceLabelOffsetX * 2),
-                                            quizImageLabel.Location.Y + quizImageLabel.Height + choiceLabelOffsetY);
+                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + choiceLabelOffsetY);
                         break;
                     case 2:
                         obj.Location = new Point(choiceLabelOffsetX,
-                                            quizImageLabel.Location.Y + quizImageLabel.Height + obj.Height + (choiceLabelOffsetY * 2));
+                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + obj.Height + (choiceLabelOffsetY * 2));
                         break;
                     case 3:
                         obj.Location = new Point(obj.Width + (choiceLabelOffsetX * 2),
-                                            quizImageLabel.Location.Y + quizImageLabel.Height + obj.Height + (choiceLabelOffsetY * 2));
+                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + obj.Height + (choiceLabelOffsetY * 2));
                         break;
                 }
 
@@ -177,7 +181,7 @@ namespace HCT_Client
                 quizPanel.Controls.Add(obj);
             }
 
-            quizPanel.Controls.Add(quizImageLabel);
+            quizPanel.Controls.Add(quizImagePictureBox);
             quizPanel.Controls.Add(quizTextLabel);
 
             this.Controls.Add(quizPanel);
@@ -243,6 +247,8 @@ namespace HCT_Client
             SingleQuizObject quizObj = (SingleQuizObject)(quizArray[quizNumber]);
             
             quizTextLabel.Text = quizTextHeader + " " + (quizNumber + 1) + "   " +quizObj.quizText;
+            quizImagePictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            quizImagePictureBox.Image = quizObj.quizImage;
             for (int i = 0; i < quizObj.choiceTextArray.Length; i++)
             {
                 string choiceText = quizObj.choiceTextArray[i];
@@ -307,8 +313,17 @@ namespace HCT_Client
             {
                 SingleQuizStatusPanel oldObj = (SingleQuizStatusPanel)singleQuizStatusPanelArray[currentQuizNumber];
                 SingleQuizStatusPanel newObj = (SingleQuizStatusPanel)singleQuizStatusPanelArray[newQuizNumber];
-                oldObj.SetActiveQuiz(false);
-                newObj.SetActiveQuiz(true);
+
+                if (modeShowAnswer)
+                {
+                    
+                }
+                else
+                {
+                    oldObj.SetActiveQuiz(false);
+                    newObj.SetActiveQuiz(true);
+                }
+
 
                 currentQuizNumber = newQuizNumber;
 
@@ -359,6 +374,19 @@ namespace HCT_Client
             quizNotCompletedMessageBox.Visible = false;
         }
 
+        void GoToFormChooseLanguage()
+        {
+            stopwatch.stopRunning();
+            FormChooseLanguage instanceFormChooseLanguage = FormsManager.GetFormChooseLanguage();
+            instanceFormChooseLanguage.Visible = true;
+            instanceFormChooseLanguage.BringToFront();
+
+            this.Visible = false;
+            fadeForm.Visible = false;
+            timeoutMessageBox.Visible = false;
+            quizNotCompletedMessageBox.Visible = false;
+        }
+
         public void ShowAnswer()
         {
             modeShowAnswer = true;
@@ -370,15 +398,17 @@ namespace HCT_Client
 
                 if (quizObj.selectedChoice == quizObj.correctChoice)
                 {
-                    panelObj.selectedAnswerLabel.BackColor = Color.Green;
-                    panelObj.numberLabel.BackColor = Color.Green;
+                    panelObj.selectedAnswerLabel.BackColor = correctAnswerColor;
+                    panelObj.numberLabel.BackColor = correctAnswerColor;
                 }
                 else
                 {
-                    panelObj.selectedAnswerLabel.BackColor = Color.Red;
-                    panelObj.numberLabel.BackColor = Color.Red;
+                    panelObj.selectedAnswerLabel.BackColor = wrongAnswerColor;
+                    panelObj.numberLabel.BackColor = wrongAnswerColor;
                 }
             }
+
+            submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.FinishButton");
         }
 
         void TimeoutMessageBoxRightButtonClicked(object sender, EventArgs e)
@@ -452,30 +482,38 @@ namespace HCT_Client
 
         void SubmitExamButtonClicked(object sender, EventArgs e)
         {
-            bool canProceed = true;
-            for (int i = 0; i < quizArray.Length; i++)
+            if (modeShowAnswer)
             {
-                SingleQuizObject obj = quizArray[i];
-                if (obj.selectedChoice == -1)
-                {
-                    canProceed = false;
-                    break;
-                }
-            }
-            if (canProceed)
-            {
-                GoToFormExamResult();
+                modeShowAnswer = false;
+                GoToFormChooseLanguage();
             }
             else
             {
-                fadeForm.Visible = true;
-                fadeForm.BringToFront();
+                bool canProceed = true;
+                for (int i = 0; i < quizArray.Length; i++)
+                {
+                    SingleQuizObject obj = quizArray[i];
+                    if (obj.selectedChoice == -1)
+                    {
+                        canProceed = false;
+                        break;
+                    }
+                }
+                if (canProceed)
+                {
+                    GoToFormExamResult();
+                }
+                else
+                {
+                    fadeForm.Visible = true;
+                    fadeForm.BringToFront();
 
-                quizNotCompletedMessageBox.Visible = true;
-                quizNotCompletedMessageBox.BringToFront();
-                quizNotCompletedMessageBox.Location = new Point((SCREEN_WIDTH - quizNotCompletedMessageBox.Width) / 2,
-                                                                    (SCREEN_HEIGHT - quizNotCompletedMessageBox.Height) / 2);
-            }      
+                    quizNotCompletedMessageBox.Visible = true;
+                    quizNotCompletedMessageBox.BringToFront();
+                    quizNotCompletedMessageBox.Location = new Point((SCREEN_WIDTH - quizNotCompletedMessageBox.Width) / 2,
+                                                                        (SCREEN_HEIGHT - quizNotCompletedMessageBox.Height) / 2);
+                }  
+            }
         }
 
         protected void StopwatchHasChanged(string newTime)
