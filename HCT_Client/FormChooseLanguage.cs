@@ -44,21 +44,22 @@ namespace HCT_Client
         void ButtonClickedTH(object sender, EventArgs e)
         {
             LocalizedTextManager.SetLanguage(0);
-            FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
-            instanceFormExecuteExam.LoadExamData();
-            instanceFormExecuteExam.Visible = true;
-            instanceFormExecuteExam.Enabled = true;
-            instanceFormExecuteExam.BringToFront();
-            this.Visible = false;
+            GoToFormExecuteExam();
         }
 
         void ButtonClickedEN(object sender, EventArgs e)
         {
             LocalizedTextManager.SetLanguage(1);
+            GoToFormExecuteExam();
+        }
+
+        void GoToFormExecuteExam()
+        {
             FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
             instanceFormExecuteExam.LoadExamData();
             instanceFormExecuteExam.Visible = true;
             instanceFormExecuteExam.Enabled = true;
+            instanceFormExecuteExam.RefreshUI();
             instanceFormExecuteExam.BringToFront();
             this.Visible = false;
         }

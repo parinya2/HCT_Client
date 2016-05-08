@@ -114,6 +114,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Stopwatch.cs" />
+    <Compile Include="Util.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

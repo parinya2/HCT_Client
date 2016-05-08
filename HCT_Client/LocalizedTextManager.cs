@@ -30,8 +30,16 @@ namespace HCT_Client
             SetDictValueForKey("TimeoutMessageBox.Message", "หมดเวลาทำข้อสอบ กรุณากดปุ่ม 'ส่งคำตอบ'", "Time is over, please click 'Submit' button");
             SetDictValueForKey("TimeoutMessageBox.RightButton", "ส่งคำตอบ", "Submit");
 
+            SetDictValueForKey("QuizNotCompletedMessageBox.Message", "คุณยังตอบคำถามไม่ครบทุกข้อ คุณยังต้องการส่งข้อสอบหรือไม่", "You have not answered all questions yet. Do you still want to submit the answers ?");
+            SetDictValueForKey("QuizNotCompletedMessageBox.RightButton", "ส่งข้อสอบ", "Submit Answer");
+            SetDictValueForKey("QuizNotCompletedMessageBox.LeftButton", "ยกเลิก", "Cancel");
+
             SetDictValueForKey("FormExamResult.FinishButton", "เสร็จสิ้น", "Finish");
             SetDictValueForKey("FormExamResult.ViewAnswer", "ดูเฉลย", "View Answer");
+
+            SetDictValueForKey("FormExamResult.PassExam", "คุณสอบผ่าน !!", "You passed !!");
+            SetDictValueForKey("FormExamResult.FailExam", "คุณสอบตก !!", "You failed !!");
+            SetDictValueForKey("FormExamResult.ScoreText", "คุณได้คะแนน ", "You scored ");
         }
 
         public static LocalizedTextManager Instance

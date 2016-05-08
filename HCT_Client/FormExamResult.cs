@@ -13,6 +13,9 @@ namespace HCT_Client
     {
         public LargeButton finishExamButton;
         public LargeButton viewAnswerButton;
+        public BaseTextLabel passOrFailLabel;
+        public BaseTextLabel scoreLabel;
+        int SCORE_TO_PASS = 10;
 
         public FormExamResult()
         {
@@ -38,8 +41,52 @@ namespace HCT_Client
                                                   finishExamButton.Location.Y);
             viewAnswerButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.ViewAnswer");
 
+            passOrFailLabel = new BaseTextLabel();
+            passOrFailLabel.Width = SCREEN_WIDTH;
+            passOrFailLabel.Height = 100;
+            passOrFailLabel.TextAlign = ContentAlignment.MiddleCenter;
+            passOrFailLabel.Location = new Point(0, 150);
+            passOrFailLabel.Font = new Font(this.Font.FontFamily, 50);
+
+            scoreLabel = new BaseTextLabel();
+            scoreLabel.Width = SCREEN_WIDTH;
+            scoreLabel.Height = 100;
+            scoreLabel.TextAlign = ContentAlignment.MiddleCenter;
+            scoreLabel.Location = new Point(0, passOrFailLabel.Location.Y + passOrFailLabel.Height + 50);
+            scoreLabel.ForeColor = Color.Black;
+            scoreLabel.Font = new Font(this.Font.FontFamily, 30);
+
+            this.Controls.Add(passOrFailLabel);
+            this.Controls.Add(scoreLabel);
             this.Controls.Add(finishExamButton);
             this.Controls.Add(viewAnswerButton);
+        }
+
+        public void calculateScore()
+        {
+            int score = 0;
+            SingleQuizObject[] quizArray = QuizManager.GetQuizArray();
+            for (int i = 0; i < quizArray.Length; i++)
+            {
+                SingleQuizObject obj = quizArray[i];
+                if (obj.selectedChoice == obj.correctChoice)
+                {
+                    score++;
+                }
+            }
+
+            if (score >= SCORE_TO_PASS)
+            {
+                passOrFailLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.PassExam");
+                passOrFailLabel.ForeColor = Color.LightSeaGreen;
+            }
+            else
+            {
+                passOrFailLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.FailExam");
+                passOrFailLabel.ForeColor = Color.Red;
+            }
+
+            scoreLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.ScoreText") + " " + score + " / " + quizArray.Length;
         }
 
         void FinishExamButtonClicked(object sender, EventArgs e)
@@ -52,7 +99,11 @@ namespace HCT_Client
 
         void ViewAnswerButtonClicked(object sender, EventArgs e)
         {
-      
+            FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
+            this.Visible = false;
+            instanceFormExecuteExam.ShowAnswer();
+            instanceFormExecuteExam.Visible = true;
+            instanceFormExecuteExam.BringToFront();
         }
     }
 }

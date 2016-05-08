@@ -40,26 +40,32 @@ namespace HCT_Client
             leftButton = new Button();
             leftButton.Width = 150;
             leftButton.Height = 80;
-            leftButton.Location = new Point(leftButton.Width + buttonOffsetX,
-                                 this.Height - leftButton.Height - buttonOffsetY);
             leftButton.Font = new Font(this.Font.FontFamily, 14);
 
             rightButton = new Button();
             rightButton.Width = 150;
             rightButton.Height = 80;
-            rightButton.Location = new Point(this.Width - rightButton.Width - buttonOffsetX,
-                                             this.Height - rightButton.Height - buttonOffsetY);
             rightButton.Font = new Font(this.Font.FontFamily, 14);
+
+
 
             switch (this.mode)
             { 
                 case 0 :
                     leftButton.Visible = false;
                     rightButton.Visible = true;
+                    rightButton.Location = new Point(this.Width - rightButton.Width - buttonOffsetX,
+                                this.Height - rightButton.Height - buttonOffsetY);
                     break;
                 case 1 :
                     leftButton.Visible = true;
                     rightButton.Visible = true;
+
+                    rightButton.Location = new Point(this.Width / 2 + buttonOffsetX,
+                                                    this.Height - rightButton.Height - buttonOffsetY);
+                    leftButton.Location = new Point(this.Width / 2 - buttonOffsetX - leftButton.Width,
+                                                    rightButton.Location.Y);
+
                 break;
             }
 

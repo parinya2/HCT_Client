@@ -30,12 +30,16 @@ namespace HCT_Client
         QuizChoicePanel[] choicePanelArray;
 
         MediumButton submitExamButton;
+        MediumButton prevQuizButton;
+        MediumButton nextQuizButton;
 
-        QuizManager quizManager;
         SingleQuizObject[] quizArray;
 
         FormLargeMessageBox timeoutMessageBox;
+        FormLargeMessageBox quizNotCompletedMessageBox;
         FormFadeView fadeForm;
+
+        bool modeShowAnswer = false;
 
         bool userHasTappedChoice = false;
         int signalClockState = -1;
@@ -43,7 +47,7 @@ namespace HCT_Client
         public FormExecuteExam()
         {
             InitializeComponent();
-            quizManager = new QuizManager();
+            QuizManager.InitInstance();
             RenderUI();
 
             timeoutMessageBox = new FormLargeMessageBox(0);
@@ -51,6 +55,16 @@ namespace HCT_Client
             timeoutMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.RightButton");
             timeoutMessageBox.Visible = false;
             timeoutMessageBox.rightButton.Click += new EventHandler(TimeoutMessageBoxRightButtonClicked);
+
+            quizNotCompletedMessageBox = new FormLargeMessageBox(1);
+            quizNotCompletedMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.Message");
+            quizNotCompletedMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.RightButton");
+            quizNotCompletedMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.LeftButton");
+            quizNotCompletedMessageBox.Visible = false;
+            quizNotCompletedMessageBox.rightButton.Click += new EventHandler(QuizNotCompletedMessageBoxRightButtonClicked);
+            quizNotCompletedMessageBox.leftButton.Click += new EventHandler(QuizNotCompletedMessageBoxLeftButtonClicked);
+
+            submitExamButton.Click += new EventHandler(SubmitExamButtonClicked);
 
             fadeForm = FormsManager.GetFormFadeView();
         }
@@ -61,10 +75,38 @@ namespace HCT_Client
             RenderQuizPanelUI();
        }
 
+        public void RefreshUI()
+        {
+            timeoutMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.Message");
+            timeoutMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.RightButton");
+
+            quizNotCompletedMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.Message");
+            quizNotCompletedMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.RightButton");
+            quizNotCompletedMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.LeftButton");
+
+            submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");
+
+            for (int i = 0; i < singleQuizStatusPanelArray.Length; i++)
+            {
+                SingleQuizStatusPanel obj = singleQuizStatusPanelArray[i];
+                obj.selectedAnswerLabel.Text = "-";
+                obj.SetActiveQuiz(i == 0);
+            }
+
+            for (int i = 0; i < choicePanelArray.Length; i++)
+            {
+                QuizChoicePanel obj = choicePanelArray[i];
+                obj.choiceHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (i + 1)) + ". ";
+            }
+
+                currentQuizNumber = 0;
+            signalClockState = -1;
+        }
+
         public void LoadExamData()
         {
-            quizManager.LoadQuiz();
-            quizArray = quizManager.GetQuizArray();
+            QuizManager.LoadQuiz();
+            quizArray = QuizManager.GetQuizArray();
             SetContentForQuizPanel(0);
 
             stopwatch = new Stopwatch(TOTAL_EXAM_TIME_SECONDS);
@@ -170,7 +212,22 @@ namespace HCT_Client
 
             prepareQuizListPanelUI();
 
+            prevQuizButton = new MediumButton();
+            prevQuizButton.Width = 50;
+            prevQuizButton.Height = submitExamButton.Height;
+            prevQuizButton.Location = new Point(timerLabel.Location.X, submitExamButton.Location.Y);
+            prevQuizButton.Text = "<<";
+            prevQuizButton.Click += new EventHandler(PrevQuizButtonClicked);
 
+            nextQuizButton = new MediumButton();
+            nextQuizButton.Width = 50;
+            nextQuizButton.Height = submitExamButton.Height;
+            nextQuizButton.Location = new Point(prevQuizButton.Location.X + prevQuizButton.Width + 5, submitExamButton.Location.Y);
+            nextQuizButton.Text = ">>";
+            nextQuizButton.Click += new EventHandler(NextQuizButtonClicked);
+
+            monitorPanel.Controls.Add(prevQuizButton);
+            monitorPanel.Controls.Add(nextQuizButton);
             monitorPanel.Controls.Add(submitExamButton);
             monitorPanel.Controls.Add(photoLabel);
             monitorPanel.Controls.Add(usernameLabel);
@@ -188,7 +245,6 @@ namespace HCT_Client
             quizTextLabel.Text = quizTextHeader + " " + (quizNumber + 1) + "   " +quizObj.quizText;
             for (int i = 0; i < quizObj.choiceTextArray.Length; i++)
             {
-                System.Diagnostics.Debug.WriteLine("SHIT " + i);
                 string choiceText = quizObj.choiceTextArray[i];
                 choicePanelArray[i].SetChoiceText(choiceText);
 
@@ -286,20 +342,43 @@ namespace HCT_Client
             if (nextUnansweredQuizNumber != -1)
             {
                 GoToQuiz(nextUnansweredQuizNumber);
-            }
-            
-            
+            }                   
         }
 
         void GoToFormExamResult()
         {
             stopwatch.stopRunning();
             FormExamResult instanceFormExamResult = FormsManager.GetFormExamResult();
-            this.Visible = false;
-            fadeForm.Visible = false;
-            this.timeoutMessageBox.Visible = false;
             instanceFormExamResult.Visible = true;
             instanceFormExamResult.BringToFront();
+            instanceFormExamResult.calculateScore();
+
+            this.Visible = false;
+            fadeForm.Visible = false;
+            timeoutMessageBox.Visible = false;
+            quizNotCompletedMessageBox.Visible = false;
+        }
+
+        public void ShowAnswer()
+        {
+            modeShowAnswer = true;
+
+            for (int i = 0; i < singleQuizStatusPanelArray.Length; i++)
+            {
+                SingleQuizStatusPanel panelObj = singleQuizStatusPanelArray[i];
+                SingleQuizObject quizObj = quizArray[i];
+
+                if (quizObj.selectedChoice == quizObj.correctChoice)
+                {
+                    panelObj.selectedAnswerLabel.BackColor = Color.Green;
+                    panelObj.numberLabel.BackColor = Color.Green;
+                }
+                else
+                {
+                    panelObj.selectedAnswerLabel.BackColor = Color.Red;
+                    panelObj.numberLabel.BackColor = Color.Red;
+                }
+            }
         }
 
         void TimeoutMessageBoxRightButtonClicked(object sender, EventArgs e)
@@ -307,8 +386,27 @@ namespace HCT_Client
             GoToFormExamResult();
         }
 
+        void QuizNotCompletedMessageBoxRightButtonClicked(object sender, EventArgs e)
+        {
+            GoToFormExamResult();
+        }
+
+        void QuizNotCompletedMessageBoxLeftButtonClicked(object sender, EventArgs e)
+        {
+            quizNotCompletedMessageBox.Visible = false;
+            fadeForm.Visible = false;
+            this.Visible = true;
+            this.Enabled = true;
+            this.BringToFront();
+        }
+
         void ChoicePanelClicked(object sender, EventArgs e)
         {
+            if (modeShowAnswer)
+            {
+                return;
+            }
+
             Label obj = (Label)sender;
             int newChoiceNumber = (int)obj.Tag;
             SingleQuizObject currentQuizObject = quizArray[currentQuizNumber];
@@ -336,9 +434,48 @@ namespace HCT_Client
             GoToQuiz(newQuizNumber);
         }
 
-        void SubmitExamButtonCLicked(object sender, EventArgs e)
+        void PrevQuizButtonClicked(object sender, EventArgs e)
         {
-            GoToFormExamResult();
+            if (currentQuizNumber > 0)
+            {
+                GoToQuiz(currentQuizNumber - 1);
+            }
+        }
+
+        void NextQuizButtonClicked(object sender, EventArgs e)
+        {
+            if (currentQuizNumber < quizArray.Length - 1)
+            {
+                GoToQuiz(currentQuizNumber + 1);
+            }
+        }
+
+        void SubmitExamButtonClicked(object sender, EventArgs e)
+        {
+            bool canProceed = true;
+            for (int i = 0; i < quizArray.Length; i++)
+            {
+                SingleQuizObject obj = quizArray[i];
+                if (obj.selectedChoice == -1)
+                {
+                    canProceed = false;
+                    break;
+                }
+            }
+            if (canProceed)
+            {
+                GoToFormExamResult();
+            }
+            else
+            {
+                fadeForm.Visible = true;
+                fadeForm.BringToFront();
+
+                quizNotCompletedMessageBox.Visible = true;
+                quizNotCompletedMessageBox.BringToFront();
+                quizNotCompletedMessageBox.Location = new Point((SCREEN_WIDTH - quizNotCompletedMessageBox.Width) / 2,
+                                                                    (SCREEN_HEIGHT - quizNotCompletedMessageBox.Height) / 2);
+            }      
         }
 
         protected void StopwatchHasChanged(string newTime)

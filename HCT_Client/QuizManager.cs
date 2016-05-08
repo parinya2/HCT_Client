@@ -8,37 +8,59 @@ namespace HCT_Client
     public class QuizManager
     {
         SingleQuizObject[] quizArray;
-
+        private static QuizManager instance;
+       
         public QuizManager()
         { 
         
         }
 
-        public void LoadQuiz()
+        public static QuizManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new QuizManager();
+                }
+                return instance;
+            }
+        }
+
+        public static void InitInstance()
+        {
+            if (instance == null)
+            {
+                instance = new QuizManager();
+            }
+        }
+
+        public static void LoadQuiz()
         {
             MockQuiz();
         }
 
-        private void MockQuiz()
+        private static void MockQuiz()
         { 
-            quizArray = new SingleQuizObject[50];
-            for (int i = 0; i < quizArray.Length; i++)
+            instance.quizArray = new SingleQuizObject[50];
+            for (int i = 0; i < instance.quizArray.Length; i++)
             {
                 SingleQuizObject obj = new SingleQuizObject();
                 obj.quizText = "QuizText " + (i + 1);
+                obj.correctChoice = 0;
                 for (int k = 0; k < 4; k++)
                 {
                     obj.SetChoiceText(k, "Choice " + i + " : " + k);
                 }
-                    
 
-                quizArray[i] = obj;
+
+                instance.quizArray[i] = obj;
             }
         }
 
-        public SingleQuizObject[] GetQuizArray()
+        public static SingleQuizObject[] GetQuizArray()
         {
-            return quizArray;
+            return instance.quizArray;
         }
     }
 }
