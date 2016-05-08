@@ -13,11 +13,11 @@ namespace HCT_Client
         public Label selectedAnswerLabel;
         public int quizNumber;
 
-        public SingleQuizStatusPanel(int quizNumber)
+        public SingleQuizStatusPanel(int quizNumber, int height)
         {
             this.quizNumber = quizNumber;
             this.Width = 60;
-            this.Height = 40;
+            this.Height = height;
             
             numberLabel = new Label();
             numberLabel.Width = (int)(this.Width * 0.55);

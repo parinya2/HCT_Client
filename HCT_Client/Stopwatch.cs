@@ -11,6 +11,8 @@ namespace HCT_Client
         private Timer timer;
         private int totalSeconds;
         private string theTime;
+        private bool runningFlag;
+
         public string TheTime
         {
             get
@@ -27,6 +29,7 @@ namespace HCT_Client
         public Stopwatch(int totalSeconds)
         {
             this.totalSeconds = totalSeconds;
+            this.runningFlag = true;
             timer = new Timer();
             timer.Tick += new EventHandler(Timer_Tick);
             timer.Interval = 1000;
@@ -35,15 +38,23 @@ namespace HCT_Client
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (totalSeconds >= 0)
-            {         
-                TheTime = GetOfficialTimeText(totalSeconds);
-                totalSeconds--;
-            }
-            else
+            if (runningFlag)
             {
-                TheTime = null;
+                if (totalSeconds >= 0)
+                {
+                    TheTime = GetOfficialTimeText(totalSeconds);
+                    totalSeconds--;
+                }
+                else
+                {
+                    TheTime = null;
+                } 
             }
+        }
+
+        public void stopRunning()
+        {
+            runningFlag = false;
         }
 
         private string GetOfficialTimeText(int seconds)

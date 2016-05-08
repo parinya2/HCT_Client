@@ -16,6 +16,7 @@ namespace HCT_Client
             InitializeComponent();
             LocalizedTextManager.InitInstance();
             FormsManager.InitInstance();
+            FormsManager.SetFormChooseLanguage(this);
             RenderUI();
         }
 
@@ -43,18 +44,22 @@ namespace HCT_Client
         void ButtonClickedTH(object sender, EventArgs e)
         {
             LocalizedTextManager.SetLanguage(0);
-            FormExecuteExam instanceForm1 = FormsManager.GetFormExecuteExam();
-            instanceForm1.Visible = true;
-            instanceForm1.BringToFront();
+            FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
+            instanceFormExecuteExam.LoadExamData();
+            instanceFormExecuteExam.Visible = true;
+            instanceFormExecuteExam.Enabled = true;
+            instanceFormExecuteExam.BringToFront();
             this.Visible = false;
         }
 
         void ButtonClickedEN(object sender, EventArgs e)
         {
             LocalizedTextManager.SetLanguage(1);
-            FormExecuteExam instanceForm1 = FormsManager.GetFormExecuteExam();
-            instanceForm1.Visible = true;
-            instanceForm1.BringToFront();
+            FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
+            instanceFormExecuteExam.LoadExamData();
+            instanceFormExecuteExam.Visible = true;
+            instanceFormExecuteExam.Enabled = true;
+            instanceFormExecuteExam.BringToFront();
             this.Visible = false;
         }
     }

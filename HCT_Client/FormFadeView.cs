@@ -15,8 +15,24 @@ namespace HCT_Client
         {
             InitializeComponent();
 
+            
+            this.Enabled = false;
             this.Opacity = 0.8;
             this.BackColor = Color.Black;
+        }
+
+        protected override void DefWndProc(ref Message m)
+        {
+            const int WM_MOUSEACTIVATE = 0x21;
+            const int MA_NOACTIVATE = 0x0003;
+
+            switch (m.Msg)
+            {
+                case WM_MOUSEACTIVATE:
+                    m.Result = (IntPtr)MA_NOACTIVATE;
+                    return;
+            }
+            base.DefWndProc(ref m);
         }
     }
 }

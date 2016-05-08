@@ -9,6 +9,10 @@ namespace HCT_Client
     {
         private Form1 instanceForm1;
         private FormExecuteExam instanceFormExecuteExam;
+        private FormFadeView instanceFormFadeView;
+        private FormExamResult instanceFormExamResult;
+        private FormChooseLanguage instanceFormChooseLanguage;
+
         private static FormsManager instance;
 
         private FormsManager()
@@ -52,6 +56,34 @@ namespace HCT_Client
                 Instance.instanceFormExecuteExam = new FormExecuteExam();
             }
             return Instance.instanceFormExecuteExam;
+        }
+
+        public static FormFadeView GetFormFadeView()
+        {
+            if (Instance.instanceFormFadeView == null)
+            {
+                Instance.instanceFormFadeView = new FormFadeView();
+            }
+            return Instance.instanceFormFadeView;
+        }
+
+        public static FormExamResult GetFormExamResult()
+        {
+            if (Instance.instanceFormExamResult == null)
+            {
+                Instance.instanceFormExamResult = new FormExamResult();
+            }
+            return Instance.instanceFormExamResult;
+        }
+
+        public static FormChooseLanguage GetFormChooseLanguage()
+        {
+            return Instance.instanceFormChooseLanguage;
+        }
+
+        public static void SetFormChooseLanguage(FormChooseLanguage formChooseLanguage)
+        {
+            Instance.instanceFormChooseLanguage = formChooseLanguage;
         }
     }
 }

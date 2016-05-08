@@ -12,7 +12,7 @@ namespace HCT_Client
     public partial class FormExecuteExam : FixedSizeForm
     {
         int QUIZ_COUNT = 50;
-        int TOTAL_EXAM_TIME_SECONDS = 1;
+        int TOTAL_EXAM_TIME_SECONDS = 1000;
         int currentQuizNumber = 0;
         Panel monitorPanel;
         Panel quizListPanel;
@@ -29,6 +29,8 @@ namespace HCT_Client
         BaseImageLabel quizImageLabel;
         QuizChoicePanel[] choicePanelArray;
 
+        MediumButton submitExamButton;
+
         QuizManager quizManager;
         SingleQuizObject[] quizArray;
 
@@ -44,28 +46,33 @@ namespace HCT_Client
             quizManager = new QuizManager();
             RenderUI();
 
-            quizManager.LoadQuiz();
-            quizArray = quizManager.GetQuizArray();
-            SetContentForQuizPanel(0);
-
             timeoutMessageBox = new FormLargeMessageBox(0);
-            timeoutMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.Button");
+            timeoutMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.Message");
+            timeoutMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.RightButton");
             timeoutMessageBox.Visible = false;
-            
+            timeoutMessageBox.rightButton.Click += new EventHandler(TimeoutMessageBoxRightButtonClicked);
 
-            fadeForm = new FormFadeView();
+            fadeForm = FormsManager.GetFormFadeView();
         }
 
         void RenderUI()
         {
             RenderMonitorPanelUI();
             RenderQuizPanelUI();
+       }
+
+        public void LoadExamData()
+        {
+            quizManager.LoadQuiz();
+            quizArray = quizManager.GetQuizArray();
+            SetContentForQuizPanel(0);
 
             stopwatch = new Stopwatch(TOTAL_EXAM_TIME_SECONDS);
             stopwatch.TheTimeChanged += new Stopwatch.TimerTickHandler(StopwatchHasChanged);
 
             signalClock = new SignalClock(30);
             signalClock.TheTimeChanged += new SignalClock.SignalClockTickHandler(SignalClockHasChanged);
+ 
         }
 
         private void RenderQuizPanelUI()
@@ -156,8 +163,15 @@ namespace HCT_Client
                                             photoLabel.Location.Y + photoLabel.Height + 20);
             timerLabel.Width = monitorPanel.Width - (photoLabel.Location.X * 2);
 
+            submitExamButton = new MediumButton();
+            submitExamButton.Location = new Point(monitorPanel.Width - 20 - submitExamButton.Width, 
+                                                  monitorPanel.Height - 20 - submitExamButton.Height);
+            submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");
+
             prepareQuizListPanelUI();
 
+
+            monitorPanel.Controls.Add(submitExamButton);
             monitorPanel.Controls.Add(photoLabel);
             monitorPanel.Controls.Add(usernameLabel);
             monitorPanel.Controls.Add(timerLabel);
@@ -174,6 +188,7 @@ namespace HCT_Client
             quizTextLabel.Text = quizTextHeader + " " + (quizNumber + 1) + "   " +quizObj.quizText;
             for (int i = 0; i < quizObj.choiceTextArray.Length; i++)
             {
+                System.Diagnostics.Debug.WriteLine("SHIT " + i);
                 string choiceText = quizObj.choiceTextArray[i];
                 choicePanelArray[i].SetChoiceText(choiceText);
 
@@ -187,7 +202,7 @@ namespace HCT_Client
             quizListPanel = new Panel();
             quizListPanel.Location = new Point(0, timerLabel.Location.Y + timerLabel.Height);
             quizListPanel.Width = monitorPanel.Width;
-            quizListPanel.Height = SCREEN_HEIGHT - quizListPanel.Location.Y - 50;
+            quizListPanel.Height = SCREEN_HEIGHT - quizListPanel.Location.Y - submitExamButton.Height - 20;
 
             singleQuizStatusPanelArray = new SingleQuizStatusPanel[QUIZ_COUNT];
             int quizPerColumn = 10;
@@ -195,10 +210,12 @@ namespace HCT_Client
             int quizGapY = 10;
             int quizGapX = 10;
 
+            int singleQuizStatusPanelHeight = (quizListPanel.Height / quizPerColumn) - quizGapY - 5;
+
             for (int i = 0; i < singleQuizStatusPanelArray.Length; i++)
             {
-                SingleQuizStatusPanel obj = new SingleQuizStatusPanel(i);
-
+                SingleQuizStatusPanel obj = new SingleQuizStatusPanel(i, singleQuizStatusPanelHeight);
+                
                 int columnNo = i / quizPerColumn;
                 int rowNo = i % quizPerColumn;
 
@@ -274,6 +291,22 @@ namespace HCT_Client
             
         }
 
+        void GoToFormExamResult()
+        {
+            stopwatch.stopRunning();
+            FormExamResult instanceFormExamResult = FormsManager.GetFormExamResult();
+            this.Visible = false;
+            fadeForm.Visible = false;
+            this.timeoutMessageBox.Visible = false;
+            instanceFormExamResult.Visible = true;
+            instanceFormExamResult.BringToFront();
+        }
+
+        void TimeoutMessageBoxRightButtonClicked(object sender, EventArgs e)
+        {
+            GoToFormExamResult();
+        }
+
         void ChoicePanelClicked(object sender, EventArgs e)
         {
             Label obj = (Label)sender;
@@ -301,6 +334,11 @@ namespace HCT_Client
             Label obj = (Label)sender;
             int newQuizNumber = (int)obj.Tag;
             GoToQuiz(newQuizNumber);
+        }
+
+        void SubmitExamButtonCLicked(object sender, EventArgs e)
+        {
+            GoToFormExamResult();
         }
 
         protected void StopwatchHasChanged(string newTime)

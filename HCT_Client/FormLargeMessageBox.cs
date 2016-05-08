@@ -13,6 +13,7 @@ namespace HCT_Client
     {
         public Button leftButton;
         public Button rightButton;
+        public Label messageLabel;
         int mode;
 
         public FormLargeMessageBox(int mode)
@@ -41,12 +42,14 @@ namespace HCT_Client
             leftButton.Height = 80;
             leftButton.Location = new Point(leftButton.Width + buttonOffsetX,
                                  this.Height - leftButton.Height - buttonOffsetY);
-            
+            leftButton.Font = new Font(this.Font.FontFamily, 14);
+
             rightButton = new Button();
             rightButton.Width = 150;
             rightButton.Height = 80;
             rightButton.Location = new Point(this.Width - rightButton.Width - buttonOffsetX,
                                              this.Height - rightButton.Height - buttonOffsetY);
+            rightButton.Font = new Font(this.Font.FontFamily, 14);
 
             switch (this.mode)
             { 
@@ -60,6 +63,13 @@ namespace HCT_Client
                 break;
             }
 
+            messageLabel = new Label();
+            messageLabel.Width = this.Width - (buttonOffsetX * 2);
+            messageLabel.Height = this.Height - rightButton.Height - (buttonOffsetY * 3);
+            messageLabel.Location = new Point(buttonOffsetX, buttonOffsetY);
+            messageLabel.Font = new Font(this.Font.FontFamily, 14);
+
+            this.Controls.Add(messageLabel);
             this.Controls.Add(leftButton);
             this.Controls.Add(rightButton);
         }
