@@ -13,7 +13,7 @@ namespace HCT_Client
     public partial class FormExecuteExam : FixedSizeForm
     {
         int QUIZ_COUNT = 50;
-        int TOTAL_EXAM_TIME_SECONDS = 1000;
+        int TOTAL_EXAM_TIME_SECONDS = 1;
         int currentQuizNumber = 0;
         Panel monitorPanel;
         Panel quizListPanel;
@@ -25,6 +25,7 @@ namespace HCT_Client
         BaseTextLabel timerLabel;
         Stopwatch stopwatch;
         SignalClock signalClock;
+        BlinkButtonSignalClock blinkButtonSignalClock;
 
         BaseTextLabel quizTextLabel;
         PictureBox quizImagePictureBox;
@@ -81,6 +82,12 @@ namespace HCT_Client
 
             myStream = myAssembly.GetManifestResourceStream("HCT_Client.WrongSign.png");
             wrongSignBitmap = new Bitmap(myStream);
+
+            signalClock = new SignalClock(30);
+            signalClock.TheTimeChanged += new SignalClock.SignalClockTickHandler(SignalClockHasChanged);
+
+            blinkButtonSignalClock = new BlinkButtonSignalClock();
+            blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged); 
         }
 
         void RenderUI()
@@ -99,6 +106,7 @@ namespace HCT_Client
             quizNotCompletedMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.LeftButton");
 
             submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");
+            submitExamButton.BackColor = Color.White;
 
             for (int i = 0; i < singleQuizStatusPanelArray.Length; i++)
             {
@@ -127,10 +135,6 @@ namespace HCT_Client
 
             stopwatch = new Stopwatch(TOTAL_EXAM_TIME_SECONDS);
             stopwatch.TheTimeChanged += new Stopwatch.TimerTickHandler(StopwatchHasChanged);
-
-            signalClock = new SignalClock(30);
-            signalClock.TheTimeChanged += new SignalClock.SignalClockTickHandler(SignalClockHasChanged);
- 
         }
 
         private void RenderQuizPanelUI()
@@ -145,7 +149,7 @@ namespace HCT_Client
             int quizTextLabelOffsetX = 40;
             int quizTextLabelOffsetY = 40;
             quizTextLabel.Width = quizPanel.Width - (quizTextLabelOffsetX * 2);
-            quizTextLabel.Height = 100;
+            quizTextLabel.Height = 70;
             quizTextLabel.Location = new Point(quizTextLabelOffsetX, quizTextLabelOffsetY);
             quizTextLabel.ForeColor = Color.Black;
 
@@ -156,32 +160,32 @@ namespace HCT_Client
                 quizTextLabel.Location.Y + quizTextLabel.Height + quizTextLabelOffsetY);
             quizImagePictureBox.BackColor = Color.Transparent;
 
-            int choiceLabelOffsetX = 20;
-            int choiceLabelOffsetY = 20;
+            int choiceLabelOffsetX = 5;
+            int choiceLabelOffsetY = 5;
             choicePanelArray = new QuizChoicePanel[4];
             for (int i = 0; i < choicePanelArray.Length; i++)
             {
                 int objWidth = (quizPanel.Width - (choiceLabelOffsetX * 3)) / 2;
-                int objHeight = (quizPanel.Height - quizImagePictureBox.Location.Y - quizImagePictureBox.Height - (choiceLabelOffsetY * 3)) / 2;
+                int objHeight = (quizPanel.Height - quizImagePictureBox.Location.Y - quizImagePictureBox.Height - (choiceLabelOffsetY * 8)) / 2;
                
                 QuizChoicePanel obj = new QuizChoicePanel(objWidth, objHeight, i);
                 switch (i) 
                 {
                     case 0:
                         obj.Location = new Point(choiceLabelOffsetX,
-                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + choiceLabelOffsetY);
+                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + choiceLabelOffsetY * 6);
                         break;
                     case 1:
                         obj.Location = new Point(obj.Width + (choiceLabelOffsetX * 2),
-                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + choiceLabelOffsetY);
+                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + choiceLabelOffsetY * 6);
                         break;
                     case 2:
                         obj.Location = new Point(choiceLabelOffsetX,
-                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + obj.Height + (choiceLabelOffsetY * 2));
+                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + obj.Height + (choiceLabelOffsetY * 7));
                         break;
                     case 3:
                         obj.Location = new Point(obj.Width + (choiceLabelOffsetX * 2),
-                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + obj.Height + (choiceLabelOffsetY * 2));
+                                            quizImagePictureBox.Location.Y + quizImagePictureBox.Height + obj.Height + (choiceLabelOffsetY * 7));
                         break;
                 }
 
@@ -393,6 +397,7 @@ namespace HCT_Client
         {
             stopwatch.stopRunning();
             FormExamResult instanceFormExamResult = FormsManager.GetFormExamResult();
+            instanceFormExamResult.RefreshUI();
             instanceFormExamResult.Visible = true;
             instanceFormExamResult.BringToFront();
             instanceFormExamResult.calculateScore();
@@ -419,7 +424,8 @@ namespace HCT_Client
         public void ShowAnswer()
         {
             modeShowAnswer = true;
-
+            this.Enabled = true;
+            this.BringToFront();
             for (int i = 0; i < singleQuizStatusPanelArray.Length; i++)
             {
                 SingleQuizStatusPanel panelObj = singleQuizStatusPanelArray[i];
@@ -437,7 +443,7 @@ namespace HCT_Client
                 }
             }
 
-            submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.FinishButton");
+            submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.GoBack");
             GoToQuiz(0);
         }
 
@@ -515,7 +521,7 @@ namespace HCT_Client
             if (modeShowAnswer)
             {
                 modeShowAnswer = false;
-                GoToFormChooseLanguage();
+                GoToFormExamResult();
             }
             else
             {
@@ -565,6 +571,16 @@ namespace HCT_Client
                           (SCREEN_HEIGHT - timeoutMessageBox.Height) / 2);
                     this.Enabled = false;                  
                 }
+            }
+        }
+
+        protected void BlinkButtonSignalClockHasChanged(int state)
+        {
+            timeoutMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            quizNotCompletedMessageBox.leftButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            if (modeShowAnswer)
+            {
+                submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             }
         }
 

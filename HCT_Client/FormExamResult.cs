@@ -15,13 +15,18 @@ namespace HCT_Client
         public LargeButton viewAnswerButton;
         public BaseTextLabel passOrFailLabel;
         public BaseTextLabel scoreLabel;
-        int SCORE_TO_PASS = 10;
+        BlinkButtonSignalClock blinkButtonSignalClock;
+        int SCORE_TO_PASS = 40;
 
         public FormExamResult()
         {
             InitializeComponent();
             
             RenderUI();
+
+            blinkButtonSignalClock = new BlinkButtonSignalClock();
+            blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged); 
+  
         }
 
         private void RenderUI()
@@ -60,6 +65,12 @@ namespace HCT_Client
             this.Controls.Add(scoreLabel);
             this.Controls.Add(finishExamButton);
             this.Controls.Add(viewAnswerButton);
+        }
+
+        public void RefreshUI()
+        {
+            finishExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.FinishButton");
+            viewAnswerButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.ViewAnswer");
         }
 
         public void calculateScore()
@@ -104,6 +115,11 @@ namespace HCT_Client
             instanceFormExecuteExam.ShowAnswer();
             instanceFormExecuteExam.Visible = true;
             instanceFormExecuteExam.BringToFront();
+        }
+
+        protected void BlinkButtonSignalClockHasChanged(int state)
+        {
+            finishExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
         }
     }
 }

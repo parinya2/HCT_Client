@@ -52,6 +52,7 @@
     <Compile Include="BaseTextLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ButtonBlinkSignalClock.cs" />
     <Compile Include="FixedSizeForm.cs">
       <SubType>Form</SubType>
     </Compile>

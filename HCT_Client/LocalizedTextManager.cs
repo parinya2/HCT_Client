@@ -21,6 +21,7 @@ namespace HCT_Client
             SetDictValueForKey("FormExecuteExam.TimerLabel", "เหลือเวลา", "Time Remain");
             SetDictValueForKey("FormExecuteExam.QuizTextLabel.Header", "ข้อที่", "Question No.");
             SetDictValueForKey("FormExecuteExam.SubmitExamButton", "ส่งข้อสอบ", "Submit Answer");
+            SetDictValueForKey("FormExecuteExam.GoBack", "ย้อนกลับ", "Go Back");
 
             SetDictValueForKey("QuizChoicePanel.ChoiceHeader.1", "ก", "A");
             SetDictValueForKey("QuizChoicePanel.ChoiceHeader.2", "ข", "B");
@@ -37,8 +38,8 @@ namespace HCT_Client
             SetDictValueForKey("FormExamResult.FinishButton", "เสร็จสิ้น", "Finish");
             SetDictValueForKey("FormExamResult.ViewAnswer", "ดูเฉลย", "View Answer");
 
-            SetDictValueForKey("FormExamResult.PassExam", "คุณสอบผ่าน !!", "You passed !!");
-            SetDictValueForKey("FormExamResult.FailExam", "คุณสอบตก !!", "You failed !!");
+            SetDictValueForKey("FormExamResult.PassExam", "คุณสอบผ่าน", "You passed");
+            SetDictValueForKey("FormExamResult.FailExam", "คุณสอบไม่ผ่าน", "You failed");
             SetDictValueForKey("FormExamResult.ScoreText", "คุณได้คะแนน ", "You scored ");
 
             SetDictValueForKey("MockQuiz.QuizText", "สัญลักษณ์นี้หมายความว่าอย่างไร ", "What does this sign mean ?");
