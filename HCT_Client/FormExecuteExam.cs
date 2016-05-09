@@ -21,6 +21,7 @@ namespace HCT_Client
 
         Panel quizPanel;
         BaseTextLabel usernameLabel;
+        BaseTextLabel examCourseLabel;
         BaseImageLabel photoLabel;
         BaseTextLabel timerLabel;
         Stopwatch stopwatch;
@@ -54,8 +55,7 @@ namespace HCT_Client
 
         public FormExecuteExam()
         {
-            InitializeComponent();
-            QuizManager.InitInstance();
+            InitializeComponent();         
             RenderUI();
 
             timeoutMessageBox = new FormLargeMessageBox(0);
@@ -101,6 +101,9 @@ namespace HCT_Client
             timerLabel.Text = "";
             timeoutMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.Message");
             timeoutMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.RightButton");
+
+            int courseType = QuizManager.GetExamCourseType() + 1;
+            examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + courseType);
 
             quizNotCompletedMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.Message");
             quizNotCompletedMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.RightButton");
@@ -207,7 +210,7 @@ namespace HCT_Client
         private void RenderMonitorPanelUI()
         {
             monitorPanel = new Panel();
-            monitorPanel.Width = (int)(SCREEN_WIDTH * 0.3);
+            monitorPanel.Width = (int)(SCREEN_WIDTH * 0.35);
             monitorPanel.Height = SCREEN_HEIGHT;
             monitorPanel.BackColor = Color.Black;
             monitorPanel.Location = new Point(0, 0);
@@ -217,8 +220,17 @@ namespace HCT_Client
 
             usernameLabel = new BaseTextLabel();
             usernameLabel.Text = "ดัสกร ทองเหลา";
-            usernameLabel.Location = new Point(photoLabel.Location.X + photoLabel.Width + 20 + 10,
+            usernameLabel.Width = monitorPanel.Width - photoLabel.Width - photoLabel.Location.X - 10;
+            usernameLabel.Location = new Point(photoLabel.Location.X + photoLabel.Width + 10,
                                                photoLabel.Location.Y);
+
+            examCourseLabel = new BaseTextLabel();
+            examCourseLabel.Width = usernameLabel.Width;
+            int courseType = QuizManager.GetExamCourseType() + 1;   
+            examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + courseType);
+            examCourseLabel.Location = new Point(usernameLabel.Location.X,
+                                                 usernameLabel.Location.Y + usernameLabel.Height + 20);
+            examCourseLabel.Font = new Font(this.Font.FontFamily, 13);
 
             timerLabel = new BaseTextLabel();
             timerLabel.Text = "";
@@ -252,6 +264,7 @@ namespace HCT_Client
             monitorPanel.Controls.Add(submitExamButton);
             monitorPanel.Controls.Add(photoLabel);
             monitorPanel.Controls.Add(usernameLabel);
+            monitorPanel.Controls.Add(examCourseLabel);
             monitorPanel.Controls.Add(timerLabel);
             monitorPanel.Controls.Add(quizListPanel);
 
@@ -303,19 +316,22 @@ namespace HCT_Client
             singleQuizStatusPanelArray = new SingleQuizStatusPanel[QUIZ_COUNT];
             int quizPerColumn = 10;
             int columnCount = QUIZ_COUNT / quizPerColumn;
-            int quizGapY = 10;
             int quizGapX = 10;
+            int quizGapY = 10;
 
+            int singleQuizStatusPanelWidth = 60;
             int singleQuizStatusPanelHeight = (quizListPanel.Height / quizPerColumn) - quizGapY - 5;
+
+            int panelOffsetX = (quizListPanel.Width - (columnCount * singleQuizStatusPanelWidth) - ((columnCount - 1) * quizGapX)) / 2;
 
             for (int i = 0; i < singleQuizStatusPanelArray.Length; i++)
             {
-                SingleQuizStatusPanel obj = new SingleQuizStatusPanel(i, singleQuizStatusPanelHeight);
+                SingleQuizStatusPanel obj = new SingleQuizStatusPanel(i, singleQuizStatusPanelWidth, singleQuizStatusPanelHeight);
                 
                 int columnNo = i / quizPerColumn;
                 int rowNo = i % quizPerColumn;
 
-                int locationX = (obj.Width + quizGapX) * columnNo+ 30;
+                int locationX = (obj.Width + quizGapX) * columnNo + panelOffsetX;
                 int locationY = (obj.Height + quizGapY) * rowNo + 30;
                 obj.Location = new Point(locationX, locationY);
                 obj.numberLabel.Click += new EventHandler(SingleQuizStatusPanelClicked);

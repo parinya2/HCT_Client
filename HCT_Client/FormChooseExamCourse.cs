@@ -57,7 +57,7 @@ namespace HCT_Client
         public FormChooseExamCourse()
         {
             InitializeComponent();
-
+            QuizManager.InitInstance();
             RenderUI();
 
             blinkButtonSignalClock = new BlinkButtonSignalClock();
@@ -123,11 +123,13 @@ namespace HCT_Client
 
         void ExamCourseType1ButtonClicked(object sender, EventArgs e)
         {
+            QuizManager.SetExamCourseType(0);
             GoToNextForm();
         }
 
         void ExamCourseType2ButtonClicked(object sender, EventArgs e)
         {
+            QuizManager.SetExamCourseType(1);
             GoToNextForm();
         }
 

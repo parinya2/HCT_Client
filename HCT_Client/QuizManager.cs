@@ -9,9 +9,10 @@ namespace HCT_Client
 {
     public class QuizManager
     {
+        public int examCourseType; // 0 = Car , 1 = Motorcycle
         SingleQuizObject[] quizArray;
         private static QuizManager instance;
-       
+        
         public QuizManager()
         { 
         
@@ -81,6 +82,16 @@ namespace HCT_Client
         public static SingleQuizObject[] GetQuizArray()
         {
             return instance.quizArray;
+        }
+
+        public static void SetExamCourseType(int type)
+        {
+            instance.examCourseType = type;
+        }
+
+        public static int GetExamCourseType()
+        {
+            return instance.examCourseType;
         }
     }
 }
