@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace HCT_Client
 {
@@ -47,6 +48,9 @@ namespace HCT_Client
         bool userHasTappedChoice = false;
         int signalClockState = -1;
 
+        Bitmap correctSignBitmap;
+        Bitmap wrongSignBitmap;
+
         public FormExecuteExam()
         {
             InitializeComponent();
@@ -70,6 +74,13 @@ namespace HCT_Client
             submitExamButton.Click += new EventHandler(SubmitExamButtonClicked);
 
             fadeForm = FormsManager.GetFormFadeView();
+
+            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+            Stream myStream = myAssembly.GetManifestResourceStream("HCT_Client.CorrectSign.png");
+            correctSignBitmap = new Bitmap(myStream);
+
+            myStream = myAssembly.GetManifestResourceStream("HCT_Client.WrongSign.png");
+            wrongSignBitmap = new Bitmap(myStream);
         }
 
         void RenderUI()
@@ -101,9 +112,10 @@ namespace HCT_Client
             {
                 QuizChoicePanel obj = choicePanelArray[i];
                 obj.choiceHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (i + 1)) + ". ";
+                obj.choiceCorrectStatusPictureBox.Image = null;
             }
 
-                currentQuizNumber = 0;
+            currentQuizNumber = 0;
             signalClockState = -1;
         }
 
@@ -175,7 +187,7 @@ namespace HCT_Client
 
                 obj.choiceHeaderLabel.Click += new EventHandler(ChoicePanelClicked);
                 obj.choiceTextLabel.Click += new EventHandler(ChoicePanelClicked);
-                obj.choiceCorrectStatusImage.Click += new EventHandler(ChoicePanelClicked);
+                obj.choiceCorrectStatusPictureBox.Click += new EventHandler(ChoicePanelClicked);
 
                 choicePanelArray[i] = obj;
                 quizPanel.Controls.Add(obj);
@@ -249,6 +261,7 @@ namespace HCT_Client
             quizTextLabel.Text = quizTextHeader + " " + (quizNumber + 1) + "   " +quizObj.quizText;
             quizImagePictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             quizImagePictureBox.Image = quizObj.quizImage;
+
             for (int i = 0; i < quizObj.choiceTextArray.Length; i++)
             {
                 string choiceText = quizObj.choiceTextArray[i];
@@ -256,6 +269,22 @@ namespace HCT_Client
 
                 bool isSelectedChoiceFlag = (i == quizObj.selectedChoice);
                 choicePanelArray[i].SetSelectedChoicePanel(isSelectedChoiceFlag);
+            }
+
+            if (modeShowAnswer)
+            {
+                for (int i = 0; i < quizObj.choiceTextArray.Length; i++)
+                {
+                    choicePanelArray[i].choiceCorrectStatusPictureBox.Image = null;
+                    if (quizObj.correctChoice == i)
+                    {
+                        choicePanelArray[i].choiceCorrectStatusPictureBox.Image = correctSignBitmap;
+                    }
+                    else if (quizObj.selectedChoice == i && quizObj.correctChoice != i)
+                    {
+                        choicePanelArray[i].choiceCorrectStatusPictureBox.Image = wrongSignBitmap;
+                    }
+                }
             }
         }
 
@@ -409,6 +438,7 @@ namespace HCT_Client
             }
 
             submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.FinishButton");
+            GoToQuiz(0);
         }
 
         void TimeoutMessageBoxRightButtonClicked(object sender, EventArgs e)
@@ -436,8 +466,8 @@ namespace HCT_Client
             {
                 return;
             }
-
-            Label obj = (Label)sender;
+            
+            Control obj = (Control)sender;
             int newChoiceNumber = (int)obj.Tag;
             SingleQuizObject currentQuizObject = quizArray[currentQuizNumber];
             int currentChoiceNumber = currentQuizObject.selectedChoice;

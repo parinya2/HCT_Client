@@ -11,8 +11,9 @@ namespace HCT_Client
     {
         public BaseTextLabel choiceHeaderLabel;
         public BaseTextLabel choiceTextLabel;
-        public BaseImageLabel choiceCorrectStatusImage;
+        public PictureBox choiceCorrectStatusPictureBox;
         public int choiceNumber;
+        int margin = 10;
 
         public QuizChoicePanel(int width, int height, int choiceNumber)
         {
@@ -25,32 +26,36 @@ namespace HCT_Client
 
         private void RenderUI()
         {
+            Color panelColor = Color.Black;
+
             choiceHeaderLabel = new BaseTextLabel();
-            choiceHeaderLabel.Location = new Point(0, 0);
+            choiceHeaderLabel.Location = new Point(margin, margin);
             choiceHeaderLabel.Width = (int)(this.Width * 0.1);
             choiceHeaderLabel.Height = this.Height;
             choiceHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (this.choiceNumber + 1)) + ". ";
-            choiceHeaderLabel.BackColor = Color.Black;
+            choiceHeaderLabel.BackColor = panelColor;
             choiceHeaderLabel.Tag = this.choiceNumber;
 
             choiceTextLabel = new BaseTextLabel();
-            choiceTextLabel.Location = new Point(choiceHeaderLabel.Width, 0);
+            choiceTextLabel.Location = new Point(choiceHeaderLabel.Width + choiceHeaderLabel.Location.X, choiceHeaderLabel.Location.Y);
             choiceTextLabel.Width = (int)(this.Width * 0.75);
             choiceTextLabel.Height = this.Height;
-            choiceTextLabel.BackColor = Color.Black;
+            choiceTextLabel.BackColor = panelColor;
             choiceTextLabel.Tag = this.choiceNumber;
             choiceTextLabel.TextAlign = ContentAlignment.TopLeft;
 
-            choiceCorrectStatusImage = new BaseImageLabel();
-            choiceCorrectStatusImage.Location = new Point(choiceHeaderLabel.Width + choiceTextLabel.Width, 0);
-            choiceCorrectStatusImage.Width = this.Width - choiceHeaderLabel.Width - choiceTextLabel.Width;
-            choiceCorrectStatusImage.Height = this.Height;
-            choiceCorrectStatusImage.BackColor = Color.Black;
-            choiceCorrectStatusImage.Tag = this.choiceNumber;
+            choiceCorrectStatusPictureBox = new PictureBox();
+            choiceCorrectStatusPictureBox.Location = new Point(choiceHeaderLabel.Location.X + choiceHeaderLabel.Width + choiceTextLabel.Width, choiceHeaderLabel.Location.Y);
+            choiceCorrectStatusPictureBox.Width = this.Width - choiceHeaderLabel.Width - choiceTextLabel.Width - margin * 2;
+            choiceCorrectStatusPictureBox.Height = this.Height;
+            choiceCorrectStatusPictureBox.BackColor = panelColor;
+            choiceCorrectStatusPictureBox.Tag = this.choiceNumber;
+            choiceCorrectStatusPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
+            this.BackColor = panelColor;
             this.Controls.Add(choiceHeaderLabel);
             this.Controls.Add(choiceTextLabel);
-            this.Controls.Add(choiceCorrectStatusImage);
+            this.Controls.Add(choiceCorrectStatusPictureBox);
         }
 
         public void SetSelectedChoicePanel(bool flag)
@@ -60,7 +65,8 @@ namespace HCT_Client
 
             choiceHeaderLabel.BackColor = BGcolor;
             choiceTextLabel.BackColor = BGcolor;
-            choiceCorrectStatusImage.BackColor = BGcolor;
+            choiceCorrectStatusPictureBox.BackColor = BGcolor;
+            this.BackColor = BGcolor;
 
             choiceHeaderLabel.ForeColor = textColor;
             choiceTextLabel.ForeColor = textColor;
