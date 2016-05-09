@@ -76,24 +76,31 @@ namespace HCT_Client
         void ButtonClickedTH(object sender, EventArgs e)
         {
             LocalizedTextManager.SetLanguage(0);
-            GoToFormExecuteExam();
+            GoToNextForm();
         }
 
         void ButtonClickedEN(object sender, EventArgs e)
         {
             LocalizedTextManager.SetLanguage(1);
-            GoToFormExecuteExam();
+            GoToNextForm();
         }
 
-        void GoToFormExecuteExam()
+        void GoToNextForm()
         {
-            FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
+            FormChooseExamCourse instanceFormChooseExamCourse = FormsManager.GetFormChooseExamCourse();
+            instanceFormChooseExamCourse.Visible = true;
+            instanceFormChooseExamCourse.Enabled = true;
+            instanceFormChooseExamCourse.RefreshUI();
+            instanceFormChooseExamCourse.BringToFront();
+            this.Visible = false;
+
+            /*FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
             instanceFormExecuteExam.LoadExamData();
             instanceFormExecuteExam.Visible = true;
             instanceFormExecuteExam.Enabled = true;
             instanceFormExecuteExam.RefreshUI();
             instanceFormExecuteExam.BringToFront();
-            this.Visible = false;
+            this.Visible = false;*/
         }
 
         protected void BlinkButtonSignalClockHasChanged(int state)

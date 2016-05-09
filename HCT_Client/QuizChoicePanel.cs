@@ -33,14 +33,14 @@ namespace HCT_Client
             choiceHeaderLabel.Width = (int)(this.Width * 0.1);
             choiceHeaderLabel.Height = this.Height;
             choiceHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (this.choiceNumber + 1)) + ". ";
-            choiceHeaderLabel.BackColor = panelColor;
+            choiceHeaderLabel.BackColor = Color.Transparent;
             choiceHeaderLabel.Tag = this.choiceNumber;
 
             choiceTextLabel = new BaseTextLabel();
             choiceTextLabel.Location = new Point(choiceHeaderLabel.Width + choiceHeaderLabel.Location.X, choiceHeaderLabel.Location.Y);
             choiceTextLabel.Width = (int)(this.Width * 0.75);
             choiceTextLabel.Height = this.Height;
-            choiceTextLabel.BackColor = panelColor;
+            choiceTextLabel.BackColor = Color.Transparent;
             choiceTextLabel.Tag = this.choiceNumber;
             choiceTextLabel.TextAlign = ContentAlignment.TopLeft;
 
@@ -48,7 +48,7 @@ namespace HCT_Client
             choiceCorrectStatusPictureBox.Location = new Point(choiceHeaderLabel.Location.X + choiceHeaderLabel.Width + choiceTextLabel.Width, choiceHeaderLabel.Location.Y);
             choiceCorrectStatusPictureBox.Width = this.Width - choiceHeaderLabel.Width - choiceTextLabel.Width - margin * 2;
             choiceCorrectStatusPictureBox.Height = this.Height;
-            choiceCorrectStatusPictureBox.BackColor = panelColor;
+            choiceCorrectStatusPictureBox.BackColor = Color.Transparent;
             choiceCorrectStatusPictureBox.Tag = this.choiceNumber;
             choiceCorrectStatusPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
@@ -63,9 +63,6 @@ namespace HCT_Client
             Color BGcolor = flag ? Color.Orange : Color.Black;
             Color textColor = flag ? Color.Black : Color.White;
 
-            choiceHeaderLabel.BackColor = BGcolor;
-            choiceTextLabel.BackColor = BGcolor;
-            choiceCorrectStatusPictureBox.BackColor = BGcolor;
             this.BackColor = BGcolor;
 
             choiceHeaderLabel.ForeColor = textColor;

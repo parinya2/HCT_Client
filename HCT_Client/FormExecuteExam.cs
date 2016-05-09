@@ -13,7 +13,7 @@ namespace HCT_Client
     public partial class FormExecuteExam : FixedSizeForm
     {
         int QUIZ_COUNT = 50;
-        int TOTAL_EXAM_TIME_SECONDS = 1;
+        int TOTAL_EXAM_TIME_SECONDS = 1000;
         int currentQuizNumber = 0;
         Panel monitorPanel;
         Panel quizListPanel;
@@ -98,6 +98,7 @@ namespace HCT_Client
 
         public void RefreshUI()
         {
+            timerLabel.Text = "";
             timeoutMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.Message");
             timeoutMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.RightButton");
 

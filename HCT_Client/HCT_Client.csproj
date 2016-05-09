@@ -65,6 +65,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormChooseExamCourse.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FormChooseExamCourse.Designer.cs">
+      <DependentUpon>FormChooseExamCourse.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormChooseLanguage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +155,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WrongSign.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CarIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MotorcycleIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

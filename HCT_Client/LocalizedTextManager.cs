@@ -18,6 +18,10 @@ namespace HCT_Client
             dataDictTH = new Dictionary<string, string>();
             dataDictEN = new Dictionary<string, string>();
 
+            SetDictValueForKey("FormChooseExamCourse.Topic", "กรุณาเลือกหลักสูตรที่ต้องการสอบ", "Please select the exam course");
+            SetDictValueForKey("FormChooseExamCourse.Button.1", "หลักสูตรการสอนขับรถยนต์", "Car Course");
+            SetDictValueForKey("FormChooseExamCourse.Button.2", "หลักสูตรการสอนขับรถจักรยานยนต์", "Motorcycle Course");
+
             SetDictValueForKey("FormExecuteExam.TimerLabel", "เหลือเวลา", "Time Remain");
             SetDictValueForKey("FormExecuteExam.QuizTextLabel.Header", "ข้อที่", "Question No.");
             SetDictValueForKey("FormExecuteExam.SubmitExamButton", "ส่งข้อสอบ", "Submit Answer");
