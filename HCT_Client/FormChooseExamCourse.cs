@@ -53,6 +53,7 @@ namespace HCT_Client
         public SingleExamCoursePanel examCourseType2panel;
         public BaseTextLabel examCourseTopicLabel;
         private BlinkButtonSignalClock blinkButtonSignalClock;
+        public Button backButton;
 
         public FormChooseExamCourse()
         {
@@ -66,6 +67,11 @@ namespace HCT_Client
 
         private void RenderUI()
         {
+            backButton = new MediumButton();
+            backButton.Location = new Point(SCREEN_WIDTH - backButton.Width - 50,
+                                            SCREEN_HEIGHT - backButton.Height - 50);
+            backButton.Click += new EventHandler(BackButtonClicked);
+
             examCourseTopicLabel = new BaseTextLabel();
             examCourseTopicLabel.Width = SCREEN_WIDTH;
             examCourseTopicLabel.Height = 150;
@@ -106,7 +112,7 @@ namespace HCT_Client
             examCourseType2panel.examCourseIconPictureBox.Image = motocycleBitmap;
             examCourseType2panel.examCourseIconPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
-
+            this.Controls.Add(backButton);
             this.Controls.Add(examCourseTopicLabel);
             this.Controls.Add(examCourseType1panel);
             this.Controls.Add(examCourseType2panel);
@@ -116,6 +122,7 @@ namespace HCT_Client
 
         public void RefreshUI()
         {
+            backButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button.GoBack");
             examCourseTopicLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Topic");
             examCourseType1panel.examCourseTextLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button.1");
             examCourseType2panel.examCourseTextLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button.2");
@@ -135,12 +142,26 @@ namespace HCT_Client
 
         void GoToNextForm()
         {
-            FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
-            instanceFormExecuteExam.LoadExamData();
-            instanceFormExecuteExam.Visible = true;
-            instanceFormExecuteExam.Enabled = true;
-            instanceFormExecuteExam.RefreshUI();
-            instanceFormExecuteExam.BringToFront();
+            FormShowUserDetail instanceFormShowUserDetail = FormsManager.GetFormShowUserDetail();
+            instanceFormShowUserDetail.Visible = true;
+            instanceFormShowUserDetail.Enabled = true;
+            instanceFormShowUserDetail.RefreshUI();
+            instanceFormShowUserDetail.BringToFront();
+            this.Visible = false;
+        }
+
+        void BackButtonClicked(object sender, EventArgs e)
+        {
+            GoToPreviousForm();
+        }
+
+        void GoToPreviousForm()
+        {
+            FormInsertSmartCard instanceFormInsertSmartCard = FormsManager.GetFormInsertSmartCard();
+            instanceFormInsertSmartCard.Visible = true;
+            instanceFormInsertSmartCard.Enabled = true;
+            instanceFormInsertSmartCard.RefreshUI();
+            instanceFormInsertSmartCard.BringToFront();
             this.Visible = false;
         }
 

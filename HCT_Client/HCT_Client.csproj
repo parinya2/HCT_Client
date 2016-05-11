@@ -108,6 +108,12 @@
     <Compile Include="FormLargeMessageBox.Designer.cs">
       <DependentUpon>FormLargeMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormShowUserDetail.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FormShowUserDetail.Designer.cs">
+      <DependentUpon>FormShowUserDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormsManager.cs" />
     <Compile Include="LargeButton.cs">
       <SubType>Component</SubType>

@@ -14,6 +14,7 @@ namespace HCT_Client
         private FormChooseLanguage instanceFormChooseLanguage;
         private FormChooseExamCourse instanceFormChooseExamCourse;
         private FormInsertSmartCard instanceFormInsertSmartCard;
+        private FormShowUserDetail instanceFormShowUserDetail;
 
         private static FormsManager instance;
 
@@ -85,6 +86,15 @@ namespace HCT_Client
                 Instance.instanceFormChooseExamCourse = new FormChooseExamCourse();
             }
             return Instance.instanceFormChooseExamCourse;
+        }
+
+        public static FormShowUserDetail GetFormShowUserDetail()
+        {
+            if (Instance.instanceFormShowUserDetail == null)
+            {
+                Instance.instanceFormShowUserDetail = new FormShowUserDetail();
+            }
+            return Instance.instanceFormShowUserDetail;
         }
 
         public static FormInsertSmartCard GetFormInsertSmartCard()

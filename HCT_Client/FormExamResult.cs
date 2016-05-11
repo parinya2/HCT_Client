@@ -102,6 +102,7 @@ namespace HCT_Client
 
         void FinishExamButtonClicked(object sender, EventArgs e)
         {
+            UserProfileManager.ClearUserProfile();
             FormChooseLanguage instanceFormChooseLanguage = FormsManager.GetFormChooseLanguage();
             instanceFormChooseLanguage.Visible = true;
             instanceFormChooseLanguage.BringToFront();

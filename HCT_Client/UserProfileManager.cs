@@ -45,17 +45,17 @@ namespace HCT_Client
 
         public static string GetFullnameTH()
         {
-            return instance.fullnameTH;
+            return instance.fullnameTH.Trim(); ;
         }
 
         public static string GetFullnameEN()
         {
-            return instance.fullnameEN;
+            return instance.fullnameEN.Trim(); ;
         }
 
         public static string GetAddress()
         {
-            return instance.address;
+            return instance.address.Trim();
         }
 
         enum NID_FIELD
@@ -107,14 +107,14 @@ namespace HCT_Client
                                   fields[(int)NID_FIELD.MIDNAME_E] + " " +
                                   fields[(int)NID_FIELD.SURNAME_E];
 
-            instance.address = fields[(int)NID_FIELD.HOME_NO] + "   " +
-                               fields[(int)NID_FIELD.MOO] + "   " +
-                               fields[(int)NID_FIELD.TROK] + "   " +
-                               fields[(int)NID_FIELD.SOI] + "   " +
-                               fields[(int)NID_FIELD.ROAD] + "   " +
-                               fields[(int)NID_FIELD.TUMBON] + "   " +
-                               fields[(int)NID_FIELD.AMPHOE] + "   " +
-                               fields[(int)NID_FIELD.PROVINCE] + "   ";
+            instance.address = fields[(int)NID_FIELD.HOME_NO] + " " +
+                               fields[(int)NID_FIELD.MOO] + " " +
+                               fields[(int)NID_FIELD.TROK] + " " +
+                               fields[(int)NID_FIELD.SOI] + " " +
+                               fields[(int)NID_FIELD.ROAD] + " " +
+                               fields[(int)NID_FIELD.TUMBON] + " " +
+                               fields[(int)NID_FIELD.AMPHOE] + " " +
+                               fields[(int)NID_FIELD.PROVINCE] + " ";
         }
 
         public static void ClearUserProfile()
