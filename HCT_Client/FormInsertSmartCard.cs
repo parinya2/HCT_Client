@@ -20,6 +20,8 @@ namespace HCT_Client
         {
             InitializeComponent();
 
+            UserProfileManager.InitInstance();
+
             RenderUI();
             blinkButtonSignalClock = new BlinkButtonSignalClock();
             blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged);
@@ -67,12 +69,14 @@ namespace HCT_Client
 
         private void GoToNextForm()
         {
-            FormChooseExamCourse instanceFormChooseExamCourse = FormsManager.GetFormChooseExamCourse();
+            string m = CardReaderManager.ReadCardAndGetData();
+            MessageBox.Show(m);
+            /*FormChooseExamCourse instanceFormChooseExamCourse = FormsManager.GetFormChooseExamCourse();
             instanceFormChooseExamCourse.Visible = true;
             instanceFormChooseExamCourse.Enabled = true;
             instanceFormChooseExamCourse.RefreshUI();
             instanceFormChooseExamCourse.BringToFront();
-            this.Visible = false;
+            this.Visible = false;*/
         }
 
         private void GoToPreviousForm()

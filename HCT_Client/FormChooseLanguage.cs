@@ -21,6 +21,7 @@ namespace HCT_Client
             LocalizedTextManager.InitInstance();
             FormsManager.InitInstance();
             FormsManager.SetFormChooseLanguage(this);
+            CardReaderManager.InitInstance();
             Util.GenerateButtonBlinkColorDict();
             RenderUI();
 

@@ -53,6 +53,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ButtonBlinkSignalClock.cs" />
+    <Compile Include="CardReaderManager.cs" />
     <Compile Include="FixedSizeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +129,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Stopwatch.cs" />
+    <Compile Include="UserProfileManager.cs" />
     <Compile Include="Util.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
