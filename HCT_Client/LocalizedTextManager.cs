@@ -25,6 +25,10 @@ namespace HCT_Client
             SetDictValueForKey("FormInsertSmartCard.Login.Label", "กรุณาสอดบัตรประชาชนของท่าน แล้วกดปุ่ม 'เข้าสู่ระบบ'", "Please insert your ID card and click 'Login' button");
             SetDictValueForKey("FormInsertSmartCard.Login.Button", "เข้าสู่ระบบ", "Login");
             SetDictValueForKey("FormInsertSmartCard.GoBack", "ย้อนกลับ", "Go Back");
+            SetDictValueForKey("FormInsertSmartCard.Error.ReaderNotFound", "ไม่พบเครื่องอ่านบัตรประชาชน กรุณาตรวจสอบเครื่องอ่านบัตรประชาชนอีกครั้ง", "ID Card Reader not found. Please check the ID Card Reader and try again.");
+            SetDictValueForKey("FormInsertSmartCard.Error.CardNotFound", "ไม่พบบัตรประชาชน กรุณาสอดบัตรประชาชนของท่าน และกดปุ่ม 'เข้าสู่ระบบ' อีกครั้ง", "ID Card not found. Please insert your ID Card and press 'Login' button again");
+            SetDictValueForKey("FormInsertSmartCard.Error.Unknown", "เกิดข้อผิดพลาดบางอย่างขึ้น กรุณาติดต่อผู้ดูแลระบบ", "Some errors occurred. Please contact system administrators.");
+            SetDictValueForKey("SmartCardErrorMessageBox.RightButton", "ตกลง", "OK");
 
             SetDictValueForKey("FormExecuteExam.TimerLabel", "เหลือเวลา", "Time Remain");
             SetDictValueForKey("FormExecuteExam.QuizTextLabel.Header", "ข้อที่", "Question No.");

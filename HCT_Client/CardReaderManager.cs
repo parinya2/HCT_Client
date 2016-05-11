@@ -107,11 +107,12 @@ namespace HCT_Client
                     instance.NIDData = null;
                     return result;
                 case -1:
+                case -11:
                     return NO_CARD_ERROR;
                 case -2:
                     return NO_READER_ERROR;
                 default:
-                    return UNKNOWN_ERROR + " : " + status;
+                    return UNKNOWN_ERROR;
             }
         }
     }

@@ -98,6 +98,8 @@ namespace HCT_Client
 
         public void RefreshUI()
         {
+            usernameLabel.Text = UserProfileManager.GetFullnameTH();
+
             timerLabel.Text = "";
             timeoutMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.Message");
             timeoutMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.RightButton");
@@ -219,7 +221,6 @@ namespace HCT_Client
             photoLabel.Location = new Point(40, 40);
 
             usernameLabel = new BaseTextLabel();
-            usernameLabel.Text = "ดัสกร ทองเหลา";
             usernameLabel.Width = monitorPanel.Width - photoLabel.Width - photoLabel.Location.X - 10;
             usernameLabel.Location = new Point(photoLabel.Location.X + photoLabel.Width + 10,
                                                photoLabel.Location.Y);
