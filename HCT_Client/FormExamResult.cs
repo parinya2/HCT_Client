@@ -103,18 +103,18 @@ namespace HCT_Client
         void FinishExamButtonClicked(object sender, EventArgs e)
         {
             FormChooseLanguage instanceFormChooseLanguage = FormsManager.GetFormChooseLanguage();
-            this.Visible = false;
             instanceFormChooseLanguage.Visible = true;
             instanceFormChooseLanguage.BringToFront();
+            this.Visible = false;
         }
 
         void ViewAnswerButtonClicked(object sender, EventArgs e)
         {
             FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
-            this.Visible = false;
             instanceFormExecuteExam.ShowAnswer();
             instanceFormExecuteExam.Visible = true;
-            instanceFormExecuteExam.BringToFront();
+            instanceFormExecuteExam.BringToFront();         
+            this.Visible = false;
         }
 
         protected void BlinkButtonSignalClockHasChanged(int state)

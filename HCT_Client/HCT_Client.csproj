@@ -95,6 +95,12 @@
     <Compile Include="FormFadeView.Designer.cs">
       <DependentUpon>FormFadeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormInsertSmartCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInsertSmartCard.Designer.cs">
+      <DependentUpon>FormInsertSmartCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormLargeMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="QuizManager.cs" />
+    <Compile Include="RDNIDWRAPPER.cs" />
     <Compile Include="SignalClock.cs" />
     <Compile Include="SingleQuizObject.cs" />
     <Compile Include="SingleQuizStatusPanel.cs">
@@ -140,27 +147,35 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="RDNIDLib.DLX">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Q1image.jpg" />
+    <EmbeddedResource Include="Images\Q1image.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Q2image.jpg" />
+    <EmbeddedResource Include="Images\Q2image.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Q3image.jpg" />
+    <EmbeddedResource Include="Images\Q3image.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CorrectSign.png" />
+    <EmbeddedResource Include="Images\CorrectSign.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WrongSign.png" />
+    <EmbeddedResource Include="Images\WrongSign.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CarIcon.png" />
+    <EmbeddedResource Include="Images\CarIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MotorcycleIcon.png" />
+    <EmbeddedResource Include="Images\MotorcycleIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RDNIDlib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

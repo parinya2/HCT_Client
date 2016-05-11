@@ -22,6 +22,10 @@ namespace HCT_Client
             SetDictValueForKey("FormChooseExamCourse.Button.1", "หลักสูตรการสอนขับรถยนต์", "Car Course");
             SetDictValueForKey("FormChooseExamCourse.Button.2", "หลักสูตรการสอนขับรถจักรยานยนต์", "Motorcycle Course");
 
+            SetDictValueForKey("FormInsertSmartCard.Login.Label", "กรุณาสอดบัตรประชาชนของท่าน แล้วกดปุ่ม 'เข้าสู่ระบบ'", "Please insert your ID card and click 'Login' button");
+            SetDictValueForKey("FormInsertSmartCard.Login.Button", "เข้าสู่ระบบ", "Login");
+            SetDictValueForKey("FormInsertSmartCard.GoBack", "ย้อนกลับ", "Go Back");
+
             SetDictValueForKey("FormExecuteExam.TimerLabel", "เหลือเวลา", "Time Remain");
             SetDictValueForKey("FormExecuteExam.QuizTextLabel.Header", "ข้อที่", "Question No.");
             SetDictValueForKey("FormExecuteExam.SubmitExamButton", "ส่งข้อสอบ", "Submit Answer");
@@ -37,7 +41,7 @@ namespace HCT_Client
 
             SetDictValueForKey("QuizNotCompletedMessageBox.Message", "คุณยังตอบคำถามไม่ครบทุกข้อ คุณยังต้องการส่งข้อสอบหรือไม่", "You have not answered all questions yet. Do you still want to submit the answers ?");
             SetDictValueForKey("QuizNotCompletedMessageBox.RightButton", "ส่งข้อสอบ", "Submit Answer");
-            SetDictValueForKey("QuizNotCompletedMessageBox.LeftButton", "ยกเลิก", "Cancel");
+            SetDictValueForKey("QuizNotCompletedMessageBox.LeftButton", "ย้อนกลับ", "Go Back");
 
             SetDictValueForKey("FormExamResult.FinishButton", "เสร็จสิ้น", "Finish");
             SetDictValueForKey("FormExamResult.ViewAnswer", "ดูเฉลย", "View Answer");

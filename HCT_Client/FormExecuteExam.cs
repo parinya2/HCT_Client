@@ -13,7 +13,7 @@ namespace HCT_Client
     public partial class FormExecuteExam : FixedSizeForm
     {
         int QUIZ_COUNT = 50;
-        int TOTAL_EXAM_TIME_SECONDS = 1000;
+        int TOTAL_EXAM_TIME_SECONDS = 3600;
         int currentQuizNumber = 0;
         Panel monitorPanel;
         Panel quizListPanel;
@@ -77,10 +77,10 @@ namespace HCT_Client
             fadeForm = FormsManager.GetFormFadeView();
 
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            Stream myStream = myAssembly.GetManifestResourceStream("HCT_Client.CorrectSign.png");
+            Stream myStream = myAssembly.GetManifestResourceStream("HCT_Client.Images.CorrectSign.png");
             correctSignBitmap = new Bitmap(myStream);
 
-            myStream = myAssembly.GetManifestResourceStream("HCT_Client.WrongSign.png");
+            myStream = myAssembly.GetManifestResourceStream("HCT_Client.Images.WrongSign.png");
             wrongSignBitmap = new Bitmap(myStream);
 
             signalClock = new SignalClock(30);

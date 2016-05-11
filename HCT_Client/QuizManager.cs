@@ -48,13 +48,13 @@ namespace HCT_Client
             instance.quizArray = new SingleQuizObject[50];
 
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            Stream myStream = myAssembly.GetManifestResourceStream("HCT_Client.Q1image.jpg");
+            Stream myStream = myAssembly.GetManifestResourceStream("HCT_Client.Images.Q1image.jpg");
             Bitmap Q1image = new Bitmap(myStream);
 
-            myStream = myAssembly.GetManifestResourceStream("HCT_Client.Q2image.jpg");
+            myStream = myAssembly.GetManifestResourceStream("HCT_Client.Images.Q2image.jpg");
             Bitmap Q2image = new Bitmap(myStream);
 
-            myStream = myAssembly.GetManifestResourceStream("HCT_Client.Q3image.jpg");
+            myStream = myAssembly.GetManifestResourceStream("HCT_Client.Images.Q3image.jpg");
             Bitmap Q3image = new Bitmap(myStream);
 
             for (int i = 0; i < instance.quizArray.Length; i++)

@@ -87,20 +87,12 @@ namespace HCT_Client
 
         void GoToNextForm()
         {
-            FormChooseExamCourse instanceFormChooseExamCourse = FormsManager.GetFormChooseExamCourse();
-            instanceFormChooseExamCourse.Visible = true;
-            instanceFormChooseExamCourse.Enabled = true;
-            instanceFormChooseExamCourse.RefreshUI();
-            instanceFormChooseExamCourse.BringToFront();
+            FormInsertSmartCard instanceFormInsertSmartCard = FormsManager.GetFormInsertSmartCard();
+            instanceFormInsertSmartCard.Visible = true;
+            instanceFormInsertSmartCard.Enabled = true;
+            instanceFormInsertSmartCard.RefreshUI();
+            instanceFormInsertSmartCard.BringToFront();
             this.Visible = false;
-
-            /*FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
-            instanceFormExecuteExam.LoadExamData();
-            instanceFormExecuteExam.Visible = true;
-            instanceFormExecuteExam.Enabled = true;
-            instanceFormExecuteExam.RefreshUI();
-            instanceFormExecuteExam.BringToFront();
-            this.Visible = false;*/
         }
 
         protected void BlinkButtonSignalClockHasChanged(int state)
