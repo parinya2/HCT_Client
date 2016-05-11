@@ -55,7 +55,15 @@ namespace HCT_Client
 
             SetDictValueForKey("QuizNotCompletedMessageBox.Message", "คุณยังตอบคำถามไม่ครบทุกข้อ คุณยังต้องการส่งข้อสอบหรือไม่", "You have not answered all questions yet. Do you still want to submit the answers ?");
             SetDictValueForKey("QuizNotCompletedMessageBox.RightButton", "ส่งข้อสอบ", "Submit Answer");
-            SetDictValueForKey("QuizNotCompletedMessageBox.LeftButton", "<< ย้อนกลับ", "<< Go Back");
+            SetDictValueForKey("QuizNotCompletedMessageBox.LeftButton", "ย้อนกลับ", "Go Back");
+
+            SetDictValueForKey("ConfirmExitMessageBox.Message", "คุณต้องการออกจากโปรแกรมใช่หรือไม่", "Do you want to exit the program ?");
+            SetDictValueForKey("ConfirmExitMessageBox.RightButton", "ตกลง", "OK");
+            SetDictValueForKey("ConfirmExitMessageBox.LeftButton", "ย้อนกลับ", "Go Back");
+
+            SetDictValueForKey("GoToExamMessageBox.Message", "คุณพร้อมจะเริ่มต้นการสอบแล้วใช่หรือไม่", "Are you ready to start the exam ?");
+            SetDictValueForKey("GoToExamMessageBox.RightButton", "ตกลง", "OK");
+            SetDictValueForKey("GoToExamMessageBox.LeftButton", "ย้อนกลับ", "Go Back");
 
             SetDictValueForKey("FormExamResult.FinishButton", "เสร็จสิ้น", "Finish");
             SetDictValueForKey("FormExamResult.ViewAnswer", "ดูเฉลย", "View Answer");

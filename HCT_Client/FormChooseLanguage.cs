@@ -14,6 +14,9 @@ namespace HCT_Client
         private BlinkButtonSignalClock blinkButtonSignalClock;
         LargeButton thaiButton;
         LargeButton engButton;
+        Button exitButton;
+        FormFadeView fadeForm;
+        FormLargeMessageBox confirmExitMessageBox;
 
         public FormChooseLanguage() 
         {
@@ -23,7 +26,18 @@ namespace HCT_Client
             FormsManager.SetFormChooseLanguage(this);
             CardReaderManager.InitInstance();
             Util.GenerateButtonBlinkColorDict();
+            
             RenderUI();
+
+            confirmExitMessageBox = new FormLargeMessageBox(1);
+            confirmExitMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("ConfirmExitMessageBox.Message");
+            confirmExitMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("ConfirmExitMessageBox.RightButton");
+            confirmExitMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("ConfirmExitMessageBox.LeftButton");
+            confirmExitMessageBox.Visible = false;
+            confirmExitMessageBox.rightButton.Click += new EventHandler(ConfirmExitMessageBoxRightButtonClicked);
+            confirmExitMessageBox.leftButton.Click += new EventHandler(ConfirmExitMessageBoxLeftButtonClicked);
+
+            fadeForm = FormsManager.GetFormFadeView();
 
             blinkButtonSignalClock = new BlinkButtonSignalClock();
             blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged);
@@ -46,7 +60,7 @@ namespace HCT_Client
             engButton.Text = "ENGLISH";
             engButton.Click += new EventHandler(ButtonClickedEN);
 
-            Button exitButton = new Button();
+            exitButton = new Button();
             exitButton.Width = 200;
             exitButton.Height = 90;
             exitButton.Font = new Font(this.Font.FontFamily, 18);
@@ -62,16 +76,13 @@ namespace HCT_Client
 
         void ExitButtonClicked(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Application.MessageLoop)
-            {
-                // WinForms app
-                System.Windows.Forms.Application.Exit();
-            }
-            else
-            {
-                // Console app
-                System.Environment.Exit(1);
-            }
+            fadeForm.Visible = true;
+            fadeForm.BringToFront();
+
+            confirmExitMessageBox.Visible = true;
+            confirmExitMessageBox.BringToFront();
+            confirmExitMessageBox.Location = new Point((SCREEN_WIDTH - confirmExitMessageBox.Width) / 2,
+                                                    (SCREEN_HEIGHT - confirmExitMessageBox.Height) / 2);
         }
 
         void ButtonClickedTH(object sender, EventArgs e)
@@ -94,6 +105,34 @@ namespace HCT_Client
             instanceFormInsertSmartCard.RefreshUI();
             instanceFormInsertSmartCard.BringToFront();
             this.Visible = false;
+        }
+
+        void ExitProgram()
+        {
+            if (System.Windows.Forms.Application.MessageLoop)
+            {
+                // WinForms app
+                System.Windows.Forms.Application.Exit();
+            }
+            else
+            {
+                // Console app
+                System.Environment.Exit(1);
+            }
+        }
+
+        void ConfirmExitMessageBoxRightButtonClicked(object sender, EventArgs e)
+        {
+            ExitProgram();
+        }
+
+        void ConfirmExitMessageBoxLeftButtonClicked(object sender, EventArgs e)
+        {
+            confirmExitMessageBox.Visible = false;
+            fadeForm.Visible = false;
+            this.Visible = true;
+            this.Enabled = true;
+            this.BringToFront();
         }
 
         protected void BlinkButtonSignalClockHasChanged(int state)

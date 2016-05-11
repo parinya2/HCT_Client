@@ -47,8 +47,6 @@ namespace HCT_Client
             rightButton.Height = 80;
             rightButton.Font = new Font(this.Font.FontFamily, 14);
 
-
-
             switch (this.mode)
             { 
                 case 0 :
@@ -69,11 +67,15 @@ namespace HCT_Client
                 break;
             }
 
+            int messageLabelOffsetX = 50;
+            int messageLabelOffsetY = 50;
+
             messageLabel = new Label();
-            messageLabel.Width = this.Width - (buttonOffsetX * 2);
-            messageLabel.Height = this.Height - rightButton.Height - (buttonOffsetY * 3);
-            messageLabel.Location = new Point(buttonOffsetX, buttonOffsetY);
+            messageLabel.Width = this.Width - (messageLabelOffsetX * 2);
+            messageLabel.Height = this.Height - rightButton.Height - (messageLabelOffsetY * 3);
+            messageLabel.Location = new Point(messageLabelOffsetX, messageLabelOffsetY);
             messageLabel.Font = new Font(this.Font.FontFamily, 14);
+            messageLabel.TextAlign = ContentAlignment.MiddleCenter;
 
             this.Controls.Add(messageLabel);
             this.Controls.Add(leftButton);

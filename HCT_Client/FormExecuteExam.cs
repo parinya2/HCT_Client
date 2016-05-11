@@ -59,15 +59,10 @@ namespace HCT_Client
             RenderUI();
 
             timeoutMessageBox = new FormLargeMessageBox(0);
-            timeoutMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.Message");
-            timeoutMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.RightButton");
             timeoutMessageBox.Visible = false;
             timeoutMessageBox.rightButton.Click += new EventHandler(TimeoutMessageBoxRightButtonClicked);
 
             quizNotCompletedMessageBox = new FormLargeMessageBox(1);
-            quizNotCompletedMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.Message");
-            quizNotCompletedMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.RightButton");
-            quizNotCompletedMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.LeftButton");
             quizNotCompletedMessageBox.Visible = false;
             quizNotCompletedMessageBox.rightButton.Click += new EventHandler(QuizNotCompletedMessageBoxRightButtonClicked);
             quizNotCompletedMessageBox.leftButton.Click += new EventHandler(QuizNotCompletedMessageBoxLeftButtonClicked);

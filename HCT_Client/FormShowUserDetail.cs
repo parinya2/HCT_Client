@@ -54,6 +54,8 @@ namespace HCT_Client
         SingleUserAttributePanel courseNamePanel;
         SingleUserAttributePanel examDatePanel;
 
+        FormLargeMessageBox goToExamMessageBox;
+        FormFadeView fadeForm;
         private BlinkButtonSignalClock blinkButtonSignalClock;
 
         public FormShowUserDetail()
@@ -61,6 +63,13 @@ namespace HCT_Client
             InitializeComponent();
 
             RenderUI();
+
+            goToExamMessageBox = new FormLargeMessageBox(1);
+            goToExamMessageBox.Visible = false;
+            goToExamMessageBox.rightButton.Click += new EventHandler(GoToExamMessageBoxRightButtonClicked);
+            goToExamMessageBox.leftButton.Click += new EventHandler(GoToExamMessageBoxLeftButtonClicked);
+
+            fadeForm = FormsManager.GetFormFadeView();
 
             blinkButtonSignalClock = new BlinkButtonSignalClock();
             blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged);
@@ -140,16 +149,42 @@ namespace HCT_Client
             int courseType = QuizManager.GetExamCourseType() + 1;
             courseNamePanel.attributeContentLabel.Text = "  " + LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + courseType);
             examDatePanel.attributeContentLabel.Text = "  " + DateTime.Now.ToString("d/MM/yyyy");
+
+            goToExamMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("GoToExamMessageBox.Message");
+            goToExamMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("GoToExamMessageBox.RightButton");
+            goToExamMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("GoToExamMessageBox.LeftButton");
+
         }
 
         void GoToExamButtonClicked(object sender, EventArgs e)
         {
-            GoToNextForm();
+            fadeForm.Visible = true;
+            fadeForm.BringToFront();
+
+            goToExamMessageBox.Visible = true;
+            goToExamMessageBox.BringToFront();
+            goToExamMessageBox.Location = new Point((SCREEN_WIDTH - goToExamMessageBox.Width) / 2,
+                                                    (SCREEN_HEIGHT - goToExamMessageBox.Height) / 2);
+               
         }
 
         void BackButtonClicked(object sender, EventArgs e)
         {
             GoToPreviousForm();
+        }
+
+        void GoToExamMessageBoxRightButtonClicked(object sender, EventArgs e)
+        {
+            GoToNextForm();
+        }
+
+        void GoToExamMessageBoxLeftButtonClicked(object sender, EventArgs e)
+        {
+            goToExamMessageBox.Visible = false;
+            fadeForm.Visible = false;
+            this.Visible = true;
+            this.Enabled = true;
+            this.BringToFront();
         }
 
         void GoToNextForm()
@@ -177,6 +212,7 @@ namespace HCT_Client
         {
             goToExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            goToExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
         }
     }
 }
