@@ -10,7 +10,7 @@ namespace HCT_Client
     {
         private Timer timer;
         private int signalState = 1;
-        private int totalStateCount = 40;
+        private int totalStateCount = 43;
         private int interval = 1;
         private bool goFarward = true;
 

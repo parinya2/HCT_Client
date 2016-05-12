@@ -19,7 +19,7 @@ namespace HCT_Client
         private System.Windows.Forms.Timer timer1;
 
         // property variables
-        private int m_TimeToCapture_milliseconds = 100;
+        private int m_TimeToCapture_milliseconds = 50;
         private int m_Width = 320;
         private int m_Height = 240;
         private int mCapHwnd;
@@ -110,7 +110,6 @@ namespace HCT_Client
         {
             if (disposing)
             {
-
                 if (components != null)
                     components.Dispose();
             }
@@ -135,7 +134,6 @@ namespace HCT_Client
             // 
             this.Name = "WebCamCapture";
             this.Size = new System.Drawing.Size(342, 252);
-
         }
         #endregion
 

@@ -55,6 +55,7 @@ namespace HCT_Client
         SingleUserAttributePanel examDatePanel;
 
         FormLargeMessageBox goToExamMessageBox;
+        FormLargeMessageBox noUserPhotoMessageBox;
         FormFadeView fadeForm;
         private BlinkButtonSignalClock blinkButtonSignalClock;
 
@@ -71,6 +72,10 @@ namespace HCT_Client
             goToExamMessageBox.Visible = false;
             goToExamMessageBox.rightButton.Click += new EventHandler(GoToExamMessageBoxRightButtonClicked);
             goToExamMessageBox.leftButton.Click += new EventHandler(GoToExamMessageBoxLeftButtonClicked);
+
+            noUserPhotoMessageBox = new FormLargeMessageBox(0);
+            noUserPhotoMessageBox.Visible = false;
+            noUserPhotoMessageBox.rightButton.Click += new EventHandler(NoUserPhotoMessageBoxRightButtonClicked);          
 
             fadeForm = FormsManager.GetFormFadeView();
 
@@ -175,6 +180,10 @@ namespace HCT_Client
             goToExamMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("GoToExamMessageBox.RightButton");
             goToExamMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("GoToExamMessageBox.LeftButton");
 
+            noUserPhotoMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("NoUserPhotoMessageBox.Message");
+            noUserPhotoMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("NoUserPhotoMessageBox.RightButton");
+        
+
             UserProfileManager.ClearUserPhoto();
             StartWebcam();
         }
@@ -184,11 +193,22 @@ namespace HCT_Client
             fadeForm.Visible = true;
             fadeForm.BringToFront();
 
-            goToExamMessageBox.Visible = true;
-            goToExamMessageBox.BringToFront();
-            goToExamMessageBox.Location = new Point((SCREEN_WIDTH - goToExamMessageBox.Width) / 2,
-                                                    (SCREEN_HEIGHT - goToExamMessageBox.Height) / 2);           
-        }
+            bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
+            if (hasUserPhoto)
+            {
+                goToExamMessageBox.Visible = true;
+                goToExamMessageBox.BringToFront();
+                goToExamMessageBox.Location = new Point((SCREEN_WIDTH - goToExamMessageBox.Width) / 2,
+                                                        (SCREEN_HEIGHT - goToExamMessageBox.Height) / 2);
+            }
+            else
+            {
+                noUserPhotoMessageBox.Visible = true;
+                noUserPhotoMessageBox.BringToFront();
+                noUserPhotoMessageBox.Location = new Point((SCREEN_WIDTH - noUserPhotoMessageBox.Width) / 2,
+                                                        (SCREEN_HEIGHT - noUserPhotoMessageBox.Height) / 2);
+            }
+       }
 
         void BackButtonClicked(object sender, EventArgs e)
         {
@@ -198,6 +218,15 @@ namespace HCT_Client
         void GoToExamMessageBoxRightButtonClicked(object sender, EventArgs e)
         {
             GoToNextForm();
+        }
+
+        void NoUserPhotoMessageBoxRightButtonClicked(object sender, EventArgs e)
+        {
+            noUserPhotoMessageBox.Visible = false;
+            fadeForm.Visible = false;
+            this.Visible = true;
+            this.Enabled = true;
+            this.BringToFront();
         }
 
         void GoToExamMessageBoxLeftButtonClicked(object sender, EventArgs e)
@@ -269,8 +298,17 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            goToExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
+            if (hasUserPhoto)
+            {
+                goToExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+                takePhotoButton.BackColor = Color.White;
+            }
+            else
+            {
+                goToExamButton.BackColor = Color.White;
+                takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            }            
             goToExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
         }
 

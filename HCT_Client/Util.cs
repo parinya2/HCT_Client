@@ -23,11 +23,16 @@ namespace HCT_Client
             int H = 30;
             int S = 240;
             int L = 240;
-            for (int i = 0; i < stateCount; i++)
+            for (int i = 1; i <= stateCount; i++)
             {
                 L = 240 - i * 3;
                 Color targetColor = ColorFromHSL(H, S, L);
-                buttonBlinkColorDict[i + 1] = targetColor;
+                buttonBlinkColorDict[i] = targetColor;
+            }
+
+            for (int i = 1; i <= 3; i++)
+            {
+                buttonBlinkColorDict[stateCount + i] = buttonBlinkColorDict[stateCount];
             }
         }
 
