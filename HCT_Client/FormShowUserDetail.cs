@@ -58,11 +58,14 @@ namespace HCT_Client
         FormFadeView fadeForm;
         private BlinkButtonSignalClock blinkButtonSignalClock;
 
+        private WebCamCapture webcamCapture;
+
         public FormShowUserDetail()
         {
             InitializeComponent();
 
             RenderUI();
+            PrepareWebcamCapture();
 
             goToExamMessageBox = new FormLargeMessageBox(1);
             goToExamMessageBox.Visible = false;
@@ -75,11 +78,28 @@ namespace HCT_Client
             blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged);
         }
 
+        private void PrepareWebcamCapture()
+        {
+            webcamCapture = new WebCamCapture();
+            webcamCapture.CaptureHeight = 240;
+            webcamCapture.CaptureWidth = 320;
+            // TODO: Code generation for 'this.WebCamCapture.FrameNumber' failed because of Exception 'Invalid Primitive Type: System.UInt64. Only CLS compliant primitive types can be used. Consider using CodeObjectCreateExpression.'.
+            webcamCapture.Location = new System.Drawing.Point(17, 17);
+            webcamCapture.Name = "WebCamCapture";
+            webcamCapture.Size = new System.Drawing.Size(342, 252);
+            webcamCapture.TabIndex = 0;
+            webcamCapture.TimeToCapture_milliseconds = 100;
+            webcamCapture.ImageCaptured += new WebCamCapture.WebCamEventHandler(this.WebCamCapture_ImageCaptured);
+
+            webcamCapture.CaptureHeight = userPhotoPictureBox.Height;
+            webcamCapture.CaptureWidth = userPhotoPictureBox.Width;
+        }
+
         private void RenderUI()
         {
             userPhotoPictureBox = new PictureBox();
-            userPhotoPictureBox.Width = 150;
-            userPhotoPictureBox.Height = 150;
+            userPhotoPictureBox.Width = 250;
+            userPhotoPictureBox.Height = 250;
             userPhotoPictureBox.BackColor = Color.Green;
             userPhotoPictureBox.Location = new Point(130, 130);
 
@@ -88,6 +108,7 @@ namespace HCT_Client
             takePhotoButton.Height = 70;
             takePhotoButton.Location = new Point(userPhotoPictureBox.Location.X,
                                                  userPhotoPictureBox.Location.Y + userPhotoPictureBox.Height + 40);
+            takePhotoButton.Click += new EventHandler(TakePhotoButtonClicked);
 
             goToExamButton = new MediumButton();
             goToExamButton.Location = new Point(SCREEN_WIDTH - goToExamButton.Width - 50,
@@ -154,6 +175,8 @@ namespace HCT_Client
             goToExamMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("GoToExamMessageBox.RightButton");
             goToExamMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("GoToExamMessageBox.LeftButton");
 
+            UserProfileManager.ClearUserPhoto();
+            StartWebcam();
         }
 
         void GoToExamButtonClicked(object sender, EventArgs e)
@@ -164,8 +187,7 @@ namespace HCT_Client
             goToExamMessageBox.Visible = true;
             goToExamMessageBox.BringToFront();
             goToExamMessageBox.Location = new Point((SCREEN_WIDTH - goToExamMessageBox.Width) / 2,
-                                                    (SCREEN_HEIGHT - goToExamMessageBox.Height) / 2);
-               
+                                                    (SCREEN_HEIGHT - goToExamMessageBox.Height) / 2);           
         }
 
         void BackButtonClicked(object sender, EventArgs e)
@@ -187,8 +209,44 @@ namespace HCT_Client
             this.BringToFront();
         }
 
+        void TakePhotoButtonClicked(object sender, EventArgs e)
+        {
+            bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
+            if (hasUserPhoto)
+            {
+                UserProfileManager.ClearUserPhoto();
+                StartWebcam();
+                takePhotoButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Button.TakePhoto");
+            }
+            else
+            {
+                if (userPhotoPictureBox.Image == null)
+                    return;
+
+                UserProfileManager.SetUserPhoto(userPhotoPictureBox.Image);
+                StopWebcam();
+                takePhotoButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Button.DeletePhoto");   
+            }
+        }
+
+        void StartWebcam()
+        {
+            // change the capture time frame
+            webcamCapture.TimeToCapture_milliseconds = 50;
+
+            // start the video capture. let the control handle the
+            // frame numbers.
+            webcamCapture.Start(0);
+        }
+
+        void StopWebcam()
+        {
+            webcamCapture.Stop();
+        }
+
         void GoToNextForm()
         {
+            StopWebcam();
             FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
             instanceFormExecuteExam.LoadExamData();
             instanceFormExecuteExam.Visible = true;
@@ -200,6 +258,7 @@ namespace HCT_Client
 
         void GoToPreviousForm()
         {
+            StopWebcam();
             FormChooseExamCourse instanceFormChooseExamCourse = FormsManager.GetFormChooseExamCourse();
             instanceFormChooseExamCourse.Visible = true;
             instanceFormChooseExamCourse.Enabled = true;
@@ -213,6 +272,11 @@ namespace HCT_Client
             goToExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             goToExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+        }
+
+        private void WebCamCapture_ImageCaptured(object source, WebcamEventArgs e)
+        {
+            userPhotoPictureBox.Image = e.WebCamImage;
         }
     }
 }

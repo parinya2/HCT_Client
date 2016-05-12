@@ -25,8 +25,6 @@ namespace RDNIDWRAPPER
 
     class RDNID
     {
-
-
         [DllImport("RDNIDlib.dll",
                 EntryPoint = "OpenNIDLib", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern Int32 OpenNIDLib(byte[] _szReaders);

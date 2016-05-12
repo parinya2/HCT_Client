@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace HCT_Client
 {
@@ -12,6 +13,7 @@ namespace HCT_Client
         string fullnameTH;
         string fullnameEN;
         string address;
+        Image userPhoto;
 
         public UserProfileManager()
         { 
@@ -56,6 +58,21 @@ namespace HCT_Client
         public static string GetAddress()
         {
             return instance.address.Trim();
+        }
+
+        public static Image GetUserPhoto()
+        {
+            return instance.userPhoto;
+        }
+
+        public static void SetUserPhoto(Image photo)
+        {
+            instance.userPhoto = photo;
+        }
+
+        public static void ClearUserPhoto()
+        {
+            instance.userPhoto = null;
         }
 
         enum NID_FIELD
@@ -123,6 +140,7 @@ namespace HCT_Client
             instance.fullnameTH = null;
             instance.fullnameEN = null;
             instance.address = null;
+            instance.userPhoto = null;
         }
     }
 }

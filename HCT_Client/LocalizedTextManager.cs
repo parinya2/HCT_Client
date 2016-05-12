@@ -32,6 +32,7 @@ namespace HCT_Client
             SetDictValueForKey("SmartCardErrorMessageBox.RightButton", "ตกลง", "OK");
 
             SetDictValueForKey("FormShowUserDetail.Button.TakePhoto", "ถ่ายภาพ", "Take a photo");
+            SetDictValueForKey("FormShowUserDetail.Button.DeletePhoto", "ลบรูปภาพ", "Delete photo");
             SetDictValueForKey("FormShowUserDetail.Button.GoBack", "<< ย้อนกลับ", "<< Go Back");
             SetDictValueForKey("FormShowUserDetail.Button.TakeExam", "เริ่มทำข้อสอบ", "Start an exam");
             SetDictValueForKey("FormShowUserDetail.Label.Fullname", "  ชื่อ-นามสกุล", "  Name");

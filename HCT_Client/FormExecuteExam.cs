@@ -22,7 +22,7 @@ namespace HCT_Client
         Panel quizPanel;
         BaseTextLabel usernameLabel;
         BaseTextLabel examCourseLabel;
-        BaseImageLabel photoLabel;
+        PictureBox userPhotoPictureBox;
         BaseTextLabel timerLabel;
         Stopwatch stopwatch;
         SignalClock signalClock;
@@ -93,6 +93,8 @@ namespace HCT_Client
 
         public void RefreshUI()
         {
+            userPhotoPictureBox.Image = UserProfileManager.GetUserPhoto();
+
             usernameLabel.Text = UserProfileManager.GetFullnameTH();
 
             timerLabel.Text = "";
@@ -212,13 +214,16 @@ namespace HCT_Client
             monitorPanel.BackColor = Color.Black;
             monitorPanel.Location = new Point(0, 0);
 
-            photoLabel = new BaseImageLabel();
-            photoLabel.Location = new Point(40, 40);
+            userPhotoPictureBox = new PictureBox();
+            userPhotoPictureBox.Width = 120;
+            userPhotoPictureBox.Height = 120;
+            userPhotoPictureBox.Location = new Point(40, 40);
+            userPhotoPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
             usernameLabel = new BaseTextLabel();
-            usernameLabel.Width = monitorPanel.Width - photoLabel.Width - photoLabel.Location.X - 10;
-            usernameLabel.Location = new Point(photoLabel.Location.X + photoLabel.Width + 10,
-                                               photoLabel.Location.Y);
+            usernameLabel.Width = monitorPanel.Width - userPhotoPictureBox.Width - userPhotoPictureBox.Location.X - 10;
+            usernameLabel.Location = new Point(userPhotoPictureBox.Location.X + userPhotoPictureBox.Width + 10,
+                                               userPhotoPictureBox.Location.Y);
 
             examCourseLabel = new BaseTextLabel();
             examCourseLabel.Width = usernameLabel.Width;
@@ -230,9 +235,9 @@ namespace HCT_Client
 
             timerLabel = new BaseTextLabel();
             timerLabel.Text = "";
-            timerLabel.Location = new Point(photoLabel.Location.X,
-                                            photoLabel.Location.Y + photoLabel.Height + 20);
-            timerLabel.Width = monitorPanel.Width - (photoLabel.Location.X * 2);
+            timerLabel.Location = new Point(userPhotoPictureBox.Location.X,
+                                            userPhotoPictureBox.Location.Y + userPhotoPictureBox.Height + 20);
+            timerLabel.Width = monitorPanel.Width - (userPhotoPictureBox.Location.X * 2);
 
             submitExamButton = new MediumButton();
             submitExamButton.Location = new Point(monitorPanel.Width - 20 - submitExamButton.Width, 
@@ -258,7 +263,7 @@ namespace HCT_Client
             monitorPanel.Controls.Add(prevQuizButton);
             monitorPanel.Controls.Add(nextQuizButton);
             monitorPanel.Controls.Add(submitExamButton);
-            monitorPanel.Controls.Add(photoLabel);
+            monitorPanel.Controls.Add(userPhotoPictureBox);
             monitorPanel.Controls.Add(usernameLabel);
             monitorPanel.Controls.Add(examCourseLabel);
             monitorPanel.Controls.Add(timerLabel);

@@ -12,7 +12,7 @@ namespace HCT_Client
 
         public static void printLine(string msg)
         {
-            System.Diagnostics.Debug.WriteLine(msg);
+            System.Diagnostics.Debug.WriteLine(msg + "\n");
         }
 
         public static void GenerateButtonBlinkColorDict()
