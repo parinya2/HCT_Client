@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.IO;
 
 namespace HCT_Client
 {
@@ -13,6 +14,15 @@ namespace HCT_Client
         public static void printLine(string msg)
         {
             System.Diagnostics.Debug.WriteLine(msg + "\n");
+        }
+
+        public static Bitmap GetImageFromImageResources(string imageName)
+        {
+            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+            string path = "HCT_Client.Images." + imageName;
+            printLine("SHIT " + path);
+            Stream myStream = myAssembly.GetManifestResourceStream(path);
+            return new Bitmap(myStream);
         }
 
         public static void GenerateButtonBlinkColorDict()

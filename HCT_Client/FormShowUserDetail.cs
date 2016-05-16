@@ -22,7 +22,7 @@ namespace HCT_Client
             int gapX = 20;
 
             attributeHeaderLabel = new Label();
-            attributeHeaderLabel.Width = (int)(this.Width * 0.25);
+            attributeHeaderLabel.Width = (int)(this.Width * 0.28);
             attributeHeaderLabel.Height = this.Height;
             attributeHeaderLabel.Location = new Point(margin, 0);
             attributeHeaderLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -42,7 +42,7 @@ namespace HCT_Client
         }
     }
 
-    public partial class FormShowUserDetail : FixedSizeForm
+    public partial class FormShowUserDetail : FixedSizeFormWithHeader
     {
         PictureBox userPhotoPictureBox;
         MediumButton takePhotoButton;
@@ -106,7 +106,7 @@ namespace HCT_Client
             userPhotoPictureBox.Width = 250;
             userPhotoPictureBox.Height = 250;
             userPhotoPictureBox.BackColor = Color.Green;
-            userPhotoPictureBox.Location = new Point(130, 130);
+            userPhotoPictureBox.Location = new Point(130, headerLineLabel.Location.Y + 60);
 
             takePhotoButton = new MediumButton();
             takePhotoButton.Width = userPhotoPictureBox.Width;
@@ -126,7 +126,7 @@ namespace HCT_Client
             backButton.Click += new EventHandler(BackButtonClicked);
 
             int attributePanelWidth = SCREEN_WIDTH - userPhotoPictureBox.Width - userPhotoPictureBox.Location.X - 100;
-            int attributePanelHeight = 70;
+            int attributePanelHeight = 60;
             fullnamePanel = new SingleUserAttributePanel(attributePanelWidth, attributePanelHeight);
             citizenIDPanel = new SingleUserAttributePanel(attributePanelWidth, attributePanelHeight);
             addressPanel = new SingleUserAttributePanel(attributePanelWidth, attributePanelHeight);

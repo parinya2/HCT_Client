@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace HCT_Client
 {
-    public partial class FormInsertSmartCard : FixedSizeForm
+    public partial class FormInsertSmartCard : FixedSizeFormWithHeader
     {
         BlinkButtonSignalClock blinkButtonSignalClock;
         LargeButton loginButton;
@@ -40,13 +40,13 @@ namespace HCT_Client
         {
             loginTextLabel = new BaseTextLabel();
             loginTextLabel.Width = SCREEN_WIDTH;
-            loginTextLabel.Location = new Point(0, 150);
+            loginTextLabel.Location = new Point(0, headerLineLabel.Location.Y + 60);
             loginTextLabel.TextAlign = ContentAlignment.MiddleCenter;
             loginTextLabel.ForeColor = Color.Black;
 
             loginButton = new LargeButton();
             loginButton.Location = new Point((SCREEN_WIDTH - loginButton.Width) / 2,
-                                            loginTextLabel.Location.Y + loginTextLabel.Height + 100);
+                                            loginTextLabel.Location.Y + loginTextLabel.Height + 50);
             loginButton.Click += new EventHandler(LoginButtonClicked);
 
             backButton = new MediumButton();
@@ -84,6 +84,12 @@ namespace HCT_Client
         private bool ReadSmartCard()
         {
             string cardData = CardReaderManager.ReadCardAndGetData();
+            if (cardData.Equals(CardReaderManager.BYPASS_MODE))
+            {
+                UserProfileManager.FillUserProfileWithMockData();
+                return true;
+            }
+
             if (cardData.Equals(CardReaderManager.NO_CARD_ERROR) ||
                 cardData.Equals(CardReaderManager.NO_READER_ERROR) ||
                 cardData.Equals(CardReaderManager.UNKNOWN_ERROR))

@@ -106,7 +106,14 @@ namespace HCT_Client
             EXPIRY_DATE,//25680130      //YYYYMMDD 
 
             END
-        }; 
+        };
+
+        public static void FillUserProfileWithMockData()
+        {
+            instance.citizenID = "0011188999220";
+            instance.fullnameTH = "นายทดสอบ แซ่หวัง";
+            instance.address = "123 ซ.สุขุมวิท 33 กทม. 10120";
+        }
 
         public static void FillUserProfileFromSmartCardData(string NIDData)
         {

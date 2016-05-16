@@ -17,6 +17,8 @@ namespace HCT_Client
         public static string NO_CARD_ERROR = "NO_CARD_ERROR";
         public static string NO_READER_ERROR = "NO_READER_ERROR";
         public static string UNKNOWN_ERROR = "UNKNOWN_ERROR";
+        public static string BYPASS_MODE = "BYPASS_MODE";
+        static bool IS_BYPASS_MODE = true;
 
         public CardReaderManager()
         {
@@ -99,6 +101,9 @@ namespace HCT_Client
 
         public static string ReadCardAndGetData()
         {
+            if (IS_BYPASS_MODE)
+                return BYPASS_MODE;
+
             int status = instance.ReadCard();
             switch (status)
             {

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace HCT_Client
 {
-    public partial class FormChooseLanguage : FixedSizeForm
+    public partial class FormChooseLanguage : FixedSizeFormWithHeader
     {
         private BlinkButtonSignalClock blinkButtonSignalClock;
         LargeButton thaiButton;

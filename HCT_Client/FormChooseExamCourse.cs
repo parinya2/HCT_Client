@@ -47,7 +47,7 @@ namespace HCT_Client
         }
     }
 
-    public partial class FormChooseExamCourse : FixedSizeForm
+    public partial class FormChooseExamCourse : FixedSizeFormWithHeader
     {
         public SingleExamCoursePanel examCourseType1panel;
         public SingleExamCoursePanel examCourseType2panel;

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace HCT_Client
 {
-    public partial class FormExamResult : FixedSizeForm
+    public partial class FormExamResult : FixedSizeFormWithHeader
     {
         public LargeButton finishExamButton;
         public LargeButton viewAnswerButton;
@@ -25,8 +25,7 @@ namespace HCT_Client
             RenderUI();
 
             blinkButtonSignalClock = new BlinkButtonSignalClock();
-            blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged); 
-  
+            blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged);  
         }
 
         private void RenderUI()
@@ -50,7 +49,7 @@ namespace HCT_Client
             passOrFailLabel.Width = SCREEN_WIDTH;
             passOrFailLabel.Height = 100;
             passOrFailLabel.TextAlign = ContentAlignment.MiddleCenter;
-            passOrFailLabel.Location = new Point(0, 150);
+            passOrFailLabel.Location = new Point(0, headerLineLabel.Location.Y + 60);
             passOrFailLabel.Font = new Font(this.Font.FontFamily, 50);
 
             scoreLabel = new BaseTextLabel();
