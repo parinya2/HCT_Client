@@ -39,6 +39,10 @@ namespace HCT_Client
 
             fadeForm = FormsManager.GetFormFadeView();
 
+            FormFadeView baseBG = FormsManager.GetFormBaseBackgroundView();
+            baseBG.Visible = true;
+            this.BringToFront();
+
             blinkButtonSignalClock = new BlinkButtonSignalClock();
             blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged);
         }

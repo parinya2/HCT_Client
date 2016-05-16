@@ -10,6 +10,7 @@ namespace HCT_Client
         private Form1 instanceForm1;
         private FormExecuteExam instanceFormExecuteExam;
         private FormFadeView instanceFormFadeView;
+        private FormFadeView instanceFormBaseBackgroundView;
         private FormExamResult instanceFormExamResult;
         private FormChooseLanguage instanceFormChooseLanguage;
         private FormChooseExamCourse instanceFormChooseExamCourse;
@@ -68,6 +69,15 @@ namespace HCT_Client
                 Instance.instanceFormFadeView = new FormFadeView();
             }
             return Instance.instanceFormFadeView;
+        }
+
+        public static FormFadeView GetFormBaseBackgroundView()
+        {
+            if (Instance.instanceFormBaseBackgroundView == null)
+            {
+                Instance.instanceFormBaseBackgroundView = new FormFadeView();
+            }
+            return Instance.instanceFormBaseBackgroundView;
         }
 
         public static FormExamResult GetFormExamResult()

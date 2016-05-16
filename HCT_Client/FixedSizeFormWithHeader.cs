@@ -25,7 +25,7 @@ namespace HCT_Client
             dltLogoPictureBox.Height = 150;
             dltLogoPictureBox.Location = new Point(70, 30);
             dltLogoPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            dltLogoPictureBox.Image = Util.GetImageFromImageResources("DLT_Logo.jpg");
+            dltLogoPictureBox.Image = Util.GetImageFromImageResources("DLT_Logo.png");
 
             headerLineLabel = new Label();
             headerLineLabel.BackColor = Color.Black;
