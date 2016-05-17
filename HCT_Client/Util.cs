@@ -4,12 +4,45 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.IO;
+using Microsoft.Office.Interop.Excel;
+using System.Reflection;
 
 namespace HCT_Client
 {
     public class Util
     {
         private static Dictionary<int, Color> buttonBlinkColorDict;
+
+        public static void CreateExamResultPDF(string userFullname, string citizenID, string courseName, string passOrFail, string dateString)
+        {
+            string executingPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            string EXAM_RESULT_TEMPLATE_PATH = executingPath + "/ExamResultTemplate.xls";
+            string EXAM_RESULT_TEMPLATE_TEMP_PATH = executingPath + "/ExamResultTemplate_Temp.xls";
+
+            string userFullNameForFile = userFullname.Replace(" ", "_");
+            string EXAM_RESULT_PDF_PATH = executingPath + "/ผลการสอบ_" + userFullNameForFile +".pdf";
+
+            Application app = new Application();
+            Workbook workBook = app.Workbooks.Open(EXAM_RESULT_TEMPLATE_PATH);
+            Sheets workSheets = workBook.Worksheets;
+            Worksheet workSheet1 = workSheets.get_Item("Sheet1");
+            workSheet1.Cells[10, 3] = userFullname;
+            workSheet1.Cells[11, 3] = citizenID;
+            workSheet1.Cells[12, 3] = courseName;
+            workSheet1.Cells[13, 3] = passOrFail;
+            workSheet1.Cells[14, 3] = dateString;
+
+            workBook.SaveAs(EXAM_RESULT_TEMPLATE_TEMP_PATH);
+
+            workBook.ExportAsFixedFormat(XlFixedFormatType.xlTypePDF, EXAM_RESULT_PDF_PATH);
+            
+            workBook.Close();
+
+            if (File.Exists(EXAM_RESULT_TEMPLATE_TEMP_PATH))
+            {
+                File.Delete(EXAM_RESULT_TEMPLATE_TEMP_PATH);
+            }
+        }
 
         public static void printLine(string msg)
         {

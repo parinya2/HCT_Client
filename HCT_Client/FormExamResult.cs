@@ -16,13 +16,22 @@ namespace HCT_Client
         public BaseTextLabel passOrFailLabel;
         public BaseTextLabel scoreLabel;
         BlinkButtonSignalClock blinkButtonSignalClock;
+        FormLargeMessageBox finishExamMessageBox;
+        FormFadeView fadeForm;
         int SCORE_TO_PASS = 40;
+        int score;
 
         public FormExamResult()
         {
             InitializeComponent();
             
             RenderUI();
+
+            finishExamMessageBox = new FormLargeMessageBox(0);
+            finishExamMessageBox.Visible = false;
+            finishExamMessageBox.rightButton.Click += new EventHandler(FinishExamMessageBoxRightButtonClicked);
+
+            fadeForm = FormsManager.GetFormFadeView();
 
             blinkButtonSignalClock = new BlinkButtonSignalClock();
             blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged);  
@@ -70,11 +79,13 @@ namespace HCT_Client
         {
             finishExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.FinishButton");
             viewAnswerButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.ViewAnswer");
+            finishExamMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FinishExamMessageBox.Message");
+            finishExamMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FinishExamMessageBox.RightButton");
         }
 
         public void calculateScore()
         {
-            int score = 0;
+            score = 0;
             SingleQuizObject[] quizArray = QuizManager.GetQuizArray();
             for (int i = 0; i < quizArray.Length; i++)
             {
@@ -99,13 +110,50 @@ namespace HCT_Client
             scoreLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.ScoreText") + " " + score + " / " + quizArray.Length;
         }
 
-        void FinishExamButtonClicked(object sender, EventArgs e)
+        void GenerateExamResultDocument()
+        {
+            string fullname = UserProfileManager.GetFullnameTH().Length > 0 ? UserProfileManager.GetFullnameTH() : UserProfileManager.GetFullnameEN();
+            string citizenID = UserProfileManager.GetCitizenID();
+            
+            int courseType = QuizManager.GetExamCourseType() + 1;
+            string courseName = LocalizedTextManager.GetLocalizedTextForKeyTH("FormChooseExamCourse.Button." + courseType);
+            
+            string dateString = DateTime.Now.ToString("d/MM/yyyy");
+            string passOrFail = "";
+
+            if (score >= SCORE_TO_PASS)
+            {
+                passOrFail = "สอบผ่าน ( ได้คะแนน " + score + " / " + "50 )";
+            }
+            else
+            {
+                passOrFail = "สอบไม่ผ่าน ( ได้คะแนน " + score + " / " + "50 )";
+            }
+
+            Util.CreateExamResultPDF(fullname, citizenID, courseName, passOrFail, dateString); 
+        }
+
+        void GoToFirstForm()
         {
             UserProfileManager.ClearUserProfile();
             FormChooseLanguage instanceFormChooseLanguage = FormsManager.GetFormChooseLanguage();
             instanceFormChooseLanguage.Visible = true;
             instanceFormChooseLanguage.BringToFront();
-            this.Visible = false;
+            this.Visible = false;        
+        }
+
+        void FinishExamButtonClicked(object sender, EventArgs e)
+        {
+            GenerateExamResultDocument();
+
+            fadeForm.Visible = true;
+            fadeForm.BringToFront();
+
+            finishExamMessageBox.Visible = true;
+            finishExamMessageBox.BringToFront();
+            finishExamMessageBox.Location = new Point((SCREEN_WIDTH - finishExamMessageBox.Width) / 2,
+                                                    (SCREEN_HEIGHT - finishExamMessageBox.Height) / 2);
+    
         }
 
         void ViewAnswerButtonClicked(object sender, EventArgs e)
@@ -117,9 +165,15 @@ namespace HCT_Client
             this.Visible = false;
         }
 
+        void FinishExamMessageBoxRightButtonClicked(object sender, EventArgs e)
+        {
+            GoToFirstForm();
+        }
+
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
             finishExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            finishExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
         }
     }
 }
