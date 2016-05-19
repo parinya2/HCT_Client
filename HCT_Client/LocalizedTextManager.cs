@@ -69,10 +69,12 @@ namespace HCT_Client
             SetDictValueForKey("GoToExamMessageBox.RightButton", "ตกลง", "OK");
             SetDictValueForKey("GoToExamMessageBox.LeftButton", "ย้อนกลับ", "Go Back");
 
+            SetDictValueForKey("SystemProcessingMessageBox.Message", "ระบบกำลังดำเนินการ กรุณารอสักครู่ ...", "Please wait while the system is processing ...");
+
             SetDictValueForKey("NoUserPhotoMessageBox.Message", "กรุณากดปุ่ม 'ถ่ายภาพ' เพื่อถ่ายภาพของท่านก่อน จึงจะสามารถไปทำข้อสอบได้", "Please press 'Take a photo' button before you proceed.");
             SetDictValueForKey("NoUserPhotoMessageBox.RightButton", "ตกลง", "OK");
 
-            SetDictValueForKey("FormExamResult.FinishButton", "เสร็จสิ้น", "Finish");
+            SetDictValueForKey("FormExamResult.FinishButton", "พิมพ์ผลสอบ", "Print Exam Result");
             SetDictValueForKey("FormExamResult.ViewAnswer", "ดูเฉลย", "View Answer");
 
             SetDictValueForKey("FormExamResult.PassExam", "คุณสอบผ่าน", "You passed");

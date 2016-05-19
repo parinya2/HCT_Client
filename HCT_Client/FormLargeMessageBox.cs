@@ -63,8 +63,11 @@ namespace HCT_Client
                                                     this.Height - rightButton.Height - buttonOffsetY);
                     leftButton.Location = new Point(this.Width / 2 - buttonOffsetX - leftButton.Width,
                                                     rightButton.Location.Y);
-
-                break;
+                    break;
+                case -1 :
+                    leftButton.Visible = false;
+                    rightButton.Visible = false;
+                    break;
             }
 
             int messageLabelOffsetX = 50;
@@ -72,7 +75,7 @@ namespace HCT_Client
 
             messageLabel = new Label();
             messageLabel.Width = this.Width - (messageLabelOffsetX * 2);
-            messageLabel.Height = this.Height - rightButton.Height - (messageLabelOffsetY * 3);
+            messageLabel.Height = this.Height - rightButton.Height - messageLabelOffsetY * 2;
             messageLabel.Location = new Point(messageLabelOffsetX, messageLabelOffsetY);
             messageLabel.Font = new Font(this.Font.FontFamily, 14);
             messageLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -80,6 +83,13 @@ namespace HCT_Client
             this.Controls.Add(messageLabel);
             this.Controls.Add(leftButton);
             this.Controls.Add(rightButton);
+        }
+
+        public void ShowMessageBoxAtLocation(Point location)
+        {
+            this.BringToFront();
+            this.Visible = true;          
+            this.Location = location;
         }
     }
 }

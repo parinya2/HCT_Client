@@ -155,16 +155,19 @@ namespace HCT_Client
 
         void FinishExamButtonClicked(object sender, EventArgs e)
         {
-            GenerateExamResultDocument();
-
+            Point centerPoint = new Point((SCREEN_WIDTH - finishExamMessageBox.Width) / 2,
+                                          (SCREEN_HEIGHT - finishExamMessageBox.Height) / 2);
+    
             fadeForm.Visible = true;
             fadeForm.BringToFront();
 
-            finishExamMessageBox.Visible = true;
-            finishExamMessageBox.BringToFront();
-            finishExamMessageBox.Location = new Point((SCREEN_WIDTH - finishExamMessageBox.Width) / 2,
-                                                    (SCREEN_HEIGHT - finishExamMessageBox.Height) / 2);
-    
+            FormLargeMessageBox systemProcessingMessageBox = FormsManager.GetFormSystemProcessingMessageBox();
+            systemProcessingMessageBox.ShowMessageBoxAtLocation(centerPoint);
+
+            GenerateExamResultDocument();
+            systemProcessingMessageBox.Visible = false;
+
+            finishExamMessageBox.ShowMessageBoxAtLocation(centerPoint);
         }
 
         void ViewAnswerButtonClicked(object sender, EventArgs e)

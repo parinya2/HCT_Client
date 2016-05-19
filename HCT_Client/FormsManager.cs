@@ -16,6 +16,7 @@ namespace HCT_Client
         private FormChooseExamCourse instanceFormChooseExamCourse;
         private FormInsertSmartCard instanceFormInsertSmartCard;
         private FormShowUserDetail instanceFormShowUserDetail;
+        private FormLargeMessageBox instanceFormSystemProcessingMessageBox;
 
         private static FormsManager instance;
 
@@ -114,6 +115,16 @@ namespace HCT_Client
                 Instance.instanceFormInsertSmartCard = new FormInsertSmartCard();
             }
             return Instance.instanceFormInsertSmartCard;
+        }
+
+        public static FormLargeMessageBox GetFormSystemProcessingMessageBox()
+        {
+            if (Instance.instanceFormSystemProcessingMessageBox == null)
+            {
+                Instance.instanceFormSystemProcessingMessageBox = new FormLargeMessageBox(-1);
+                Instance.instanceFormSystemProcessingMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("SystemProcessingMessageBox.Message");
+            }
+            return Instance.instanceFormSystemProcessingMessageBox;
         }
 
         public static FormChooseLanguage GetFormChooseLanguage()

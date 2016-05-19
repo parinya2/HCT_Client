@@ -28,7 +28,7 @@ namespace HCT_Client
             client.Credentials = new System.Net.NetworkCredential(hctEmail, ExtractEmailPassword());
 
             MailMessage mail = new MailMessage();
-           // mail.From = new MailAddress(hctEmail);
+            mail.From = new MailAddress(hctEmail);
             mail.Subject = pdfName.Replace(".pdf","");
             mail.SubjectEncoding = UTF8Encoding.UTF8;
             mail.Body = emailBody;
