@@ -276,13 +276,17 @@ namespace HCT_Client
         void GoToNextForm()
         {
             StopWebcam();
+
             FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
             instanceFormExecuteExam.LoadExamData();
             instanceFormExecuteExam.Visible = true;
             instanceFormExecuteExam.Enabled = true;
             instanceFormExecuteExam.RefreshUI();
             instanceFormExecuteExam.BringToFront();
+            
             this.Visible = false;
+            fadeForm.Visible = false;
+            goToExamMessageBox.Visible = false;
         }
 
         void GoToPreviousForm()

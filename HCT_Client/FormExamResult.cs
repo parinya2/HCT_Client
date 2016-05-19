@@ -130,7 +130,15 @@ namespace HCT_Client
                 passOrFail = "สอบไม่ผ่าน ( ได้คะแนน " + score + " / " + "50 )";
             }
 
-            Util.CreateExamResultPDF(fullname, citizenID, courseName, passOrFail, dateString); 
+            string emailBody = "นี่คือผลการสอบของ " + fullname + " ณ วันที่ " + dateString + 
+                               "\n" + "ผลการสอบ คือ " + passOrFail +
+                               "\n\n" + "ไฟล์ pdf ที่แนบมาด้วย คือ หลักฐานแสดงผลการสอบของผู้เข้าสอบ" +
+                               "\n\n" + "อีเมล์ฉบับนี้ถูกส่งมาจากระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมล์ฉบับนี้" +
+                               "\n\n\n" + "ขอแสดงความนับถือ" +
+                               "\n" + "หาดใหญ่คาร์เทรนเนอร์";
+
+            string pdfPath = Util.CreateExamResultPDF(fullname, citizenID, courseName, passOrFail, dateString);
+            Util.SendEmailWithAttachment(pdfPath, emailBody);
         }
 
         void GoToFirstForm()
@@ -139,7 +147,10 @@ namespace HCT_Client
             FormChooseLanguage instanceFormChooseLanguage = FormsManager.GetFormChooseLanguage();
             instanceFormChooseLanguage.Visible = true;
             instanceFormChooseLanguage.BringToFront();
-            this.Visible = false;        
+            
+            this.Visible = false;
+            fadeForm.Visible = false;
+            finishExamMessageBox.Visible = false;
         }
 
         void FinishExamButtonClicked(object sender, EventArgs e)

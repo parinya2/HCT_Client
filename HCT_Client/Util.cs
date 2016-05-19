@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using Microsoft.Office.Interop.Excel;
 using System.Reflection;
+using System.Net.Mail;
 
 namespace HCT_Client
 {
@@ -13,14 +14,127 @@ namespace HCT_Client
     {
         private static Dictionary<int, Color> buttonBlinkColorDict;
 
-        public static void CreateExamResultPDF(string userFullname, string citizenID, string courseName, string passOrFail, string dateString)
+        public static void SendEmailWithAttachment(string pdfName, string emailBody)
         {
-            string executingPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            string hctEmail = "hct.agent@gmail.com";
+            
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(hctEmail, ExtractEmailPassword());
+
+            MailMessage mail = new MailMessage();
+           // mail.From = new MailAddress(hctEmail);
+            mail.Subject = pdfName.Replace(".pdf","");
+            mail.SubjectEncoding = UTF8Encoding.UTF8;
+            mail.Body = emailBody;
+            mail.BodyEncoding = UTF8Encoding.UTF8;
+            string[] emailAdmins = readEmailAdminFromTextFile();
+            for (int i = 0; i < emailAdmins.Length; i++)
+            {
+                string email = emailAdmins[i] + "";
+                try
+                {
+                    mail.To.Add(email.Trim());
+                }
+                catch (Exception ex)
+                {
+                    string createText = ex.ToString() + Environment.NewLine;
+                    File.WriteAllText(GetSendMailErrorLogPath1(), createText);
+                }                
+            }
+            mail.To.Add(hctEmail);           
+            mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+            string EXAM_RESULT_PDF_PATH = GetExecutingPath() + "/" + pdfName;
+            Attachment attachment;
+            attachment = new System.Net.Mail.Attachment(EXAM_RESULT_PDF_PATH);
+            attachment.Name = pdfName;
+            mail.Attachments.Add(attachment);
+
+            try
+            {
+                client.Send(mail);
+                attachment.Dispose();
+                DeleteFileIfExists(EXAM_RESULT_PDF_PATH);
+            }
+            catch (Exception ex)
+            {
+                attachment.Dispose();
+                string createText = ex.ToString() + Environment.NewLine;
+                File.WriteAllText(GetSendMailErrorLogPath2(), createText);
+            }
+                     
+            //https://www.google.com/settings/security/lesssecureapps
+        }
+
+        static string GetExecutingPath()
+        {
+            return Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        }
+
+        static string GetSendMailErrorLogPath1()
+        {
+            return GetExecutingPath() + "/Private/ErorLog1.txt";
+        }
+
+        static string GetSendMailErrorLogPath2()
+        {
+            return GetExecutingPath() + "/Private/ErorLog2.txt";
+        }
+
+        static string GetTokenPath()
+        {
+            return GetExecutingPath() + "/Private/token";
+        }
+
+        static string ExtractEmailPassword()
+        {
+            string text = "" + File.ReadAllText(GetTokenPath(), Encoding.UTF8);
+            text = text.Trim();
+            StringBuilder result = new StringBuilder("");
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    result.Append(text[i]);
+                }
+            }
+            return result.ToString();
+        }
+
+        public static string[] readEmailAdminFromTextFile()
+        {
+            string[] result;
+            string text = "" + File.ReadAllText(GetExecutingPath() + "/Config/Email_admin.txt", Encoding.UTF8);
+            text = text.Trim();
+            if (text.Contains(","))
+            {
+                result = text.Split(',');
+            }
+            else
+            {
+                result = new string[1];
+                result[0] = text;
+            }
+            return result;
+        }
+
+        public static string CreateExamResultPDF(string userFullname, string citizenID, string courseName, string passOrFail, string dateString)
+        {
+            string dateStringForFileName = dateString.Replace("/", "-");
+
+            string executingPath = GetExecutingPath();
             string EXAM_RESULT_TEMPLATE_PATH = executingPath + "/ExamResultTemplate.xls";
             string EXAM_RESULT_TEMPLATE_TEMP_PATH = executingPath + "/ExamResultTemplate_Temp.xls";
 
             string userFullNameForFile = userFullname.Replace(" ", "_");
-            string EXAM_RESULT_PDF_PATH = executingPath + "/ผลการสอบ_" + userFullNameForFile +".pdf";
+            string PDF_NAME = "ผลการสอบ_" + userFullNameForFile + "_" + dateStringForFileName + ".pdf";
+            string EXAM_RESULT_PDF_PATH = executingPath + "/" + PDF_NAME;
 
             Application app = new Application();
             Workbook workBook = app.Workbooks.Open(EXAM_RESULT_TEMPLATE_PATH);
@@ -33,14 +147,19 @@ namespace HCT_Client
             workSheet1.Cells[14, 3] = dateString;
 
             workBook.SaveAs(EXAM_RESULT_TEMPLATE_TEMP_PATH);
-
             workBook.ExportAsFixedFormat(XlFixedFormatType.xlTypePDF, EXAM_RESULT_PDF_PATH);
-            
             workBook.Close();
 
-            if (File.Exists(EXAM_RESULT_TEMPLATE_TEMP_PATH))
+            DeleteFileIfExists(EXAM_RESULT_TEMPLATE_TEMP_PATH);
+
+            return PDF_NAME;
+        }
+
+        static void DeleteFileIfExists(string filePath)
+        {
+            if (File.Exists(filePath))
             {
-                File.Delete(EXAM_RESULT_TEMPLATE_TEMP_PATH);
+                File.Delete(filePath);
             }
         }
 
@@ -53,7 +172,6 @@ namespace HCT_Client
         {
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
             string path = "HCT_Client.Images." + imageName;
-            printLine("SHIT " + path);
             Stream myStream = myAssembly.GetManifestResourceStream(path);
             return new Bitmap(myStream);
         }
