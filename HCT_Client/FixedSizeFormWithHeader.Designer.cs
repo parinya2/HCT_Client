@@ -28,9 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // FixedSizeFormWithHeader
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(300, 300);
+            this.Name = "FixedSizeFormWithHeader";
             this.Text = "FixedSizeFormWithHeader";
+            this.ResumeLayout(false);
+
         }
 
         #endregion

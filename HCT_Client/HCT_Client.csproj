@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>DLT_Logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -151,6 +154,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="WebcamEventArgs.cs" />
+    <EmbeddedResource Include="FixedSizeForm.resx">
+      <DependentUpon>FixedSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FixedSizeFormWithHeader.resx">
+      <DependentUpon>FixedSizeFormWithHeader.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -179,6 +188,7 @@
     <EmbeddedResource Include="Private\token">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Content Include="DLT_Logo.ico" />
     <Content Include="RDNIDLib.DLX">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
