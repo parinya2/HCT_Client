@@ -110,8 +110,8 @@ namespace HCT_Client
 
         public static void FillUserProfileWithMockData()
         {
-            instance.citizenID = "0011188999220";
-            instance.fullnameTH = "นายทดสอบ แซ่หวัง";
+            instance.citizenID = "3508077638406";
+            instance.fullnameTH = "นายณัฐภัทร์ บัวทอง";
             instance.address = "123 ซ.สุขุมวิท 33 กทม. 10120";
         }
 

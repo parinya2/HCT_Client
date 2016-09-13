@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:ws="http://ws.eexam.dlt.go.th/">
+  
+  <soapenv:Header/>
+  <soapenv:Body>
+    <ws:findStudentDetail>
+      <certYear>HCT_param1</certYear>
+      <certNo>HCT_param2</certNo>
+      <idNo>HCT_param3</idNo>
+      <reqDate>HCT_param4</reqDate>
+      <examSeq>HCT_param5</examSeq>
+      <courseCode>HCT_param6</courseCode>
+    </ws:findStudentDetail>
+  </soapenv:Body>
+</soapenv:Envelope>
