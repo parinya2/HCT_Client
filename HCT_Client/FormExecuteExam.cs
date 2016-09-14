@@ -279,10 +279,10 @@ namespace HCT_Client
             quizImagePictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             quizImagePictureBox.Image = quizObj.quizImage;
 
-            for (int i = 0; i < quizObj.choiceTextArray.Length; i++)
+            for (int i = 0; i < quizObj.choiceObjArray.Length; i++)
             {
-                string choiceText = quizObj.choiceTextArray[i];
-                choicePanelArray[i].SetChoiceText(choiceText);
+                SingleChoiceObject choiceObj = quizObj.choiceObjArray[i];
+                choicePanelArray[i].SetChoiceText(choiceObj.choiceText);
 
                 bool isSelectedChoiceFlag = (i == quizObj.selectedChoice);
                 choicePanelArray[i].SetSelectedChoicePanel(isSelectedChoiceFlag);
@@ -290,7 +290,7 @@ namespace HCT_Client
 
             if (modeShowAnswer)
             {
-                for (int i = 0; i < quizObj.choiceTextArray.Length; i++)
+                for (int i = 0; i < quizObj.choiceObjArray.Length; i++)
                 {
                     choicePanelArray[i].choiceCorrectStatusPictureBox.Image = null;
                     if (quizObj.correctChoice == i)

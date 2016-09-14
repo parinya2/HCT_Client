@@ -85,6 +85,7 @@ namespace HCT_Client
         private static void ExtractQuizFromXMLString(string content)
         {
             string RESULT_XML_TAG = "<return>";
+            string EEXAM_ANSWER_XML_TAG = "<eexamAnswer>";
             string SOAP_BODY_XML_TAG_INSIDE = "soapenv:Body";
 
             content = ExtractValueInsideXMLTag(content, SOAP_BODY_XML_TAG_INSIDE);
@@ -108,8 +109,21 @@ namespace HCT_Client
                 quizObj.quizText = quizText;
                 quizObj.quizCode = quizCode;
 
+                string[] tmpChoiceArray = tmpContent.Split(new string[] { EEXAM_ANSWER_XML_TAG }, StringSplitOptions.RemoveEmptyEntries);
+                for (int k = 0; k < tmpChoiceArray.Length; k++)
+                {
+                    string tmpChoiceContent = tmpChoiceArray[k];
+                    SingleChoiceObject choiceObj = new SingleChoiceObject();
+                    string choiceText = ExtractValueInsideXMLTag(tmpChoiceContent, "choiceDesc");
+                    string choiceCode = ExtractValueInsideXMLTag(tmpChoiceContent, "choiceCode");
 
+                    choiceObj.choiceText = choiceText;
+                    choiceObj.choiceCode = choiceCode;
 
+                    quizObj.choiceObjArray[k] = choiceObj;
+                }
+
+                quizObj.shuffleChoice();
                 quizList.Add(quizObj);
             }
 
@@ -147,7 +161,7 @@ namespace HCT_Client
             httpRequest.ContentType = "text/xml; charset=utf-8";
             httpRequest.ProtocolVersion = HttpVersion.Version11;
             httpRequest.KeepAlive = true;
-            httpRequest.Timeout = 85000; ;
+            httpRequest.Timeout = 100000; ;
 
             // It can works without soapAction
             //string soapAction = "http://ws.eexam.dlt.go.th/EExamService/findStudentDetailRequest";

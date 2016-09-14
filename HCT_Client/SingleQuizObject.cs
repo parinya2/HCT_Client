@@ -19,24 +19,31 @@ namespace HCT_Client
         public string quizText;
         public string quizCode;
         public Bitmap quizImage;
-        public string[] choiceTextArray;
+        public SingleChoiceObject[] choiceObjArray;
         public int correctChoice;
         public int selectedChoice;
 
         public SingleQuizObject()
         {
-            choiceTextArray = new string[4];
+            choiceObjArray = new SingleChoiceObject[4];
             selectedChoice = -1;
         }
 
-        public void SetChoiceText(int index, string text)
+        public void shuffleChoice()
         {
-            choiceTextArray[index] = text;
-        }
-
-        public string GetChoiceText(int index)
-        { 
-            return choiceTextArray[index];
+            Random rnd = QuizManager.GetRandomGenerator();
+            int shuffleRoundCount = 20;
+            for (int i = 0; i < shuffleRoundCount; i++)
+            {
+                int idx1 = rnd.Next(0, 4);
+                int idx2 = rnd.Next(0, 4);
+                if (idx1 != idx2)
+                {
+                    SingleChoiceObject tmp = choiceObjArray[idx1];
+                    choiceObjArray[idx1] = choiceObjArray[idx2];
+                    choiceObjArray[idx2] = tmp;
+                }
+            }
         }
     }
 }

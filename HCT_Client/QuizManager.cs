@@ -18,6 +18,7 @@ namespace HCT_Client
         static string COURSE_CODE_CAR = "201";
         static string COURSE_CODE_MOTORCYCLE = "301";
 
+        Random randomGenerator;
         ExamCourseType examCourseType;
         
         string examCourseCode; // 201 = Car , 301 = Motorcycle
@@ -80,7 +81,7 @@ namespace HCT_Client
 
                 for (int k = 0; k < 4; k++)
                 {
-                    obj.SetChoiceText(k, LocalizedTextManager.GetLocalizedTextForKey("MockQuiz." + (i % 3 + 1) + ".Choice." + (k + 1)));
+                   obj.choiceObjArray[k].choiceText = LocalizedTextManager.GetLocalizedTextForKey("MockQuiz." + (i % 3 + 1) + ".Choice." + (k + 1));
                 }
 
                 obj.correctChoice = 0;
@@ -129,6 +130,15 @@ namespace HCT_Client
         public static string GetExamCourseCode()
         {
             return instance.examCourseCode;
+        }
+
+        public static Random GetRandomGenerator()
+        {
+            if (instance.randomGenerator == null)
+            {
+                instance.randomGenerator = new Random();
+            }
+            return instance.randomGenerator;
         }
     }
 }
