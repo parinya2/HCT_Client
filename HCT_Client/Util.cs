@@ -168,21 +168,6 @@ namespace HCT_Client
             System.Diagnostics.Debug.WriteLine(msg + "\n");
         }
 
-        public static string GetSoapParamStr(int paramNo)
-        {
-            return "HCT_param" + paramNo;
-        }
-
-        public static string GetSoapXmlTemplate(int operationNo)
-        {
-            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            string path = "HCT_Client.Private.SOAP.op" + operationNo + ".xml";
-            Stream myStream = myAssembly.GetManifestResourceStream(path);
-            StreamReader reader = new StreamReader(myStream);
-            string result = reader.ReadToEnd();
-
-            return result;
-        }
         public static Bitmap GetImageFromImageResources(string imageName)
         {
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
