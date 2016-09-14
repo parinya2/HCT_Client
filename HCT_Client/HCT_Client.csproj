@@ -127,6 +127,7 @@
       <DependentUpon>FormShowUserDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsManager.cs" />
+    <Compile Include="GlobalData.cs" />
     <Compile Include="LargeButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -150,6 +151,7 @@
     <Compile Include="Stopwatch.cs" />
     <Compile Include="UserProfileManager.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="UtilSOAP.cs" />
     <Compile Include="WebCamCapture.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -190,7 +192,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="DLT_Logo.ico" />
-    <EmbeddedResource Include="Private\SOAP\op1.xml">
+    <EmbeddedResource Include="Private\SOAP\FindStudentDetailSOAP.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Private\SOAP\FindEExamQuestionSOAP.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Private\SOAP\CheckEExamResultSOAP.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="RDNIDLib.DLX">

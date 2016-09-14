@@ -172,8 +172,7 @@ namespace HCT_Client
             fullnamePanel.attributeContentLabel.Text = "  " + (UserProfileManager.GetFullnameTH().Trim().Length > 0 ? UserProfileManager.GetFullnameTH() : UserProfileManager.GetFullnameEN());
             citizenIDPanel.attributeContentLabel.Text = "  " + UserProfileManager.GetCitizenID();
             addressPanel.attributeContentLabel.Text = "  " + UserProfileManager.GetAddress();
-            int courseType = QuizManager.GetExamCourseType() + 1;
-            courseNamePanel.attributeContentLabel.Text = "  " + LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + courseType);
+            courseNamePanel.attributeContentLabel.Text = "  " + LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
             examDatePanel.attributeContentLabel.Text = "  " + DateTime.Now.ToString("d/MM/yyyy");
 
             goToExamMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("GoToExamMessageBox.Message");

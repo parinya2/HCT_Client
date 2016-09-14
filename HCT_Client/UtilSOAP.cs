@@ -38,7 +38,7 @@ namespace HCT_Client
         private static string GetSoapXmlTemplate(string soapTemplateName)
         {
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            string path = "HCT_Client.Private." + soapTemplateName + ".xml";
+            string path = "HCT_Client.Private.SOAP." + soapTemplateName + ".xml";
             Stream myStream = myAssembly.GetManifestResourceStream(path);
             StreamReader reader = new StreamReader(myStream);
             string result = reader.ReadToEnd();

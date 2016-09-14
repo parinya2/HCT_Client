@@ -7,9 +7,21 @@ using System.Drawing;
 
 namespace HCT_Client
 {
+    public enum ExamCourseType
+    { 
+        Car,
+        Motorcycle
+    };
+
     public class QuizManager
     {
-        public int examCourseType; // 0 = Car , 1 = Motorcycle
+        static string COURSE_CODE_CAR = "201";
+        static string COURSE_CODE_MOTORCYCLE = "301";
+
+        ExamCourseType examCourseType;
+        
+        string examCourseCode; // 201 = Car , 301 = Motorcycle
+        string paperTestNumber; // หมายเลขชุดข้อสอบ
         SingleQuizObject[] quizArray;
         private static QuizManager instance;
         
@@ -84,14 +96,37 @@ namespace HCT_Client
             return instance.quizArray;
         }
 
-        public static void SetExamCourseType(int type)
+        public static void SetExamCourseType(ExamCourseType type)
         {
             instance.examCourseType = type;
+            if (type == ExamCourseType.Car)
+            {
+                instance.examCourseCode = COURSE_CODE_CAR;
+            }
+            else if (type == ExamCourseType.Motorcycle)
+            {
+                instance.examCourseCode = COURSE_CODE_MOTORCYCLE;
+            }
         }
 
-        public static int GetExamCourseType()
+        public static ExamCourseType GetExamCourseType()
         {
             return instance.examCourseType;
+        }
+
+        public static void SetPaperTestNumber(string testNo)
+        {
+            instance.paperTestNumber = testNo;
+        }
+
+        public static string GetPaperTestNumber()
+        {
+            return instance.paperTestNumber;
+        }
+
+        public static string GetExamCourseCode()
+        {
+            return instance.examCourseCode;
         }
     }
 }

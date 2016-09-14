@@ -115,8 +115,7 @@ namespace HCT_Client
             string fullname = UserProfileManager.GetFullnameTH().Length > 0 ? UserProfileManager.GetFullnameTH() : UserProfileManager.GetFullnameEN();
             string citizenID = UserProfileManager.GetCitizenID();
             
-            int courseType = QuizManager.GetExamCourseType() + 1;
-            string courseName = LocalizedTextManager.GetLocalizedTextForKeyTH("FormChooseExamCourse.Button." + courseType);
+            string courseName = LocalizedTextManager.GetLocalizedTextForKeyTH("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
             
             string dateString = DateTime.Now.ToString("d/MM/yyyy");
             string passOrFail = "";

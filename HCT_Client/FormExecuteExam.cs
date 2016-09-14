@@ -101,8 +101,7 @@ namespace HCT_Client
             timeoutMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.Message");
             timeoutMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.RightButton");
 
-            int courseType = QuizManager.GetExamCourseType() + 1;
-            examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + courseType);
+            examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
 
             quizNotCompletedMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.Message");
             quizNotCompletedMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.RightButton");
@@ -227,8 +226,7 @@ namespace HCT_Client
 
             examCourseLabel = new BaseTextLabel();
             examCourseLabel.Width = usernameLabel.Width;
-            int courseType = QuizManager.GetExamCourseType() + 1;   
-            examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + courseType);
+            examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
             examCourseLabel.Location = new Point(usernameLabel.Location.X,
                                                  usernameLabel.Location.Y + usernameLabel.Height + 20);
             examCourseLabel.Font = new Font(this.Font.FontFamily, 13);

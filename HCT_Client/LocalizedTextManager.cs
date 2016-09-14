@@ -20,8 +20,8 @@ namespace HCT_Client
 
             SetDictValueForKey("FormChooseExamCourse.Button.GoBack", "<< ย้อนกลับ", "<< Go Back");
             SetDictValueForKey("FormChooseExamCourse.Topic", "กรุณาเลือกหลักสูตรที่ต้องการสอบ", "Please select the exam course");
-            SetDictValueForKey("FormChooseExamCourse.Button.1", "หลักสูตรการสอนขับรถยนต์", "Car Course");
-            SetDictValueForKey("FormChooseExamCourse.Button.2", "หลักสูตรการสอนขับรถจักรยานยนต์", "Motorcycle Course");
+            SetDictValueForKey("FormChooseExamCourse.Button." + ExamCourseType.Car, "หลักสูตรการสอนขับรถยนต์", "Car Course");
+            SetDictValueForKey("FormChooseExamCourse.Button." + ExamCourseType.Motorcycle, "หลักสูตรการสอนขับรถจักรยานยนต์", "Motorcycle Course");
 
             SetDictValueForKey("FormInsertSmartCard.Login.Label", "กรุณาสอดบัตรประชาชนของท่าน แล้วกดปุ่ม 'เข้าสู่ระบบ'", "Please insert your ID card and click 'Login' button");
             SetDictValueForKey("FormInsertSmartCard.Login.Button", "เข้าสู่ระบบ", "Login");

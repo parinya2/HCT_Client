@@ -14,6 +14,8 @@ namespace HCT_Client
         string fullnameEN;
         string address;
         Image userPhoto;
+        string courseRegisterDate;
+        string examSeq; //ครั้งที่สอบ
 
         public UserProfileManager()
         { 
@@ -37,7 +39,18 @@ namespace HCT_Client
             if (instance == null)
             {
                 instance = new UserProfileManager();
+                ClearUserProfile();
             }
+        }
+
+        public static string GetCourseRegisterDate()
+        {
+            return instance.courseRegisterDate;
+        }
+
+        public static void SetCourseRegisterDate(string date)
+        {
+            instance.courseRegisterDate = date;
         }
 
         public static string GetCitizenID()
@@ -113,6 +126,8 @@ namespace HCT_Client
             instance.citizenID = "3508077638406";
             instance.fullnameTH = "นายณัฐภัทร์ บัวทอง";
             instance.address = "123 ซ.สุขุมวิท 33 กทม. 10120";
+            instance.courseRegisterDate = "14/09/2559";
+            instance.examSeq = "1";
         }
 
         public static void FillUserProfileFromSmartCardData(string NIDData)
@@ -141,6 +156,16 @@ namespace HCT_Client
                                fields[(int)NID_FIELD.PROVINCE] + " ";
         }
 
+        public static void SetExamSeq(string seq)
+        {
+            instance.examSeq = seq;
+        }
+
+        public static string GetExamSeq()
+        {
+            return instance.examSeq;
+        }
+
         public static void ClearUserProfile()
         {
             instance.citizenID = null;
@@ -148,6 +173,8 @@ namespace HCT_Client
             instance.fullnameEN = null;
             instance.address = null;
             instance.userPhoto = null;
+            instance.courseRegisterDate = null;
+            instance.examSeq = null;
         }
     }
 }

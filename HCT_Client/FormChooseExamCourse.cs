@@ -124,19 +124,21 @@ namespace HCT_Client
         {
             backButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button.GoBack");
             examCourseTopicLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Topic");
-            examCourseType1panel.examCourseTextLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button.1");
-            examCourseType2panel.examCourseTextLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button.2");
+            examCourseType1panel.examCourseTextLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + ExamCourseType.Car);
+            examCourseType2panel.examCourseTextLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + ExamCourseType.Motorcycle);
         }
 
         void ExamCourseType1ButtonClicked(object sender, EventArgs e)
         {
-            QuizManager.SetExamCourseType(0);
+            QuizManager.SetExamCourseType(ExamCourseType.Car);
+            WebServiceManager.GetPaperTestNumberFromServer();
             GoToNextForm();
         }
 
         void ExamCourseType2ButtonClicked(object sender, EventArgs e)
         {
-            QuizManager.SetExamCourseType(1);
+            QuizManager.SetExamCourseType(ExamCourseType.Motorcycle);
+            WebServiceManager.GetPaperTestNumberFromServer();
             GoToNextForm();
         }
 
