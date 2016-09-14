@@ -10,8 +10,8 @@ namespace HCT_Client
     class WebServiceManager
     {
         static string DLT_WEB_SERVICE_URI = "http://ws.dlt.go.th:80/EExam/EExamService";
-        static string PAPER_TEST_NO_XML_TAG = "paperTestNo";
-
+        static string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
+        static string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
 
         public static string GetPaperTestNumberFromServer()
         {
@@ -23,10 +23,6 @@ namespace HCT_Client
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), QuizManager.GetExamCourseCode());
 
-            string x = ExtractValueInsideXMLTag("<aaa></aaa>","aaa");
-            return "";
-
-
             string responseStr = SendSoapRequestToWebService(soapContent);
             if (WebServiceResultStatus.isErrorCode(responseStr))
             {
@@ -35,7 +31,7 @@ namespace HCT_Client
             }
             else
             {                
-                string paperTestNo = ExtractValueInsideXMLTag(responseStr, PAPER_TEST_NO_XML_TAG);
+                string paperTestNo = ExtractValueInsideXMLTag(responseStr, PAPER_TEST_NUMBER_XML_TAG_INSIDE);
                 if (paperTestNo == null)
                 {
                     return WebServiceResultStatus.ERROR_STUDENT_DETAIL_NOT_FOUND;
@@ -44,12 +40,83 @@ namespace HCT_Client
                 {
                     QuizManager.SetPaperTestNumber(paperTestNo);
                     return WebServiceResultStatus.SUCCESS;
-                }
-                
+                }                
             }
         }
 
-        public static string ExtractValueInsideXMLTag(string content, string xmlTag)
+        public static string GetEExamQuestionFromServer()
+        {
+            DateTime date = DateTime.Now;
+            string dayStr = (date.Day < 10) ? ("0" + date.Day) : ("" + date.Day);
+            string monthStr = (date.Month < 10) ? ("0" + date.Month) : ("" + date.Month);
+            string yearStr = (date.Year < 2500) ? ("" + (date.Year + 543)) : ("" + date.Year);
+            string todayStr = dayStr + "/" + monthStr + "/" + yearStr;
+
+            string soapContent = UtilSOAP.GetSoapXmlTemplate_FindEExamQuestion();
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), QuizManager.GetPaperTestNumber());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCitizenID());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), todayStr);
+
+            string responseStr = SendSoapRequestToWebService(soapContent);
+           
+            if (WebServiceResultStatus.isErrorCode(responseStr))
+            {
+                string errorCode = responseStr;
+                return errorCode;
+            }
+            else
+            {
+                bool isBusinessError = responseStr.Contains(BUSINESS_ERROR_FAULT);
+                if (isBusinessError)
+                {
+                    return WebServiceResultStatus.ERROR_CANNOT_LOAD_EEXAM;
+                }
+                else
+                {
+                    ExtractQuizFromXMLString(responseStr);
+                    return WebServiceResultStatus.SUCCESS;
+                }
+            }
+        }
+
+        private static void ExtractQuizFromXMLString(string content)
+        {
+            string RESULT_XML_TAG = "<return>";
+            string SOAP_BODY_XML_TAG_INSIDE = "soapenv:Body";
+
+            content = ExtractValueInsideXMLTag(content, SOAP_BODY_XML_TAG_INSIDE);
+            
+            string[] tmpStrArray = content.Split(new string[] {RESULT_XML_TAG}, StringSplitOptions.None);
+
+            // The First element is not used, so we remove it.
+            List<string> tmpList = new List<string>(tmpStrArray);
+            tmpList.RemoveAt(0);
+            tmpStrArray = tmpList.ToArray();
+
+            // Create array of SingleQuizObject
+            List<SingleQuizObject> quizList = new List<SingleQuizObject>();
+            for (int i = 0; i < tmpStrArray.Length; i++)
+            {
+                string tmpContent = tmpStrArray[i];
+                string quizText = ExtractValueInsideXMLTag(tmpContent, "questDesc");
+                string quizCode = ExtractValueInsideXMLTag(tmpContent, "questCode");
+
+                SingleQuizObject quizObj = new SingleQuizObject();
+                quizObj.quizText = quizText;
+                quizObj.quizCode = quizCode;
+
+
+
+                quizList.Add(quizObj);
+            }
+
+            QuizManager.SetQuizArray(quizList.ToArray());
+        }
+
+        private static string ExtractValueInsideXMLTag(string content, string xmlTag)
         {
             string startTag = "<" + xmlTag + ">";
             string endTag = "</" + xmlTag + ">";
@@ -74,32 +141,41 @@ namespace HCT_Client
             HttpWebResponse httpResponse = null;
             Stream responseStream = null;
             StreamReader responseStreamReader = null;
+
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(new Uri(DLT_WEB_SERVICE_URI));
+            httpRequest.Method = "POST";
+            httpRequest.ContentType = "text/xml; charset=utf-8";
+            httpRequest.ProtocolVersion = HttpVersion.Version11;
+            httpRequest.KeepAlive = true;
+            httpRequest.Timeout = 85000; ;
+
+            // It can works without soapAction
+            //string soapAction = "http://ws.eexam.dlt.go.th/EExamService/findStudentDetailRequest";
+            //httpRequest.Headers.Add(String.Format("SOAPAction: \"{0}\"", soapAction));
+
+            byte[] buffer = Encoding.UTF8.GetBytes(soapContent);
+            httpRequest.ContentLength = buffer.Length;
+
+            Stream requestStream = httpRequest.GetRequestStream();
+            requestStream.Write(buffer, 0, buffer.Length);
+            requestStream.Close();
+
             try
             {
-                HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(new Uri(DLT_WEB_SERVICE_URI));
-                httpRequest.Method = "POST";
-                httpRequest.ContentType = "text/xml; charset=utf-8";
-                httpRequest.ProtocolVersion = HttpVersion.Version11;
-                httpRequest.Timeout = 8000;
+                using (httpResponse = (HttpWebResponse)httpRequest.GetResponse())
+                {
+                    responseStream = httpResponse.GetResponseStream();
+                    responseStreamReader = new StreamReader(responseStream);
 
-                // It can works without soapAction
-                //string soapAction = "http://ws.eexam.dlt.go.th/EExamService/findStudentDetailRequest";
-                //httpRequest.Headers.Add(String.Format("SOAPAction: \"{0}\"", soapAction));
+                    string result = responseStreamReader.ReadToEnd();
 
-                byte[] buffer = Encoding.UTF8.GetBytes(soapContent);
-                httpRequest.ContentLength = buffer.Length;
+                    if (result.Contains("Internal Error"))
+                    {
+                        return WebServiceResultStatus.ERROR_SERVER_INTERNAL;
+                    }
 
-                Stream requestStream = httpRequest.GetRequestStream();
-                requestStream.Write(buffer, 0, buffer.Length);
-                requestStream.Close();
-
-                httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-                responseStream = httpResponse.GetResponseStream();
-                responseStreamReader = new StreamReader(responseStream);
-
-                string result = responseStreamReader.ReadToEnd();
-
-                return result;
+                    return result;        
+                }
             }
             catch (Exception e)
             {
@@ -125,6 +201,8 @@ namespace HCT_Client
         public static string SUCCESS = "SUCCESS";
         public static string ERROR_HTTP_TIMEOUT = "ERROR_SendSoapRequestToWebService_HttpTimeout";
         public static string ERROR_STUDENT_DETAIL_NOT_FOUND = "ERROR_FindStudentDetailWebService_StudentNotFound";
+        public static string ERROR_SERVER_INTERNAL = "ERROR_ServerInternal";
+        public static string ERROR_CANNOT_LOAD_EEXAM = "ERROR_CannotLoadEExam";
         public static string ERROR_99 = "ERROR_99_SendSoapRequestToWebService_Throw";
 
         public static bool isErrorCode(string code)

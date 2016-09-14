@@ -52,7 +52,7 @@ namespace HCT_Client
 
         public static void LoadQuiz()
         {
-            MockQuiz();
+            WebServiceManager.GetEExamQuestionFromServer();
         }
 
         private static void MockQuiz()
@@ -84,11 +84,13 @@ namespace HCT_Client
                 }
 
                 obj.correctChoice = 0;
-
-
-
                 instance.quizArray[i] = obj;
             }
+        }
+
+        public static void SetQuizArray(SingleQuizObject[] arr)
+        {
+            instance.quizArray = arr;
         }
 
         public static SingleQuizObject[] GetQuizArray()

@@ -6,9 +6,18 @@ using System.Drawing;
 
 namespace HCT_Client
 {
+    public class SingleChoiceObject
+    {
+        public string choiceText;
+        public string choiceCode;
+        public int choiceSeq;
+        public Bitmap choiceImage;
+    }
+
     public class SingleQuizObject
     {
         public string quizText;
+        public string quizCode;
         public Bitmap quizImage;
         public string[] choiceTextArray;
         public int correctChoice;
