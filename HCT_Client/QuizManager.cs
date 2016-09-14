@@ -13,6 +13,18 @@ namespace HCT_Client
         Motorcycle
     };
 
+    public class QuizResult
+    {
+        string passFlag;
+        int quizScore;
+
+        public QuizResult()
+        {
+            passFlag = null;
+            quizScore = -1;
+        }
+    }
+
     public class QuizManager
     {
         static string COURSE_CODE_CAR = "201";
@@ -20,10 +32,11 @@ namespace HCT_Client
 
         Random randomGenerator;
         ExamCourseType examCourseType;
-        
+        QuizResult quizResult;
         string examCourseCode; // 201 = Car , 301 = Motorcycle
         string paperTestNumber; // หมายเลขชุดข้อสอบ
         SingleQuizObject[] quizArray;
+
         private static QuizManager instance;
         
         public QuizManager()
@@ -139,6 +152,15 @@ namespace HCT_Client
                 instance.randomGenerator = new Random();
             }
             return instance.randomGenerator;
+        }
+
+        public static QuizResult GetQuizResult()
+        {
+            if (instance.quizResult == null)
+            {
+                instance.quizResult = new QuizResult();
+            }
+            return instance.quizResult;
         }
     }
 }

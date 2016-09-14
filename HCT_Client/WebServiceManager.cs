@@ -82,6 +82,85 @@ namespace HCT_Client
             }
         }
 
+        public static string GetEExamResultFromServer()
+        {
+            SingleQuizObject[] quizObjectArray = QuizManager.GetQuizArray();
+            StringBuilder sbQuizCode = new StringBuilder();
+            StringBuilder sbChoiceCode = new StringBuilder();
+            string[] quizCodeParamArray = new string[5];
+            string[] choiceCodeParamArray = new string[5];
+            int objCountPerParam = 10;
+
+            for (int i = 0; i < quizObjectArray.Length; i++)
+            {
+                SingleQuizObject quizObj = quizObjectArray[i];
+                string quizCode = quizObj.quizCode;
+                string choiceCode = (quizObj.selectedChoice == -1) ? "" : quizObj.choiceObjArray[quizObj.selectedChoice].choiceCode;
+                
+                sbQuizCode.Append(quizCode);
+                sbChoiceCode.Append(choiceCode);
+
+                if (i % objCountPerParam != objCountPerParam - 1)
+                {
+                    sbQuizCode.Append("|");
+                    sbChoiceCode.Append("|");
+                }
+                else
+                {
+                    int idx = i / objCountPerParam;
+                    quizCodeParamArray[idx] = sbQuizCode.ToString();
+                    choiceCodeParamArray[idx] = sbChoiceCode.ToString();
+
+                    sbQuizCode.Clear();
+                    sbChoiceCode.Clear();
+                }                
+            }
+
+            string soapContent = UtilSOAP.GetSoapXmlTemplate_CheckEExamResult();
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());            
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDate());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), "14/09/2559 22:10:10");
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(7), "14/09/2559 22:40:10");
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(8), QuizManager.GetPaperTestNumber());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(9), QuizManager.GetExamCourseCode());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(10), quizCodeParamArray[0]);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(11), quizCodeParamArray[1]);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(12), quizCodeParamArray[2]);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(13), quizCodeParamArray[3]);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(14), quizCodeParamArray[4]);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(15), choiceCodeParamArray[0]);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(16), choiceCodeParamArray[1]);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(17), choiceCodeParamArray[2]);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(18), choiceCodeParamArray[3]);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(19), choiceCodeParamArray[4]);
+
+            Console.WriteLine("XX = "+soapContent);
+
+            string responseStr = SendSoapRequestToWebService(soapContent);
+
+            if (WebServiceResultStatus.isErrorCode(responseStr))
+            {
+                string errorCode = responseStr;
+                return errorCode;
+            }
+            else
+            {
+                bool isBusinessError = responseStr.Contains(BUSINESS_ERROR_FAULT);
+                if (isBusinessError)
+                {
+                    return WebServiceResultStatus.ERROR_CANNOT_CHECK_EEXAM_RESULT;
+                }
+                else
+                {
+                    ExtractExamResultFromXMLString(responseStr);
+                    return WebServiceResultStatus.SUCCESS;
+                }
+            }
+        }
+
         private static void ExtractQuizFromXMLString(string content)
         {
             string RESULT_XML_TAG = "<return>";
@@ -128,6 +207,11 @@ namespace HCT_Client
             }
 
             QuizManager.SetQuizArray(quizList.ToArray());
+        }
+
+        private static void ExtractExamResultFromXMLString(string content)
+        {
+            Console.WriteLine("Exam Result = " + content);
         }
 
         private static string ExtractValueInsideXMLTag(string content, string xmlTag)
@@ -217,6 +301,7 @@ namespace HCT_Client
         public static string ERROR_STUDENT_DETAIL_NOT_FOUND = "ERROR_FindStudentDetailWebService_StudentNotFound";
         public static string ERROR_SERVER_INTERNAL = "ERROR_ServerInternal";
         public static string ERROR_CANNOT_LOAD_EEXAM = "ERROR_CannotLoadEExam";
+        public static string ERROR_CANNOT_CHECK_EEXAM_RESULT = "ERROR_CannotCheckEExamResult";
         public static string ERROR_99 = "ERROR_99_SendSoapRequestToWebService_Throw";
 
         public static bool isErrorCode(string code)

@@ -412,6 +412,11 @@ namespace HCT_Client
         void GoToFormExamResult()
         {
             stopwatch.stopRunning();
+
+            WebServiceManager.GetEExamResultFromServer();
+
+
+
             FormExamResult instanceFormExamResult = FormsManager.GetFormExamResult();
             instanceFormExamResult.RefreshUI();
             instanceFormExamResult.Visible = true;
