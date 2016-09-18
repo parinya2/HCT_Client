@@ -90,6 +90,12 @@
     <Compile Include="FormChooseLanguage.Designer.cs">
       <DependentUpon>FormChooseLanguage.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormCourseRegisterSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCourseRegisterSetting.Designer.cs">
+      <DependentUpon>FormCourseRegisterSetting.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormExamResult.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -31,6 +31,15 @@ namespace HCT_Client
             SetDictValueForKey("FormInsertSmartCard.Error.Unknown", "เกิดข้อผิดพลาดบางอย่างขึ้น กรุณาติดต่อผู้ดูแลระบบ", "Some errors occurred. Please contact system administrators.");
             SetDictValueForKey("SmartCardErrorMessageBox.RightButton", "ตกลง", "OK");
 
+            SetDictValueForKey("FormCourseRegisterSetting.Button.GoBack", "<< ย้อนกลับ", "<< Go Back");
+            SetDictValueForKey("FormCourseRegisterSetting.Button.Next", "ถัดไป", "Next");
+            SetDictValueForKey("FormCourseRegisterSetting.Topic.CourseRegisterDate", "กรุณาระบุวันที่ท่านสมัครเรียน", "Please specify your course registration date.");
+            SetDictValueForKey("FormCourseRegisterSetting.Topic.ExamSeq", "ครั้งนี้ท่านสอบเป็นครั้งที่เท่าไหร่", "Please specify your exam seq.");
+            SetDictValueForKey("FormCourseRegisterSetting.Label.Day", "วันที่", "Day");
+            SetDictValueForKey("FormCourseRegisterSetting.Label.Month", "เดือน", "Month");
+            SetDictValueForKey("FormCourseRegisterSetting.Label.Year", "ปี", "Year");
+            SetDictValueForKey("FormCourseRegisterSetting.Label.ExamSeq", "ครั้งที่", "Exam Seq");
+
             SetDictValueForKey("FormShowUserDetail.Button.TakePhoto", "ถ่ายภาพ", "Take a photo");
             SetDictValueForKey("FormShowUserDetail.Button.DeletePhoto", "ลบรูปภาพ", "Delete photo");
             SetDictValueForKey("FormShowUserDetail.Button.GoBack", "<< ย้อนกลับ", "<< Go Back");

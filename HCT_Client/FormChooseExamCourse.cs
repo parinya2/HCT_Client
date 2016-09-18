@@ -131,24 +131,22 @@ namespace HCT_Client
         void ExamCourseType1ButtonClicked(object sender, EventArgs e)
         {
             QuizManager.SetExamCourseType(ExamCourseType.Car);
-            WebServiceManager.GetPaperTestNumberFromServer();
             GoToNextForm();
         }
 
         void ExamCourseType2ButtonClicked(object sender, EventArgs e)
         {
-            QuizManager.SetExamCourseType(ExamCourseType.Motorcycle);
-            WebServiceManager.GetPaperTestNumberFromServer();
+            QuizManager.SetExamCourseType(ExamCourseType.Motorcycle);            
             GoToNextForm();
         }
 
         void GoToNextForm()
         {
-            FormShowUserDetail instanceFormShowUserDetail = FormsManager.GetFormShowUserDetail();
-            instanceFormShowUserDetail.Visible = true;
-            instanceFormShowUserDetail.Enabled = true;
-            instanceFormShowUserDetail.RefreshUI();
-            instanceFormShowUserDetail.BringToFront();
+            FormCourseRegisterSetting instanceFormCourseRegisterSetting = FormsManager.GetFormCourseRegisterSetting();
+            instanceFormCourseRegisterSetting.Visible = true;
+            instanceFormCourseRegisterSetting.Enabled = true;
+            instanceFormCourseRegisterSetting.RefreshUI();
+            instanceFormCourseRegisterSetting.BringToFront();
             this.Visible = false;
         }
 

@@ -67,12 +67,6 @@ namespace HCT_Client
             }
         }
 
-        public static string LoadQuiz()
-        {
-            string status = WebServiceManager.GetEExamQuestionFromServer();
-            return status;
-        }
-
         private static void MockQuiz()
         { 
             instance.quizArray = new SingleQuizObject[50];

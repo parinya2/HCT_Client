@@ -284,7 +284,7 @@ namespace HCT_Client
                 delegate(object o, DoWorkEventArgs args)
                 {
                     Thread.Sleep(100);
-                    status = QuizManager.LoadQuiz();                    
+                    status = WebServiceManager.GetEExamQuestionFromServer();                    
                 }
              );
             bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
