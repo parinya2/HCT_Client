@@ -9,6 +9,7 @@ namespace HCT_Client
 {
     public enum ExamCourseType
     { 
+        None,
         Car,
         Motorcycle
     };
@@ -184,6 +185,17 @@ namespace HCT_Client
         public static DateTime GetExamEndDateTime()
         {
             return instance.examEndDateTime;
+        }
+
+        public static void ClearAllData()
+        {
+            instance.examCourseCode = null;
+            instance.examCourseType = ExamCourseType.None;
+            instance.examStartDateTime = DateTime.Now;
+            instance.examEndDateTime = DateTime.Now;
+            instance.paperTestNumber = null;
+            instance.quizArray = null;
+            instance.quizResult = null;
         }
     }
 }

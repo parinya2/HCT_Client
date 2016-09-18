@@ -143,6 +143,8 @@ namespace HCT_Client
         void GoToFirstForm()
         {
             UserProfileManager.ClearUserProfile();
+            QuizManager.ClearAllData();
+
             FormChooseLanguage instanceFormChooseLanguage = FormsManager.GetFormChooseLanguage();
             instanceFormChooseLanguage.Visible = true;
             instanceFormChooseLanguage.BringToFront();
