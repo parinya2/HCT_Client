@@ -25,6 +25,15 @@ namespace HCT_Client
         Label monthLabel;
         Label yearLabel;
         Label examSeqTopicLabel;
+        Label examSeqLabel;
+
+        Color buttonClickColor = Color.Orange;
+        Color buttonDefaultColor = Color.White;
+
+        int selectedDayIndex = -1;
+        int selectedMonthIndex = -1;
+        int selectedYearIndex = -1;
+        int selectedExamSeqIndex = -1;
 
         public FormCourseRegisterSetting()
         {
@@ -50,46 +59,182 @@ namespace HCT_Client
             int gapY = 5;
             courseRegisterDateTopicLabel = new Label();
             courseRegisterDateTopicLabel.Width = SCREEN_WIDTH - gapX * 2;
-            courseRegisterDateTopicLabel.Height = 80;
+            courseRegisterDateTopicLabel.Height = 60;
             courseRegisterDateTopicLabel.BackColor = Color.Orange;
             courseRegisterDateTopicLabel.Location = new Point(gapX, headerLineLabel.Location.Y + 20);
             courseRegisterDateTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
-            courseRegisterDateTopicLabel.Font = new Font(this.Font.FontFamily, 22);
+            courseRegisterDateTopicLabel.Font = new Font(this.Font.FontFamily, 18);
 
             examSeqTopicLabel = new Label();
             examSeqTopicLabel.Width = courseRegisterDateTopicLabel.Width;
             examSeqTopicLabel.Height = courseRegisterDateTopicLabel.Height;
             examSeqTopicLabel.BackColor = courseRegisterDateTopicLabel.BackColor;
-            examSeqTopicLabel.Location = new Point(gapX, backButton.Location.Y - examSeqTopicLabel.Height - 100);
+            examSeqTopicLabel.Location = new Point(gapX, backButton.Location.Y - examSeqTopicLabel.Height - 80);
             examSeqTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
             examSeqTopicLabel.Font = courseRegisterDateTopicLabel.Font;
 
+            int heightPerRow = (examSeqTopicLabel.Location.Y - (courseRegisterDateTopicLabel.Location.Y + courseRegisterDateTopicLabel.Height) - gapY * 2) / 4;
             dayLabel = new Label();
-            dayLabel.Width = 120;
-            dayLabel.Height = (examSeqTopicLabel.Location.Y - (courseRegisterDateTopicLabel.Location.Y + courseRegisterDateTopicLabel.Height) - gapY * 2) / 3;
+            dayLabel.Width = 140;
+            dayLabel.Height = heightPerRow * 2;
             dayLabel.Location = new Point(gapX * 3, courseRegisterDateTopicLabel.Location.Y + courseRegisterDateTopicLabel.Height + gapY);
             dayLabel.TextAlign = ContentAlignment.MiddleLeft;
             dayLabel.Font = new Font(this.Font.FontFamily, 18);
 
             monthLabel = new Label();
-            monthLabel.Size = new Size(dayLabel.Width, dayLabel.Height);
+            monthLabel.Size = new Size(dayLabel.Width, heightPerRow);
             monthLabel.Location = new Point(dayLabel.Location.X, dayLabel.Location.Y + dayLabel.Height);
             monthLabel.TextAlign = dayLabel.TextAlign;
             monthLabel.Font = dayLabel.Font;
 
             yearLabel = new Label();
-            yearLabel.Size = new Size(dayLabel.Width, dayLabel.Height);
+            yearLabel.Size = new Size(dayLabel.Width, heightPerRow);
             yearLabel.Location = new Point(dayLabel.Location.X, monthLabel.Location.Y + monthLabel.Height);
             yearLabel.TextAlign = dayLabel.TextAlign;
             yearLabel.Font = dayLabel.Font;
 
+            dayButtonArray = new Button[31];
+            int dayButtonGapX = 10;
+            for (int i = 0; i < dayButtonArray.Length; i++)
+            {
+                Button b = new Button();
+                b.Height = (dayLabel.Height - gapY * 4) / 2;
+                b.Width = (int)(b.Height * 1.2);
+                b.Text = "" + (i + 1);
+                b.TextAlign = ContentAlignment.MiddleCenter;
+                b.Font = new Font(this.Font.FontFamily, 10);
+                b.BackColor = buttonDefaultColor;
+                b.Tag = i;
+                if (i <= 15)
+                {
+                    b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
+                                           dayLabel.Location.Y + gapY);
+                }
+                else
+                {
+                    b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * (i - 16),
+                                           dayLabel.Location.Y + b.Height + gapY * 2);
+               }
+                b.Click += new EventHandler(DayButtonArrayClicked);
+                dayButtonArray[i] = b;
+                this.Controls.Add(b);
+            }
+
+            monthButtonArray = new Button[12];
+            for (int i = 0; i < monthButtonArray.Length; i++ )
+            {
+                Button b = new Button();
+                b.Height = monthLabel.Height - gapY * 2;
+                b.Width = (int)(b.Height * 1.6);
+                b.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Month." + (i + 1));
+                b.TextAlign = ContentAlignment.MiddleCenter;
+                b.Font = new Font(this.Font.FontFamily, 14);
+                b.BackColor = buttonDefaultColor;
+                b.Tag = i;
+                b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
+                                           monthLabel.Location.Y + gapY);
+                b.Click += new EventHandler(MonthButtonArrayClicked);
+                monthButtonArray[i] = b;
+                this.Controls.Add(b);
+            }
+
+            yearButtonArray = new Button[3];
+            int thisYear = DateTime.Now.Year;
+            thisYear = thisYear < 2500 ? thisYear + 543 : thisYear;
+
+            for (int i = 0; i < yearButtonArray.Length; i++)
+            {
+                Button b = new Button();
+                b.Height = yearLabel.Height - gapY * 2;
+                b.Width = (int)(b.Height * 2);
+                b.Text = (thisYear - (2 - i)) + "";
+                b.TextAlign = ContentAlignment.MiddleCenter;
+                b.Font = new Font(this.Font.FontFamily, 14);
+                b.BackColor = buttonDefaultColor;
+                b.Tag = i;
+                b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
+                                           yearLabel.Location.Y + gapY);
+                b.Click += new EventHandler(YearButtonArrayClicked);
+                yearButtonArray[i] = b;
+                this.Controls.Add(b);
+            }
+
+            examSeqLabel = new Label();
+            examSeqLabel.Size = new Size(dayLabel.Width, heightPerRow);
+            examSeqLabel.Location = new Point(gapX * 3, examSeqTopicLabel.Location.Y + examSeqTopicLabel.Height + gapY);
+            examSeqLabel.TextAlign = dayLabel.TextAlign;
+            examSeqLabel.Font = dayLabel.Font;
+
+            examSeqButtonArray = new Button[10];
+            for (int i = 0; i < examSeqButtonArray.Length; i++)
+            {
+                Button b = new Button();
+                b.Height = monthLabel.Height - gapY * 2;
+                b.Width = (int)(b.Height * 1.6);
+                b.Text = "" + (i + 1);
+                b.TextAlign = ContentAlignment.MiddleCenter;
+                b.Font = new Font(this.Font.FontFamily, 14);
+                b.BackColor = buttonDefaultColor;
+                b.Tag = i;
+                b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
+                                           examSeqLabel.Location.Y + gapY);
+                b.Click += new EventHandler(ExamSeqButtonArrayClicked);
+                examSeqButtonArray[i] = b;
+                this.Controls.Add(b);
+            }
+
             this.Controls.Add(courseRegisterDateTopicLabel);
             this.Controls.Add(examSeqTopicLabel);
+            this.Controls.Add(examSeqLabel);
             this.Controls.Add(dayLabel);
             this.Controls.Add(monthLabel);
             this.Controls.Add(yearLabel);
             this.Controls.Add(goToUserDetailButton);
             this.Controls.Add(backButton);
+        }
+
+        void DayButtonArrayClicked(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dayButtonArray.Length; i++)
+            {
+                dayButtonArray[i].BackColor = buttonDefaultColor;
+            }
+            int targetIdx = (int)((Button)sender).Tag;
+            dayButtonArray[targetIdx].BackColor = buttonClickColor;
+            selectedDayIndex = targetIdx;
+        }
+
+        void MonthButtonArrayClicked(object sender, EventArgs e)
+        {
+            for (int i = 0; i < monthButtonArray.Length; i++)
+            {
+                monthButtonArray[i].BackColor = buttonDefaultColor;
+            }
+            int targetIdx = (int)((Button)sender).Tag;
+            monthButtonArray[targetIdx].BackColor = buttonClickColor;
+            selectedMonthIndex = targetIdx;
+        }
+
+        void YearButtonArrayClicked(object sender, EventArgs e)
+        {
+            for (int i = 0; i < yearButtonArray.Length; i++)
+            {
+                yearButtonArray[i].BackColor = buttonDefaultColor;
+            }
+            int targetIdx = (int)((Button)sender).Tag;
+            yearButtonArray[targetIdx].BackColor = buttonClickColor;
+            selectedYearIndex = targetIdx;
+        }
+
+        void ExamSeqButtonArrayClicked(object sender, EventArgs e)
+        {
+            for (int i = 0; i < examSeqButtonArray.Length; i++)
+            {
+                examSeqButtonArray[i].BackColor = buttonDefaultColor;
+            }
+            int targetIdx = (int)((Button)sender).Tag;
+            examSeqButtonArray[targetIdx].BackColor = buttonClickColor;
+            selectedExamSeqIndex = targetIdx;
         }
 
         public void RefreshUI()
@@ -98,6 +243,7 @@ namespace HCT_Client
             goToUserDetailButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Button.Next");
             courseRegisterDateTopicLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Topic.CourseRegisterDate");
             examSeqTopicLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Topic.ExamSeq");
+            examSeqLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Label.ExamSeq");           
             dayLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Label.Day");
             monthLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Label.Month");
             yearLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Label.Year");
