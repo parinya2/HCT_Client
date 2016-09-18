@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace HCT_Client
 {
@@ -11,12 +12,14 @@ namespace HCT_Client
         private FormExecuteExam instanceFormExecuteExam;
         private FormFadeView instanceFormFadeView;
         private FormFadeView instanceFormBaseBackgroundView;
+        private FormLoadingView instanceFormLoadingView;
         private FormExamResult instanceFormExamResult;
         private FormChooseLanguage instanceFormChooseLanguage;
         private FormChooseExamCourse instanceFormChooseExamCourse;
         private FormInsertSmartCard instanceFormInsertSmartCard;
         private FormShowUserDetail instanceFormShowUserDetail;
         private FormLargeMessageBox instanceFormSystemProcessingMessageBox;
+        private FormLargeMessageBox instanceFormErrorMessageBox;
 
         private static FormsManager instance;
 
@@ -81,6 +84,15 @@ namespace HCT_Client
             return Instance.instanceFormBaseBackgroundView;
         }
 
+        public static FormLoadingView GetFormLoadingView()
+        {
+            if (Instance.instanceFormLoadingView == null)
+            {
+                Instance.instanceFormLoadingView = new FormLoadingView();
+            }
+            return Instance.instanceFormLoadingView;
+        }
+
         public static FormExamResult GetFormExamResult()
         {
             if (Instance.instanceFormExamResult == null)
@@ -125,6 +137,29 @@ namespace HCT_Client
                 Instance.instanceFormSystemProcessingMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("SystemProcessingMessageBox.Message");
             }
             return Instance.instanceFormSystemProcessingMessageBox;
+        }
+
+        public static FormLargeMessageBox GetFormErrorMessageBox(string errorCode, Form callerForm)
+        {
+            if (Instance.instanceFormErrorMessageBox == null)
+            {
+                Instance.instanceFormErrorMessageBox = new FormLargeMessageBox(0);
+                Instance.instanceFormErrorMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("ErrorMessageBox.RightButton");
+                Instance.instanceFormErrorMessageBox.rightButton.Click += new EventHandler(ErrorMessageBoxRightButtonClick);
+            }
+            Instance.instanceFormErrorMessageBox.callerForm = callerForm;
+            Instance.instanceFormErrorMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("ErrorMessageBox." + errorCode + ".Message");
+            return Instance.instanceFormErrorMessageBox;
+        }
+
+        private static void ErrorMessageBoxRightButtonClick(object sender, EventArgs e)
+        {
+            FormLargeMessageBox msgBox = (FormLargeMessageBox)(((Button)sender).FindForm());
+            msgBox.Visible = false;
+            instance.instanceFormFadeView.Visible = false;
+            msgBox.callerForm.Visible = true;
+            msgBox.callerForm.Enabled = true;
+            msgBox.callerForm.BringToFront();
         }
 
         public static FormChooseLanguage GetFormChooseLanguage()

@@ -71,6 +71,11 @@ namespace HCT_Client
 
             SetDictValueForKey("SystemProcessingMessageBox.Message", "ระบบกำลังดำเนินการ กรุณารอสักครู่ ...", "Please wait while the system is processing ...");
 
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_HTTP_TIMEOUT + ".Message", "server ไม่ตอบกลับ รอ 10 วิ แล้วกดปุ่มอีกครั้ง", "Server not response, wait 10 seconds and try again");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_99 + ".Message", "อะไรผิดซักอย่าง ติดต่อ admin นะ", "Something went wrong");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_SERVER_INTERNAL + ".Message", "server พังจากข้างใน", "Internal Server error");
+            SetDictValueForKey("ErrorMessageBox.RightButton", "ตกลง", "OK");
+
             SetDictValueForKey("NoUserPhotoMessageBox.Message", "กรุณากดปุ่ม 'ถ่ายภาพ' เพื่อถ่ายภาพของท่านก่อน จึงจะสามารถไปทำข้อสอบได้", "Please press 'Take a photo' button before you proceed.");
             SetDictValueForKey("NoUserPhotoMessageBox.RightButton", "ตกลง", "OK");
 

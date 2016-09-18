@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 
 namespace HCT_Client
 {
@@ -130,10 +131,10 @@ namespace HCT_Client
         }
 
         public void LoadExamData()
-        {
-            QuizManager.LoadQuiz();
+        {            
             quizArray = QuizManager.GetQuizArray();
             SetContentForQuizPanel(0);
+            QuizManager.SetExamStartDateTime(DateTime.Now);
 
             stopwatch = new Stopwatch(TOTAL_EXAM_TIME_SECONDS);
             stopwatch.TheTimeChanged += new Stopwatch.TimerTickHandler(StopwatchHasChanged);
@@ -413,20 +414,45 @@ namespace HCT_Client
         {
             stopwatch.stopRunning();
 
-            WebServiceManager.GetEExamResultFromServer();
+            QuizManager.SetExamEndDateTime(DateTime.Now);
 
+            FormsManager.GetFormLoadingView().ShowLoadingView(true);
+            BackgroundWorker bw = new BackgroundWorker();
+            string status = "";
+            bw.DoWork += new DoWorkEventHandler(
+                delegate(object o, DoWorkEventArgs args)
+                {
+                    Thread.Sleep(10);
+                    status = WebServiceManager.GetEExamResultFromServer();
+                }
+             );
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+                delegate(object o, RunWorkerCompletedEventArgs args)
+                {
+                    FormsManager.GetFormLoadingView().ShowLoadingView(false);
+                    if (status.Equals(WebServiceResultStatus.SUCCESS))
+                    {
+                        FormExamResult instanceFormExamResult = FormsManager.GetFormExamResult();
+                        instanceFormExamResult.RefreshUI();
+                        instanceFormExamResult.Visible = true;
+                        instanceFormExamResult.BringToFront();
+                        instanceFormExamResult.calculateScore();
 
-
-            FormExamResult instanceFormExamResult = FormsManager.GetFormExamResult();
-            instanceFormExamResult.RefreshUI();
-            instanceFormExamResult.Visible = true;
-            instanceFormExamResult.BringToFront();
-            instanceFormExamResult.calculateScore();
-
-            this.Visible = false;
-            fadeForm.Visible = false;
-            timeoutMessageBox.Visible = false;
-            quizNotCompletedMessageBox.Visible = false;
+                        this.Visible = false;
+                        fadeForm.Visible = false;
+                        timeoutMessageBox.Visible = false;
+                        quizNotCompletedMessageBox.Visible = false;
+                    }
+                    else
+                    {
+                        FormLargeMessageBox errorFormMessageBox = FormsManager.GetFormErrorMessageBox(status, this);
+                        Point centerPoint = new Point((SCREEN_WIDTH - errorFormMessageBox.Width) / 2,
+                                                      (SCREEN_HEIGHT - errorFormMessageBox.Height) / 2);
+                        errorFormMessageBox.ShowMessageBoxAtLocation(centerPoint);
+                    }
+                }
+            );
+            bw.RunWorkerAsync();
         }
 
         void GoToFormChooseLanguage()

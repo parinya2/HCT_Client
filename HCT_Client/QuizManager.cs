@@ -35,6 +35,8 @@ namespace HCT_Client
         QuizResult quizResult;
         string examCourseCode; // 201 = Car , 301 = Motorcycle
         string paperTestNumber; // หมายเลขชุดข้อสอบ
+        DateTime examStartDateTime;
+        DateTime examEndDateTime;
         SingleQuizObject[] quizArray;
 
         private static QuizManager instance;
@@ -64,9 +66,10 @@ namespace HCT_Client
             }
         }
 
-        public static void LoadQuiz()
+        public static string LoadQuiz()
         {
-            WebServiceManager.GetEExamQuestionFromServer();
+            string status = WebServiceManager.GetEExamQuestionFromServer();
+            return status;
         }
 
         private static void MockQuiz()
@@ -161,6 +164,26 @@ namespace HCT_Client
                 instance.quizResult = new QuizResult();
             }
             return instance.quizResult;
+        }
+
+        public static void SetExamStartDateTime(DateTime dt)
+        {
+            instance.examStartDateTime = dt;
+        }
+
+        public static DateTime GetExamStartDateTime()
+        {
+            return instance.examStartDateTime;
+        }
+
+        public static void SetExamEndDateTime(DateTime dt)
+        {
+            instance.examEndDateTime = dt;
+        }
+
+        public static DateTime GetExamEndDateTime()
+        {
+            return instance.examEndDateTime;
         }
     }
 }

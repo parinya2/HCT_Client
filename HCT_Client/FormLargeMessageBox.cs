@@ -11,6 +11,7 @@ namespace HCT_Client
 {
     public partial class FormLargeMessageBox : Form
     {
+        public Form callerForm;
         public Button leftButton;
         public Button rightButton;
         public Label messageLabel;
@@ -87,9 +88,10 @@ namespace HCT_Client
 
         public void ShowMessageBoxAtLocation(Point location)
         {
+            FormsManager.GetFormFadeView().Visible = true;
             this.BringToFront();
             this.Visible = true;          
-            this.Location = location;
+            this.Location = location;                   
         }
     }
 }

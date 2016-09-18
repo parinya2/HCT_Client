@@ -120,14 +120,28 @@ namespace HCT_Client
                 }                
             }
 
+            DateTime st = QuizManager.GetExamStartDateTime();
+            DateTime et = QuizManager.GetExamEndDateTime();
+            string examStartStr = (st.Day < 10 ? "0" + st.Day : "" + st.Day) + "/" + (st.Month < 10 ? "0" + st.Month : "" + st.Month) + "/" +
+                                  (st.Year < 2500 ? "" + (st.Year + 543) : "" + st.Year) + " " +
+                                  (st.Hour < 10 ? "0" + st.Hour : "" + st.Hour) + ":" +
+                                  (st.Minute < 10 ? "0" + st.Minute : "" + st.Minute) + ":" +
+                                  (st.Second < 10 ? "0" + st.Second : "" + st.Second);
+
+            string examEndStr = (et.Day < 10 ? "0" + et.Day : "" + et.Day) + "/" + (et.Month < 10 ? "0" + et.Month : "" + et.Month) + "/" +
+                                  (et.Year < 2500 ? "" + (et.Year + 543) : "" + et.Year) + " " +
+                                  (et.Hour < 10 ? "0" + et.Hour : "" + et.Hour) + ":" +
+                                  (et.Minute < 10 ? "0" + et.Minute : "" + et.Minute) + ":" +
+                                  (et.Second < 10 ? "0" + et.Second : "" + et.Second);
+
             string soapContent = UtilSOAP.GetSoapXmlTemplate_CheckEExamResult();
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());            
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDate());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), "14/09/2559 22:10:10");
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(7), "14/09/2559 22:40:10");
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), examStartStr);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(7), examEndStr);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(8), QuizManager.GetPaperTestNumber());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(9), QuizManager.GetExamCourseCode());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(10), quizCodeParamArray[0]);
@@ -385,7 +399,6 @@ namespace HCT_Client
         {
             HttpWebResponse httpResponse = null;
             Stream responseStream = null;
-            StreamReader responseStreamReader = null;
 
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(new Uri(DLT_WEB_SERVICE_URI));
             httpRequest.Method = "POST";
@@ -437,7 +450,6 @@ namespace HCT_Client
             finally
             {
                 if(httpResponse != null)            httpResponse.Close();
-                if(responseStreamReader != null)    responseStreamReader.Close();
                 if(responseStream != null)          responseStream.Close();              
             }
         }

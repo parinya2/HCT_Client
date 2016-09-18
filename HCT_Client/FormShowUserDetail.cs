@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace HCT_Client
 {
@@ -276,16 +277,43 @@ namespace HCT_Client
         {
             StopWebcam();
 
-            FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
-            instanceFormExecuteExam.LoadExamData();
-            instanceFormExecuteExam.Visible = true;
-            instanceFormExecuteExam.Enabled = true;
-            instanceFormExecuteExam.RefreshUI();
-            instanceFormExecuteExam.BringToFront();
-            
-            this.Visible = false;
-            fadeForm.Visible = false;
-            goToExamMessageBox.Visible = false;
+            FormsManager.GetFormLoadingView().ShowLoadingView(true);
+            BackgroundWorker bw = new BackgroundWorker();
+            string status = "";
+            bw.DoWork += new DoWorkEventHandler(
+                delegate(object o, DoWorkEventArgs args)
+                {
+                    Thread.Sleep(100);
+                    status = QuizManager.LoadQuiz();                    
+                }
+             );
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+                delegate(object o, RunWorkerCompletedEventArgs args)
+                {
+                    FormsManager.GetFormLoadingView().ShowLoadingView(false);
+                    if (status.Equals(WebServiceResultStatus.SUCCESS))
+                    {
+                        FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
+                        instanceFormExecuteExam.LoadExamData();
+                        instanceFormExecuteExam.Visible = true;
+                        instanceFormExecuteExam.Enabled = true;
+                        instanceFormExecuteExam.RefreshUI();
+                        instanceFormExecuteExam.BringToFront();
+
+                        this.Visible = false;
+                        fadeForm.Visible = false;
+                        goToExamMessageBox.Visible = false;
+                    }
+                    else
+                    {
+                        FormLargeMessageBox errorFormMessageBox = FormsManager.GetFormErrorMessageBox(status, this);
+                        Point centerPoint = new Point((SCREEN_WIDTH - errorFormMessageBox.Width) / 2,
+                                                      (SCREEN_HEIGHT - errorFormMessageBox.Height) / 2);
+                        errorFormMessageBox.ShowMessageBoxAtLocation(centerPoint);
+                    }
+                }
+            );
+            bw.RunWorkerAsync();
         }
 
         void GoToPreviousForm()
