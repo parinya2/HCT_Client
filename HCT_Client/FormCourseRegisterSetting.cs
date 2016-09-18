@@ -31,6 +31,7 @@ namespace HCT_Client
         Color buttonDefaultColor = Color.White;
 
         FormLargeMessageBox dataMissingMessageBox;
+        BlinkButtonSignalClock blinkButtonSignalClock;
 
         int selectedDayIndex = -1;
         int selectedMonthIndex = -1;
@@ -41,11 +42,15 @@ namespace HCT_Client
         {
             InitializeComponent();
 
+            RenderUI();
+
             dataMissingMessageBox = new FormLargeMessageBox(0);
             dataMissingMessageBox.Visible = false;
-            dataMissingMessageBox.rightButton.Click += new EventHandler(DataMissingMessageBoxRightButtonClicked);          
+            dataMissingMessageBox.rightButton.Click += new EventHandler(DataMissingMessageBoxRightButtonClicked);
 
-            RenderUI();
+            blinkButtonSignalClock = new BlinkButtonSignalClock();
+            blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged);
+    
         }
 
         private void RenderUI()
@@ -265,7 +270,27 @@ namespace HCT_Client
 
             dataMissingMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("CourseRegisterDataMissingMessageBox.Message");
             dataMissingMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("CourseRegisterDataMissingMessageBox.RightButton");
-        
+
+            if (selectedDayIndex != -1)
+            {
+                dayButtonArray[selectedDayIndex].BackColor = buttonDefaultColor;
+                selectedDayIndex = -1;
+            }
+            if (selectedMonthIndex != -1)
+            {
+                monthButtonArray[selectedMonthIndex].BackColor = buttonDefaultColor;
+                selectedMonthIndex = -1;
+            }
+            if (selectedYearIndex != -1)
+            {
+                yearButtonArray[selectedYearIndex].BackColor = buttonDefaultColor;
+                selectedYearIndex = -1;
+            }
+            if (selectedExamSeqIndex != -1)
+            {
+                examSeqButtonArray[selectedExamSeqIndex].BackColor = buttonDefaultColor;
+                selectedExamSeqIndex = -1;
+            }
         }
 
         void GoToUserDetailButtonClicked(object sender, EventArgs e)
@@ -342,6 +367,20 @@ namespace HCT_Client
             instanceFormChooseExamCourse.RefreshUI();
             instanceFormChooseExamCourse.BringToFront();
             this.Visible = false;
+        }
+
+        protected void BlinkButtonSignalClockHasChanged(int state)
+        {
+            bool isDataComplete = selectedDayIndex >= 0 && selectedMonthIndex >= 0 &&
+                                  selectedYearIndex >= 0 && selectedExamSeqIndex >= 0;
+            if (isDataComplete)
+            {
+                goToUserDetailButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            }
+            else
+            {
+                goToUserDetailButton.BackColor = Color.White;
+            }
         }
     }
 }
