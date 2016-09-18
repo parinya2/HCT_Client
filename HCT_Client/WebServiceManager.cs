@@ -81,6 +81,10 @@ namespace HCT_Client
                 else
                 {
                     ExtractQuizFromXMLBytes(responseBytes);
+                    if (QuizManager.GetQuizArray().Length == 0)
+                    {
+                        return WebServiceResultStatus.ERROR_LOAD_EEXAM_EMPTY_RESPONSE;
+                    }
                     return WebServiceResultStatus.SUCCESS;
                 }
             }
@@ -468,6 +472,7 @@ namespace HCT_Client
 
         public const string ERROR_STUDENT_DETAIL_NOT_FOUND = "ERROR_FindStudentDetailWebService_StudentNotFound";
         public const string ERROR_CANNOT_LOAD_EEXAM = "ERROR_CannotLoadEExam";
+        public const string ERROR_LOAD_EEXAM_EMPTY_RESPONSE = "ERROR_LoadEExamEmptyResponse";
         public const string ERROR_CANNOT_CHECK_EEXAM_RESULT = "ERROR_CannotCheckEExamResult";
         
 

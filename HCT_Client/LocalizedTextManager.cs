@@ -93,10 +93,11 @@ namespace HCT_Client
 
             SetDictValueForKey("SystemProcessingMessageBox.Message", "ระบบกำลังดำเนินการ กรุณารอสักครู่ ...", "Please wait while the system is processing ...");
 
-            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_HTTP_TIMEOUT + ".Message", "server ไม่ตอบกลับ รอ 10 วิ แล้วกดปุ่มอีกครั้ง", "Server not response, wait 10 seconds and try again");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_HTTP_TIMEOUT + ".Message", "server ไม่ตอบกลับ กรุณารอ 10 วินาที แล้วลองอีกครั้ง", "Server did not response, wait 10 seconds and try again");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_99 + ".Message", "อะไรผิดซักอย่าง ติดต่อ admin นะ", "Something went wrong");
-            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_STUDENT_DETAIL_NOT_FOUND + ".Message", "ไม่พบชื่อผู้สอบในรายชื่อผู้มีสิทธิ์สอบ กรุณาติดต่อเจ้าหน้าที่", "Student name not found. Please contact officer.");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_STUDENT_DETAIL_NOT_FOUND + ".Message", "ไม่พบชื่อของท่านในรายชื่อผู้มีสิทธิ์สอบ กรุณาติดต่อเจ้าหน้าที่", "Your name was not found in students list. Please contact officer.");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_SERVER_INTERNAL + ".Message", "server พังจากข้างใน", "Internal Server error");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_LOAD_EEXAM_EMPTY_RESPONSE + ".Message", "server ส่ง response ว่างเปล่ากลับมาให้", "Server returned empty response");
             SetDictValueForKey("ErrorMessageBox.RightButton", "ตกลง", "OK");
 
             SetDictValueForKey("NoUserPhotoMessageBox.Message", "กรุณากดปุ่ม 'ถ่ายภาพ' เพื่อถ่ายภาพของท่านก่อน จึงจะสามารถไปทำข้อสอบได้", "Please press 'Take a photo' button before you proceed.");
