@@ -190,8 +190,7 @@ namespace HCT_Client
 
         void GoToExamButtonClicked(object sender, EventArgs e)
         {
-            fadeForm.Visible = true;
-            fadeForm.BringToFront();
+            fadeForm.ShowFadeView(true);
 
             bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
             if (hasUserPhoto)
@@ -223,7 +222,7 @@ namespace HCT_Client
         void NoUserPhotoMessageBoxRightButtonClicked(object sender, EventArgs e)
         {
             noUserPhotoMessageBox.Visible = false;
-            fadeForm.Visible = false;
+            fadeForm.ShowFadeView(false);
             this.Visible = true;
             this.Enabled = true;
             this.BringToFront();
@@ -232,7 +231,7 @@ namespace HCT_Client
         void GoToExamMessageBoxLeftButtonClicked(object sender, EventArgs e)
         {
             goToExamMessageBox.Visible = false;
-            fadeForm.Visible = false;
+            fadeForm.ShowFadeView(false);
             this.Visible = true;
             this.Enabled = true;
             this.BringToFront();
@@ -319,11 +318,11 @@ namespace HCT_Client
         void GoToPreviousForm()
         {
             StopWebcam();
-            FormChooseExamCourse instanceFormChooseExamCourse = FormsManager.GetFormChooseExamCourse();
-            instanceFormChooseExamCourse.Visible = true;
-            instanceFormChooseExamCourse.Enabled = true;
-            instanceFormChooseExamCourse.RefreshUI();
-            instanceFormChooseExamCourse.BringToFront();
+            FormCourseRegisterSetting instanceFormCourseRegisterSetting = FormsManager.GetFormCourseRegisterSetting();
+            instanceFormCourseRegisterSetting.Visible = true;
+            instanceFormCourseRegisterSetting.Enabled = true;
+            instanceFormCourseRegisterSetting.RefreshUI();
+            instanceFormCourseRegisterSetting.BringToFront();
             this.Visible = false;
         }
 

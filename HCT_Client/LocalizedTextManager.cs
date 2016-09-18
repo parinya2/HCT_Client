@@ -95,11 +95,15 @@ namespace HCT_Client
 
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_HTTP_TIMEOUT + ".Message", "server ไม่ตอบกลับ รอ 10 วิ แล้วกดปุ่มอีกครั้ง", "Server not response, wait 10 seconds and try again");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_99 + ".Message", "อะไรผิดซักอย่าง ติดต่อ admin นะ", "Something went wrong");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_STUDENT_DETAIL_NOT_FOUND + ".Message", "ไม่พบชื่อผู้สอบในรายชื่อผู้มีสิทธิ์สอบ กรุณาติดต่อเจ้าหน้าที่", "Student name not found. Please contact officer.");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_SERVER_INTERNAL + ".Message", "server พังจากข้างใน", "Internal Server error");
             SetDictValueForKey("ErrorMessageBox.RightButton", "ตกลง", "OK");
 
             SetDictValueForKey("NoUserPhotoMessageBox.Message", "กรุณากดปุ่ม 'ถ่ายภาพ' เพื่อถ่ายภาพของท่านก่อน จึงจะสามารถไปทำข้อสอบได้", "Please press 'Take a photo' button before you proceed.");
             SetDictValueForKey("NoUserPhotoMessageBox.RightButton", "ตกลง", "OK");
+
+            SetDictValueForKey("CourseRegisterDataMissingMessageBox.Message", "กรุณาระบุข้อมูลวันที่สมัครเรียนและครั้งทีสอบให้ครบถ้วนก่อน", "Please complete all necessary information.");
+            SetDictValueForKey("CourseRegisterDataMissingMessageBox.RightButton", "ตกลง", "OK");
 
             SetDictValueForKey("FormExamResult.FinishButton", "พิมพ์ผลสอบ", "Print Exam Result");
             SetDictValueForKey("FormExamResult.ViewAnswer", "ดูเฉลย", "View Answer");

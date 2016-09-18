@@ -30,6 +30,8 @@ namespace HCT_Client
         Color buttonClickColor = Color.Orange;
         Color buttonDefaultColor = Color.White;
 
+        FormLargeMessageBox dataMissingMessageBox;
+
         int selectedDayIndex = -1;
         int selectedMonthIndex = -1;
         int selectedYearIndex = -1;
@@ -38,6 +40,10 @@ namespace HCT_Client
         public FormCourseRegisterSetting()
         {
             InitializeComponent();
+
+            dataMissingMessageBox = new FormLargeMessageBox(0);
+            dataMissingMessageBox.Visible = false;
+            dataMissingMessageBox.rightButton.Click += new EventHandler(DataMissingMessageBoxRightButtonClicked);          
 
             RenderUI();
         }
@@ -237,6 +243,15 @@ namespace HCT_Client
             selectedExamSeqIndex = targetIdx;
         }
 
+        void DataMissingMessageBoxRightButtonClicked(object sender, EventArgs e)
+        {
+            dataMissingMessageBox.Visible = false;
+            FormsManager.GetFormFadeView().ShowFadeView(false);
+            this.Visible = true;
+            this.Enabled = true;
+            this.BringToFront();
+        }
+
         public void RefreshUI()
         {
             backButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Button.GoBack");
@@ -247,12 +262,25 @@ namespace HCT_Client
             dayLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Label.Day");
             monthLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Label.Month");
             yearLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Label.Year");
-           
+
+            dataMissingMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("CourseRegisterDataMissingMessageBox.Message");
+            dataMissingMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("CourseRegisterDataMissingMessageBox.RightButton");
+        
         }
 
         void GoToUserDetailButtonClicked(object sender, EventArgs e)
         {
-            GoToNextForm();
+            if (selectedDayIndex >= 0 && selectedMonthIndex >= 0 &&
+                selectedYearIndex >= 0 && selectedExamSeqIndex >= 0)
+            {
+                GoToNextForm();
+            }
+            else
+            {
+                Point centerPoint = new Point((SCREEN_WIDTH - dataMissingMessageBox.Width) / 2,
+                                              (SCREEN_HEIGHT - dataMissingMessageBox.Height) / 2);
+                dataMissingMessageBox.ShowMessageBoxAtLocation(centerPoint);
+            }            
         }
 
         void BackButtonClicked(object sender, EventArgs e)
@@ -262,6 +290,15 @@ namespace HCT_Client
 
         void GoToNextForm()
         {
+            string dayStr = (selectedDayIndex + 1 < 10) ? "0" + (selectedDayIndex + 1) : "" + (selectedDayIndex + 1);
+            string monthStr = (selectedMonthIndex + 1 < 10) ? "0" + (selectedMonthIndex + 1) : "" + (selectedMonthIndex + 1);
+            string yearStr = yearButtonArray[selectedYearIndex].Text;
+            string dateStr = dayStr + "/" + monthStr + "/" + yearStr;
+            string examSeqStr = "" + (selectedExamSeqIndex + 1);
+
+            UserProfileManager.SetCourseRegisterDate(dateStr);
+            UserProfileManager.SetExamSeq(examSeqStr);
+
             FormsManager.GetFormLoadingView().ShowLoadingView(true);
             BackgroundWorker bw = new BackgroundWorker();
             string status = "";

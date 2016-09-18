@@ -34,5 +34,14 @@ namespace HCT_Client
             }
             base.DefWndProc(ref m);
         }
+
+        public void ShowFadeView(bool flag)
+        {
+            this.Visible = flag;
+            if (flag)
+            {
+                this.BringToFront();
+            }
+        }
     }
 }
