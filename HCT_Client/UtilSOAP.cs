@@ -35,6 +35,11 @@ namespace HCT_Client
             return GetSoapXmlTemplate("CheckEExamResultSOAP");
         }
 
+        public static string GetSoapXmlTemplate_CheckEExamCorrectAnswer()
+        {
+            return GetSoapXmlTemplate("CheckEExamCorrectAnswerSOAP");
+        }
+
         private static string GetSoapXmlTemplate(string soapTemplateName)
         {
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();

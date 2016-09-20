@@ -14,15 +14,27 @@ namespace HCT_Client
         Motorcycle
     };
 
+    public enum QuizResultPassFlag
+    {
+        None,
+        Pass,
+        Fail
+    };
+
     public class QuizResult
     {
-        string passFlag;
-        int quizScore;
+        public QuizResultPassFlag passFlag;
+        public string quizScore;
 
         public QuizResult()
         {
-            passFlag = null;
-            quizScore = -1;
+            ClearAll();
+        }
+
+        public void ClearAll()
+        {
+            passFlag = QuizResultPassFlag.None;
+            quizScore = null;
         }
     }
 
@@ -189,7 +201,7 @@ namespace HCT_Client
             instance.examEndDateTime = DateTime.Now;
             instance.paperTestNumber = null;
             instance.quizArray = null;
-            instance.quizResult = null;
+            instance.quizResult = null;            
         }
     }
 }

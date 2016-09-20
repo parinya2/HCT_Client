@@ -18,8 +18,6 @@ namespace HCT_Client
         BlinkButtonSignalClock blinkButtonSignalClock;
         FormLargeMessageBox finishExamMessageBox;
         FormFadeView fadeForm;
-        int SCORE_TO_PASS = 40;
-        int score;
 
         public FormExamResult()
         {
@@ -83,31 +81,27 @@ namespace HCT_Client
             finishExamMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FinishExamMessageBox.RightButton");
         }
 
-        public void calculateScore()
+        public void displayScore()
         {
-            score = 0;
-            SingleQuizObject[] quizArray = QuizManager.GetQuizArray();
-            for (int i = 0; i < quizArray.Length; i++)
-            {
-                SingleQuizObject obj = quizArray[i];
-                if (obj.selectedChoice == obj.correctChoice)
-                {
-                    score++;
-                }
-            }
+            QuizResult quizResult = QuizManager.GetQuizResult();
 
-            if (score >= SCORE_TO_PASS)
+            if (quizResult.passFlag == QuizResultPassFlag.Pass)
             {
                 passOrFailLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.PassExam");
                 passOrFailLabel.ForeColor = Color.LightSeaGreen;
             }
-            else
+            else if (quizResult.passFlag == QuizResultPassFlag.Fail)
             {
                 passOrFailLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.FailExam");
                 passOrFailLabel.ForeColor = Color.Red;
             }
+            else
+            {
+                passOrFailLabel.Text = "-";
+                passOrFailLabel.ForeColor = Color.Black;           
+            }
 
-            scoreLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.ScoreText") + " " + score + " / " + quizArray.Length;
+            scoreLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.ScoreText") + " " + quizResult.quizScore + " / " + QuizManager.GetQuizArray().Length;
         }
 
         void GenerateExamResultDocument()
@@ -120,13 +114,20 @@ namespace HCT_Client
             string dateString = DateTime.Now.ToString("d/MM/yyyy");
             string passOrFail = "";
 
-            if (score >= SCORE_TO_PASS)
+            QuizResult quizResult = QuizManager.GetQuizResult();
+            int quizCount = QuizManager.GetQuizArray().Length;
+
+            if (quizResult.passFlag == QuizResultPassFlag.Pass)
             {
-                passOrFail = "สอบผ่าน ( ได้คะแนน " + score + " / " + "50 )";
+                passOrFail = "สอบผ่าน ( ได้คะแนน " + quizResult.quizScore + " / " + quizCount + " )";
+            }
+            else if (quizResult.passFlag == QuizResultPassFlag.Fail)
+            {
+                passOrFail = "สอบไม่ผ่าน ( ได้คะแนน " + quizResult.quizScore + " / " + quizCount + " )";
             }
             else
             {
-                passOrFail = "สอบไม่ผ่าน ( ได้คะแนน " + score + " / " + "50 )";
+                passOrFail = "เกิดความผิดพลาดบางอย่าง กรุณาติดต่อผู้ดูแลระบบ";
             }
 
             string emailBody = "นี่คือผลการสอบของ " + fullname + " ณ วันที่ " + dateString + 

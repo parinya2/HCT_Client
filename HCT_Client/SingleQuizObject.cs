@@ -20,6 +20,7 @@ namespace HCT_Client
         public string quizCode;
         public Bitmap quizImage;
         public SingleChoiceObject[] choiceObjArray;
+        public SingleChoiceObject correctChoiceObject;
         public int correctChoice;
         public int selectedChoice;
 

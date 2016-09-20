@@ -436,7 +436,7 @@ namespace HCT_Client
                         instanceFormExamResult.RefreshUI();
                         instanceFormExamResult.Visible = true;
                         instanceFormExamResult.BringToFront();
-                        instanceFormExamResult.calculateScore();
+                        instanceFormExamResult.displayScore();
 
                         this.Visible = false;
                         fadeForm.Visible = false;

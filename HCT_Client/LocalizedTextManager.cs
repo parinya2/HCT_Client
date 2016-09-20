@@ -97,7 +97,8 @@ namespace HCT_Client
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_99 + ".Message", "อะไรผิดซักอย่าง ติดต่อ admin นะ", "Something went wrong");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_STUDENT_DETAIL_NOT_FOUND + ".Message", "ไม่พบชื่อของท่านในรายชื่อผู้มีสิทธิ์สอบ กรุณาติดต่อเจ้าหน้าที่", "Your name was not found in students list. Please contact officer.");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_SERVER_INTERNAL + ".Message", "server พังจากข้างใน", "Internal Server error");
-            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_LOAD_EEXAM_EMPTY_RESPONSE + ".Message", "server ส่ง response ว่างเปล่ากลับมาให้", "Server returned empty response");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_LOAD_EEXAM_EMPTY_RESPONSE + ".Message", "server ส่ง response ว่างเปล่าของ findEExamQuestion กลับมาให้", "Server returned empty response");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_CHECK_EEXAM_RESULT_EMPTY_RESPONSE + ".Message", "server ส่ง response ว่างเปล่าของ checkEExamResult กลับมาให้", "Server returned empty response");
             SetDictValueForKey("ErrorMessageBox.RightButton", "ตกลง", "OK");
 
             SetDictValueForKey("NoUserPhotoMessageBox.Message", "กรุณากดปุ่ม 'ถ่ายภาพ' เพื่อถ่ายภาพของท่านก่อน จึงจะสามารถไปทำข้อสอบได้", "Please press 'Take a photo' button before you proceed.");

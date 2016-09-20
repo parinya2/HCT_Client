@@ -160,7 +160,7 @@ namespace HCT_Client
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(19), choiceCodeParamArray[4]);
 
             byte[] responseBytes = SendSoapRequestToWebService(soapContent);
-
+           // File.WriteAllText(@"C:\Users\PRINYA\Desktop\XXXsoap.txt", soapContent);
             if (WebServiceResultStatus.IsErrorBytesCode(responseBytes))
             {
                 string errorCode = WebServiceResultStatus.GetErrorStringFromBytesCode(responseBytes);
@@ -177,8 +177,48 @@ namespace HCT_Client
                 else
                 {
                     ExtractExamResultFromXMLString(responseStr);
+
+                    if (QuizManager.GetQuizResult().passFlag == QuizResultPassFlag.None ||
+                        QuizManager.GetQuizResult().quizScore == null)
+                    {
+                        return WebServiceResultStatus.ERROR_CHECK_EEXAM_RESULT_EMPTY_RESPONSE;
+                    }
                     return WebServiceResultStatus.SUCCESS;
                 }
+            }
+        }
+
+        public static string GetEExamCorrectAnswerFromServer(string paperQuestNo)
+        {
+            string soapContent = UtilSOAP.GetSoapXmlTemplate_FindStudentDetail();
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDate());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), paperQuestNo);
+
+            byte[] responseBytes = SendSoapRequestToWebService(soapContent);
+            if (WebServiceResultStatus.IsErrorBytesCode(responseBytes))
+            {
+                string errorCode = WebServiceResultStatus.GetErrorStringFromBytesCode(responseBytes);
+                return errorCode;
+            }
+            else
+            {
+                return WebServiceResultStatus.SUCCESS;
+                // TODO
+                /*string responseStr = Encoding.UTF8.GetString(responseBytes);
+                string paperTestNo = ExtractValueInsideXMLTag(responseStr, PAPER_TEST_NUMBER_XML_TAG_INSIDE);
+                if (paperTestNo == null)
+                {
+                    return WebServiceResultStatus.ERROR_STUDENT_DETAIL_NOT_FOUND;
+                }
+                else
+                {
+                    QuizManager.SetPaperTestNumber(paperTestNo);
+                    return WebServiceResultStatus.SUCCESS;
+                }*/
             }
         }
 
@@ -377,6 +417,41 @@ namespace HCT_Client
         private static void ExtractExamResultFromXMLString(string content)
         {
             Console.WriteLine("Exam Result = " + content);
+
+            string SCORE_TAG = "score";
+            string SCORE_DESC_TAG = "scoreDesc";
+            string TEST_RESULT_TAG = "testResult";
+            string SCORE_STATUS_CORRECT = "1";
+
+            if (!(content.Contains(SCORE_TAG) && content.Contains(SCORE_DESC_TAG) && content.Contains(TEST_RESULT_TAG)))
+            {
+                return;
+            }
+
+            string scoreStr = ExtractValueInsideXMLTag(content, SCORE_TAG);
+            string scoreDescStr = ExtractValueInsideXMLTag(content, SCORE_DESC_TAG);
+            string testResultStr = ExtractValueInsideXMLTag(content, TEST_RESULT_TAG);
+
+            QuizResult quizResultObj = QuizManager.GetQuizResult();
+            quizResultObj.quizScore = scoreStr;
+
+            if (testResultStr.Equals("Y"))      quizResultObj.passFlag = QuizResultPassFlag.Pass;
+            else if (testResultStr.Equals("N")) quizResultObj.passFlag = QuizResultPassFlag.Fail;
+            else                                quizResultObj.passFlag = QuizResultPassFlag.None;
+
+            string[] scoreDescArr = scoreDescStr.Split('|');
+            if (scoreDescArr.Length == QuizManager.GetQuizArray().Length)
+            {
+                for (int i = 0; i < scoreDescArr.Length; i++)
+                {
+                    SingleQuizObject quizObj = QuizManager.GetQuizArray()[i];
+                    string scoreStatus = scoreDescArr[i];
+                    if (scoreStatus.Equals(SCORE_STATUS_CORRECT))
+                    {
+                        quizObj.correctChoice = quizObj.selectedChoice;
+                    }
+                }
+            }
         }
 
         private static string ExtractValueInsideXMLTag(string content, string xmlTag)
@@ -471,10 +546,12 @@ namespace HCT_Client
         public const string ERROR_99 = "ERROR_99";
 
         public const string ERROR_STUDENT_DETAIL_NOT_FOUND = "ERROR_FindStudentDetailWebService_StudentNotFound";
+       
         public const string ERROR_CANNOT_LOAD_EEXAM = "ERROR_CannotLoadEExam";
         public const string ERROR_LOAD_EEXAM_EMPTY_RESPONSE = "ERROR_LoadEExamEmptyResponse";
-        public const string ERROR_CANNOT_CHECK_EEXAM_RESULT = "ERROR_CannotCheckEExamResult";
         
+        public const string ERROR_CANNOT_CHECK_EEXAM_RESULT = "ERROR_CannotCheckEExamResult";
+        public const string ERROR_CHECK_EEXAM_RESULT_EMPTY_RESPONSE = "ERROR_CheckEExamResultEmptyResponse";
 
         public static bool IsErrorCode(string code)
         {
