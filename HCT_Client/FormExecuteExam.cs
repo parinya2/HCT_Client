@@ -410,7 +410,7 @@ namespace HCT_Client
             }                   
         }
 
-        void GoToFormExamResult()
+        public void GoToFormExamResult()
         {
             stopwatch.stopRunning();
 

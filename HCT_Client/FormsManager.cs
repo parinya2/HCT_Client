@@ -159,6 +159,7 @@ namespace HCT_Client
             }
             Instance.instanceFormErrorMessageBox.callerForm = callerForm;
             Instance.instanceFormErrorMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("ErrorMessageBox." + errorCode + ".Message");
+            Instance.instanceFormErrorMessageBox.errorCode = errorCode;
             return Instance.instanceFormErrorMessageBox;
         }
 
@@ -170,6 +171,24 @@ namespace HCT_Client
             msgBox.callerForm.Visible = true;
             msgBox.callerForm.Enabled = true;
             msgBox.callerForm.BringToFront();
+
+            if (msgBox.callerForm.GetType() == typeof(FormCourseRegisterSetting) && msgBox.errorCode != null
+                && msgBox.errorCode.Equals(WebServiceResultStatus.ERROR_HTTP_TIMEOUT))
+            {
+                ((FormCourseRegisterSetting)(msgBox.callerForm)).GoToNextForm();
+            }
+            else if (msgBox.callerForm.GetType() == typeof(FormShowUserDetail) && msgBox.errorCode != null
+                 && msgBox.errorCode.Equals(WebServiceResultStatus.ERROR_HTTP_TIMEOUT))
+            {
+                ((FormShowUserDetail)(msgBox.callerForm)).GoToNextForm();
+            }
+            else if (msgBox.callerForm.GetType() == typeof(FormExecuteExam) && msgBox.errorCode != null
+                 && msgBox.errorCode.Equals(WebServiceResultStatus.ERROR_HTTP_TIMEOUT))
+            {
+                ((FormExecuteExam)(msgBox.callerForm)).GoToFormExamResult();
+            }
+
+            msgBox.errorCode = null;
         }
 
         public static FormChooseLanguage GetFormChooseLanguage()

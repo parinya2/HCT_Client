@@ -272,7 +272,7 @@ namespace HCT_Client
             webcamCapture.Stop();
         }
 
-        void GoToNextForm()
+        public void GoToNextForm()
         {
             StopWebcam();
 

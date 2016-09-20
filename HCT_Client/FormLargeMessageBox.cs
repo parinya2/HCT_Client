@@ -11,6 +11,7 @@ namespace HCT_Client
 {
     public partial class FormLargeMessageBox : Form
     {
+        public string errorCode;
         public Form callerForm;
         public Button leftButton;
         public Button rightButton;

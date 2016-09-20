@@ -313,7 +313,7 @@ namespace HCT_Client
             GoToPreviousForm();
         }
 
-        void GoToNextForm()
+        public void GoToNextForm()
         {
             string dayStr = (selectedDayIndex + 1 < 10) ? "0" + (selectedDayIndex + 1) : "" + (selectedDayIndex + 1);
             string monthStr = (selectedMonthIndex + 1 < 10) ? "0" + (selectedMonthIndex + 1) : "" + (selectedMonthIndex + 1);
