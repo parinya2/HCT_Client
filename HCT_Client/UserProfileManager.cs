@@ -123,7 +123,10 @@ namespace HCT_Client
 
         public static void FillUserProfileWithMockData()
         {
-            instance.citizenID = "4234411056241";
+            if (GlobalData.tmpRount == 0)   instance.citizenID = "4234411056241";
+            else if (GlobalData.tmpRount == 1) instance.citizenID = "5006812126765";
+            else instance.citizenID = "5852730731141";
+
             instance.fullnameTH = "นายณัฐภัทร์ บัวทอง";
             instance.address = "123 ซ.สุขุมวิท 33 กทม. 10120";
             instance.courseRegisterDate = "14/09/2559";
@@ -135,6 +138,13 @@ namespace HCT_Client
             string[] fields = NIDData.Split('#');
 
             instance.citizenID = fields[(int)NID_FIELD.NID_Number];
+
+            if (CardReaderManager.cardReaderMode == CardReaderMode.HALF_BYPASS)
+            {
+                if (GlobalData.tmpRount == 0) instance.citizenID = "4234411056241";
+                else if (GlobalData.tmpRount == 1) instance.citizenID = "5006812126765";
+                else instance.citizenID = "5852730731141";
+            }
 
             instance.fullnameTH = fields[(int)NID_FIELD.TITLE_T] + " " +
                                   fields[(int)NID_FIELD.NAME_T] + " " +

@@ -24,7 +24,7 @@ namespace HCT_Client
         public static string NO_CARD_ERROR = "NO_CARD_ERROR";
         public static string NO_READER_ERROR = "NO_READER_ERROR";
         public static string UNKNOWN_ERROR = "UNKNOWN_ERROR";
-        public static CardReaderMode cardReaderMode = CardReaderMode.HALF_BYPASS;
+        public static CardReaderMode cardReaderMode = CardReaderMode.FULL_BYPASS;
 
         public CardReaderManager()
         {

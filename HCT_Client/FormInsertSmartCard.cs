@@ -118,14 +118,7 @@ namespace HCT_Client
             }
             else
             {
-                if (CardReaderManager.cardReaderMode == CardReaderMode.HALF_BYPASS)
-                {
-                    UserProfileManager.FillUserProfileWithMockData();
-                }
-                else if (CardReaderManager.cardReaderMode == CardReaderMode.NORMAL)
-                {
-                    UserProfileManager.FillUserProfileFromSmartCardData(cardData);
-                }                
+                UserProfileManager.FillUserProfileFromSmartCardData(cardData);                              
                 return true;
             }
         }

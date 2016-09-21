@@ -288,8 +288,7 @@ namespace HCT_Client
              );
             bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
                 delegate(object o, RunWorkerCompletedEventArgs args)
-                {
-                    FormsManager.GetFormLoadingView().ShowLoadingView(false);
+                {                    
                     if (status.Equals(WebServiceResultStatus.SUCCESS))
                     {
                         FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
@@ -303,9 +302,11 @@ namespace HCT_Client
                         this.Visible = false;
                         fadeForm.Visible = false;
                         goToExamMessageBox.Visible = false;
+                        FormsManager.GetFormLoadingView().ShowLoadingView(false);
                     }
                     else
                     {
+                        FormsManager.GetFormLoadingView().ShowLoadingView(false);
                         FormLargeMessageBox errorFormMessageBox = FormsManager.GetFormErrorMessageBox(status, this);
                         Point centerPoint = new Point((SCREEN_WIDTH - errorFormMessageBox.Width) / 2,
                                                       (SCREEN_HEIGHT - errorFormMessageBox.Height) / 2);

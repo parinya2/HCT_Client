@@ -153,6 +153,8 @@ namespace HCT_Client
             this.Visible = false;
             fadeForm.Visible = false;
             finishExamMessageBox.Visible = false;
+
+            GlobalData.tmpRount++;
         }
 
         void FinishExamButtonClicked(object sender, EventArgs e)

@@ -171,7 +171,7 @@ namespace HCT_Client
             }
 
             examSeqLabel = new Label();
-            examSeqLabel.Size = new Size(dayLabel.Width, heightPerRow);
+            examSeqLabel.Size = new Size((int)(dayLabel.Width * 1.5), heightPerRow);
             examSeqLabel.Location = new Point(gapX * 3, examSeqTopicLabel.Location.Y + examSeqTopicLabel.Height + gapY);
             examSeqLabel.TextAlign = dayLabel.TextAlign;
             examSeqLabel.Font = dayLabel.Font;
@@ -187,7 +187,7 @@ namespace HCT_Client
                 b.Font = new Font(this.Font.FontFamily, 14);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
-                b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
+                b.Location = new Point(examSeqLabel.Location.X + examSeqLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
                                            examSeqLabel.Location.Y + gapY);
                 b.Click += new EventHandler(ExamSeqButtonArrayClicked);
                 examSeqButtonArray[i] = b;
@@ -270,6 +270,12 @@ namespace HCT_Client
 
             dataMissingMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("CourseRegisterDataMissingMessageBox.Message");
             dataMissingMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("CourseRegisterDataMissingMessageBox.RightButton");
+
+            for (int i = 0; i < monthButtonArray.Length; i++)
+            {
+                Button b = monthButtonArray[i];
+                b.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Month." + (i + 1));
+            }
 
             if (selectedDayIndex != -1)
             {

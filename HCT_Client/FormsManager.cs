@@ -143,9 +143,9 @@ namespace HCT_Client
         {
             if (Instance.instanceFormSystemProcessingMessageBox == null)
             {
-                Instance.instanceFormSystemProcessingMessageBox = new FormLargeMessageBox(-1);
-                Instance.instanceFormSystemProcessingMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("SystemProcessingMessageBox.Message");
+                Instance.instanceFormSystemProcessingMessageBox = new FormLargeMessageBox(-1);             
             }
+            Instance.instanceFormSystemProcessingMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("SystemProcessingMessageBox.Message");
             return Instance.instanceFormSystemProcessingMessageBox;
         }
 
