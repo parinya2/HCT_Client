@@ -7,6 +7,13 @@ using System.Drawing;
 
 namespace HCT_Client
 {
+    public enum CardReaderMode
+    { 
+        NORMAL,
+        HALF_BYPASS,
+        FULL_BYPASS
+    }
+
     public class CardReaderManager
     {
         private static CardReaderManager instance;
@@ -17,8 +24,7 @@ namespace HCT_Client
         public static string NO_CARD_ERROR = "NO_CARD_ERROR";
         public static string NO_READER_ERROR = "NO_READER_ERROR";
         public static string UNKNOWN_ERROR = "UNKNOWN_ERROR";
-        public static string BYPASS_MODE = "BYPASS_MODE";
-        static bool IS_BYPASS_MODE = true;
+        public static CardReaderMode cardReaderMode = CardReaderMode.HALF_BYPASS;
 
         public CardReaderManager()
         {
@@ -101,9 +107,6 @@ namespace HCT_Client
 
         public static string ReadCardAndGetData()
         {
-            if (IS_BYPASS_MODE)
-                return BYPASS_MODE;
-
             int status = instance.ReadCard();
             switch (status)
             {

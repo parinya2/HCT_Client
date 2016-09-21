@@ -82,14 +82,14 @@ namespace HCT_Client
         }
 
         private bool ReadSmartCard()
-        {
-            string cardData = CardReaderManager.ReadCardAndGetData();
-            if (cardData.Equals(CardReaderManager.BYPASS_MODE))
+        {            
+            if (CardReaderManager.cardReaderMode == CardReaderMode.FULL_BYPASS)
             {
                 UserProfileManager.FillUserProfileWithMockData();
                 return true;
             }
 
+            string cardData = CardReaderManager.ReadCardAndGetData();
             if (cardData.Equals(CardReaderManager.NO_CARD_ERROR) ||
                 cardData.Equals(CardReaderManager.NO_READER_ERROR) ||
                 cardData.Equals(CardReaderManager.UNKNOWN_ERROR))
@@ -118,7 +118,14 @@ namespace HCT_Client
             }
             else
             {
-                UserProfileManager.FillUserProfileFromSmartCardData(cardData);
+                if (CardReaderManager.cardReaderMode == CardReaderMode.HALF_BYPASS)
+                {
+                    UserProfileManager.FillUserProfileWithMockData();
+                }
+                else if (CardReaderManager.cardReaderMode == CardReaderMode.NORMAL)
+                {
+                    UserProfileManager.FillUserProfileFromSmartCardData(cardData);
+                }                
                 return true;
             }
         }
