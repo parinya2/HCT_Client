@@ -16,6 +16,7 @@ namespace HCT_Client
 
     public class SingleQuizObject
     {
+        public string paperQuestSeq;
         public string quizText;
         public string quizCode;
         public Bitmap quizImage;

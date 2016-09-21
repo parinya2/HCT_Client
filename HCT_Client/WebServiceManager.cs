@@ -11,9 +11,10 @@ namespace HCT_Client
 {
     class WebServiceManager
     {
-        static string DLT_WEB_SERVICE_URI = "http://ws.dlt.go.th:80/EExam/EExamService";
-        static string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
-        static string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
+        const string DLT_WEB_SERVICE_URI = "http://ws.dlt.go.th:80/EExam/EExamService";
+        const string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
+        const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
+        const string CONTENT_DICT_SOAP_KEY = "SOAP";
 
         public static string GetPaperTestNumberFromServer()
         {
@@ -188,7 +189,7 @@ namespace HCT_Client
             }
         }
 
-        public static string GetEExamCorrectAnswerFromServer(string paperQuestNo)
+        public static string GetEExamCorrectAnswerFromServer(string paperQuestSeq)
         {
             string soapContent = UtilSOAP.GetSoapXmlTemplate_FindStudentDetail();
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
@@ -196,7 +197,7 @@ namespace HCT_Client
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDate());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), paperQuestNo);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), paperQuestSeq);
 
             byte[] responseBytes = SendSoapRequestToWebService(soapContent);
             if (WebServiceResultStatus.IsErrorBytesCode(responseBytes))
@@ -206,47 +207,28 @@ namespace HCT_Client
             }
             else
             {
-                return WebServiceResultStatus.SUCCESS;
-                // TODO
-                /*string responseStr = Encoding.UTF8.GetString(responseBytes);
-                string paperTestNo = ExtractValueInsideXMLTag(responseStr, PAPER_TEST_NUMBER_XML_TAG_INSIDE);
-                if (paperTestNo == null)
+                string responseStr = Encoding.UTF8.GetString(responseBytes);
+                bool isBusinessError = responseStr.Contains(BUSINESS_ERROR_FAULT);
+                if (isBusinessError)
                 {
-                    return WebServiceResultStatus.ERROR_STUDENT_DETAIL_NOT_FOUND;
+                    return WebServiceResultStatus.ERROR_CANNOT_CHECK_EEXAM_CORRECT_ANSWER;
                 }
                 else
                 {
-                    QuizManager.SetPaperTestNumber(paperTestNo);
+                    ExtractCorrectAnswerFromXMLBytes(responseBytes, paperQuestSeq);
                     return WebServiceResultStatus.SUCCESS;
-                }*/
-            }
-        }
-
-        private static Bitmap GetBitmapFromBytes(byte[] imageData)
-        {
-            Bitmap bmp = null;
-            try
-            {
-                using (MemoryStream ms = new MemoryStream(imageData))
-                {
-                    bmp = new Bitmap(ms);
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("SHIT byteArrayToImage " + e.ToString());
-            }
-            return bmp;
         }
 
-        public static void ExtractQuizFromXMLBytes(byte[] contentBytes)
+        public static Dictionary<string, byte[]> ExtractContentDictFromXMLBytes(byte[] contentBytes)
         {
+            Dictionary<string, byte[]> contentDict = new Dictionary<string, byte[]>();
             byte[] cb = contentBytes;
             List<byte> tmpByteList = new List<byte>();
             List<byte> tmpByteListImageID = new List<byte>();
             List<byte> tmpByteListImageData = new List<byte>();
-            Dictionary<string, byte[]> contentDict = new Dictionary<string, byte[]>();
-            string SOAP_CONTENT_KEY = "SOAP";
+            string SOAP_CONTENT_KEY = CONTENT_DICT_SOAP_KEY;
             bool foundContentIDHead = false;
             bool foundImageHeader = false;
             string imageID = null;
@@ -293,7 +275,7 @@ namespace HCT_Client
                     {
                         if (!foundImageHeader)
                         {
-                            if (cb[i] == 0xFF && cb[i+1] == 0xD8)
+                            if (cb[i] == 0xFF && cb[i + 1] == 0xD8)
                             {
                                 isJPEG = true;
                                 tmpByteListImageData.Add(cb[i]);
@@ -323,12 +305,78 @@ namespace HCT_Client
                             else
                             {
                                 tmpByteListImageData.Add(cb[i]);
-                            }                            
+                            }
                         }
-                    }                   
+                    }
                 }
             }
 
+            return contentDict;
+        }
+
+        public static void ExtractCorrectAnswerFromXMLBytes(byte[] contentBytes, string paperQuestSeq)
+        {
+            string SOAP_CONTENT_KEY = CONTENT_DICT_SOAP_KEY;
+            Dictionary<string, byte[]> contentDict = ExtractContentDictFromXMLBytes(contentBytes);
+            if (contentDict != null && contentDict.ContainsKey(SOAP_CONTENT_KEY))
+            {
+                byte[] xmlContentBytes = contentDict[SOAP_CONTENT_KEY];
+                string xmlContent = Encoding.UTF8.GetString(xmlContentBytes);
+                string correctChoiceDesc = ExtractValueInsideXMLTag(xmlContent, "correctChoiceDesc");
+
+                string corectChoiceImageIDFullStr = ExtractValueInsideXMLTag(xmlContent, "correctChoiceImage");
+                string correctImageID = ExtractAttachmentIDFromXOPString(corectChoiceImageIDFullStr);
+
+                Bitmap correctChoiceImage = null;
+                if (correctImageID != null && contentDict.ContainsKey(correctImageID))
+                {
+                    byte[] correctChoiceImageBytes = contentDict[correctImageID];
+                    correctChoiceImage = Util.GetBitmapFromBytes(correctChoiceImageBytes);
+                }
+
+                for (int i = 0; i < QuizManager.GetQuizArray().Length; i++)
+                {
+                    SingleQuizObject quizObj = QuizManager.GetQuizArray()[i];
+                    if (quizObj.paperQuestSeq != null && quizObj.paperQuestSeq.Equals(paperQuestSeq))
+                    {
+                        for (int k = 0; k < quizObj.choiceObjArray.Length; k++)
+                        {
+                            bool textIsEqual = false;
+                            bool imageIsEqual = false;
+                            SingleChoiceObject choiceObj = quizObj.choiceObjArray[k];
+                            if (choiceObj.choiceText != null && correctChoiceDesc != null)
+                            {
+                                textIsEqual = choiceObj.choiceText.Equals(correctChoiceDesc);
+                            }
+                            else if (choiceObj.choiceText == null && correctChoiceDesc == null)
+                            {
+                                textIsEqual = true;
+                            }
+
+                            if (choiceObj.choiceImage != null && correctChoiceImage != null)
+                            {
+                                imageIsEqual = Util.isBitmapEqual(choiceObj.choiceImage, correctChoiceImage);
+                            }
+                            else if (choiceObj.choiceImage == null && correctChoiceImage == null)
+                            {
+                                imageIsEqual = true;
+                            }
+
+                            if (textIsEqual && imageIsEqual)
+                            {
+                                quizObj.correctChoice = k;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void ExtractQuizFromXMLBytes(byte[] contentBytes)
+        {
+            Dictionary<string, byte[]> contentDict = ExtractContentDictFromXMLBytes(contentBytes);
+
+            string SOAP_CONTENT_KEY = CONTENT_DICT_SOAP_KEY;
             string RESULT_XML_TAG = "<return>";
             string EEXAM_ANSWER_XML_TAG = "<eexamAnswer>";
             string SOAP_BODY_XML_TAG_INSIDE = "soapenv:Body";
@@ -349,6 +397,7 @@ namespace HCT_Client
                 string tmpContent = tmpStrArray[i];
                 string quizText = ExtractValueInsideXMLTag(tmpContent, "questDesc");
                 string quizCode = ExtractValueInsideXMLTag(tmpContent, "questCode");
+                string paperQuestSeq = ExtractValueInsideXMLTag(tmpContent, "paperQuestSeq");
                 string quizImageIDFullStr = ExtractValueInsideXMLTag(tmpContent, "questImage");
                 string quizImageID = ExtractAttachmentIDFromXOPString(quizImageIDFullStr);
 
@@ -356,13 +405,14 @@ namespace HCT_Client
                 if (quizImageID != null && contentDict.ContainsKey(quizImageID))
                 {
                     byte[] quizImageBytes = contentDict[quizImageID];
-                    quizImage = GetBitmapFromBytes(quizImageBytes);
+                    quizImage = Util.GetBitmapFromBytes(quizImageBytes);
                 }
                 
                 SingleQuizObject quizObj = new SingleQuizObject();
                 quizObj.quizText = quizText;
                 quizObj.quizCode = quizCode;
                 quizObj.quizImage = quizImage;
+                quizObj.paperQuestSeq = paperQuestSeq;
 
                 string[] tmpChoiceArray = tmpContent.Split(new string[] { EEXAM_ANSWER_XML_TAG }, StringSplitOptions.RemoveEmptyEntries);
                 for (int k = 0; k < tmpChoiceArray.Length; k++)
@@ -378,7 +428,7 @@ namespace HCT_Client
                     if (choiceImageID != null && contentDict.ContainsKey(choiceImageID))
                     {
                         byte[] choiceImageBytes = contentDict[choiceImageID];
-                        choiceImage = GetBitmapFromBytes(choiceImageBytes);
+                        choiceImage = Util.GetBitmapFromBytes(choiceImageBytes);
                     }
 
                     choiceObj.choiceText = choiceText;
@@ -552,6 +602,8 @@ namespace HCT_Client
         
         public const string ERROR_CANNOT_CHECK_EEXAM_RESULT = "ERROR_CannotCheckEExamResult";
         public const string ERROR_CHECK_EEXAM_RESULT_EMPTY_RESPONSE = "ERROR_CheckEExamResultEmptyResponse";
+
+        public const string ERROR_CANNOT_CHECK_EEXAM_CORRECT_ANSWER = "ERROR_CannotCheckEExamCorrectAnswer";
 
         public static bool IsErrorCode(string code)
         {

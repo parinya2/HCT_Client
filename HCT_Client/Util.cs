@@ -202,6 +202,44 @@ namespace HCT_Client
             return buttonBlinkColorDict[state];
         }
 
+        public static bool isBitmapEqual(Bitmap bmp1, Bitmap bmp2)
+        {
+            if (!bmp1.Size.Equals(bmp2.Size))
+            {
+                return false;
+            }
+
+            for (int x = 0; x < bmp1.Width; x++)
+            {
+                for (int y = 0; y < bmp1.Height; y++)
+                {
+                    if (bmp1.GetPixel(x, y) != bmp2.GetPixel(x, y))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public static Bitmap GetBitmapFromBytes(byte[] imageData)
+        {
+            Bitmap bmp = null;
+            try
+            {
+                using (MemoryStream ms = new MemoryStream(imageData))
+                {
+                    bmp = new Bitmap(ms);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("SHIT byteArrayToImage " + e.ToString());
+            }
+            return bmp;
+        }
+
         public static Color ColorFromHSL(int H, int S, int L)
         {
             double hue = (H / 240.0) * 360.0;
