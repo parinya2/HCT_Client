@@ -371,20 +371,40 @@ namespace HCT_Client
                 SingleQuizStatusPanel oldObj = (SingleQuizStatusPanel)singleQuizStatusPanelArray[currentQuizNumber];
                 SingleQuizStatusPanel newObj = (SingleQuizStatusPanel)singleQuizStatusPanelArray[newQuizNumber];
 
-                if (examState == ExamState.ShowAnswerState)
+                SingleQuizObject newQuizObj = quizArray[newQuizNumber];
+
+                if (examState == ExamState.ShowAnswerState && newQuizObj.correctChoice == -1)
                 {
-                    
+                    FormsManager.GetFormLoadingView().ShowLoadingView(true);
+                    BackgroundWorker bw = new BackgroundWorker();
+                    bw.DoWork += new DoWorkEventHandler(
+                        delegate(object o, DoWorkEventArgs args)
+                        {
+                            Thread.Sleep(10);
+                            string status = WebServiceManager.GetEExamCorrectAnswerFromServer(newQuizObj.paperQuestSeq);
+
+                        }
+                     );
+                    bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+                        delegate(object o, RunWorkerCompletedEventArgs args)
+                        {
+                            FormsManager.GetFormLoadingView().ShowLoadingView(false);
+                            currentQuizNumber = newQuizNumber;
+                            SetContentForQuizPanel(currentQuizNumber);
+                        }
+                    );
+                    bw.RunWorkerAsync();
                 }
                 else
                 {
-                    oldObj.SetActiveQuiz(false);
-                    newObj.SetActiveQuiz(true);
-                }
-
-
-                currentQuizNumber = newQuizNumber;
-
-                SetContentForQuizPanel(currentQuizNumber);
+                    if (examState == ExamState.TakingExamState)
+                    {
+                        oldObj.SetActiveQuiz(false);
+                        newObj.SetActiveQuiz(true);
+                    }
+                    currentQuizNumber = newQuizNumber;
+                    SetContentForQuizPanel(currentQuizNumber);
+                }  
             }
         }
 

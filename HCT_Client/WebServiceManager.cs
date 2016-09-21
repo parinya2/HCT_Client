@@ -191,15 +191,16 @@ namespace HCT_Client
 
         public static string GetEExamCorrectAnswerFromServer(string paperQuestSeq)
         {
-            string soapContent = UtilSOAP.GetSoapXmlTemplate_FindStudentDetail();
+            string soapContent = UtilSOAP.GetSoapXmlTemplate_CheckEExamCorrectAnswer();
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDate());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), paperQuestSeq);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), QuizManager.GetPaperTestNumber());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(7), paperQuestSeq);
 
-            byte[] responseBytes = SendSoapRequestToWebService(soapContent);
+            byte[] responseBytes = SendSoapRequestToWebService(soapContent, 9000);
             if (WebServiceResultStatus.IsErrorBytesCode(responseBytes))
             {
                 string errorCode = WebServiceResultStatus.GetErrorStringFromBytesCode(responseBytes);
@@ -526,6 +527,11 @@ namespace HCT_Client
 
         public static byte[] SendSoapRequestToWebService(string soapRequestMessage)
         {
+            return SendSoapRequestToWebService(soapRequestMessage, 30000);
+        }
+
+        public static byte[] SendSoapRequestToWebService(string soapRequestMessage, int timeout)
+        {
             HttpWebResponse httpResponse = null;
             Stream responseStream = null;
 
@@ -534,7 +540,7 @@ namespace HCT_Client
             httpRequest.ContentType = "text/xml; charset=utf-8";
             httpRequest.ProtocolVersion = HttpVersion.Version11;
             httpRequest.KeepAlive = true;
-            httpRequest.Timeout = 100000; ;
+            httpRequest.Timeout = timeout;
 
             // It can works without soapAction
             //string soapAction = "http://ws.eexam.dlt.go.th/EExamService/findStudentDetailRequest";

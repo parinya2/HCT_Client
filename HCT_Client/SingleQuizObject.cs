@@ -29,6 +29,7 @@ namespace HCT_Client
         {
             choiceObjArray = new SingleChoiceObject[4];
             selectedChoice = -1;
+            correctChoice = -1;
         }
 
         public void shuffleChoice()
