@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace HCT_Client
 {
@@ -110,8 +111,14 @@ namespace HCT_Client
             string citizenID = UserProfileManager.GetCitizenID();
             
             string courseName = LocalizedTextManager.GetLocalizedTextForKeyTH("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
-            
-            string dateString = DateTime.Now.ToString("d/MM/yyyy");
+
+            string examStartDateString = Util.ConvertDateToNormalDateString(QuizManager.GetExamStartDateTime(), true);
+            string examEndDateString = Util.ConvertDateToNormalDateString(QuizManager.GetExamEndDateTime(), true);
+            string paperTestNumber = QuizManager.GetPaperTestNumber();
+            string examDuration = "" + Util.GetMinuteDifferentOfTwoDates(QuizManager.GetExamStartDateTime(), QuizManager.GetExamEndDateTime());
+            string courseRegisterDateString = UserProfileManager.GetCourseRegisterDateString();
+            string examSeqString = UserProfileManager.GetExamSeq();
+
             string passOrFail = "";
 
             QuizResult quizResult = QuizManager.GetQuizResult();
@@ -130,14 +137,22 @@ namespace HCT_Client
                 passOrFail = "เกิดความผิดพลาดบางอย่าง กรุณาติดต่อผู้ดูแลระบบ";
             }
 
-            string emailBody = "นี่คือผลการสอบของ " + fullname + " ณ วันที่ " + dateString + 
+            string emailBody = "นี่คือผลการสอบของ " + fullname + " ณ วันที่ " + examStartDateString + " น." +
                                "\n" + "ผลการสอบ คือ " + passOrFail +
                                "\n\n" + "ไฟล์ pdf ที่แนบมาด้วย คือ หลักฐานแสดงผลการสอบของผู้เข้าสอบ" +
                                "\n\n" + "อีเมล์ฉบับนี้ถูกส่งมาจากระบบอัตโนมัติ กรุณาอย่าตอบกลับอีเมล์ฉบับนี้" +
                                "\n\n\n" + "ขอแสดงความนับถือ" +
                                "\n" + "หาดใหญ่คาร์เทรนเนอร์";
 
-            string pdfPath = Util.CreateExamResultPDF(fullname, citizenID, courseName, passOrFail, dateString);
+            string pdfPath = Util.CreateExamResultPDF(fullname, 
+                                                      citizenID, 
+                                                      courseName, 
+                                                      passOrFail, 
+                                                      examStartDateString,
+                                                      examEndDateString,
+                                                      courseRegisterDateString,
+                                                      paperTestNumber,
+                                                      examSeqString);
             Util.SendEmailWithAttachment(pdfPath, emailBody);
         }
 
@@ -161,6 +176,29 @@ namespace HCT_Client
         {
             Point centerPoint = new Point((SCREEN_WIDTH - finishExamMessageBox.Width) / 2,
                                           (SCREEN_HEIGHT - finishExamMessageBox.Height) / 2);
+
+            FormsManager.GetFormLoadingView().ShowLoadingView(true);
+            BackgroundWorker bw = new BackgroundWorker();
+            bw.DoWork += new DoWorkEventHandler(
+                delegate(object o, DoWorkEventArgs args)
+                {
+                    Thread.Sleep(10);
+                    WebServiceManager.SendExamResultToHCTLogServer();
+                    GenerateExamResultDocument();
+                }
+             );
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+                delegate(object o, RunWorkerCompletedEventArgs args)
+                {
+                    FormsManager.GetFormLoadingView().ShowLoadingView(false);
+                    finishExamMessageBox.ShowMessageBoxAtLocation(centerPoint);
+                }
+            );
+            bw.RunWorkerAsync();
+
+            /* This is the old code
+            Point centerPoint = new Point((SCREEN_WIDTH - finishExamMessageBox.Width) / 2,
+                                          (SCREEN_HEIGHT - finishExamMessageBox.Height) / 2);
     
             fadeForm.Visible = true;
             fadeForm.BringToFront();
@@ -168,10 +206,12 @@ namespace HCT_Client
             FormLargeMessageBox systemProcessingMessageBox = FormsManager.GetFormSystemProcessingMessageBox();
             systemProcessingMessageBox.ShowMessageBoxAtLocation(centerPoint);
 
+            WebServiceManager.SendExamResultToHCTLogServer();
             GenerateExamResultDocument();
             systemProcessingMessageBox.Visible = false;
 
             finishExamMessageBox.ShowMessageBoxAtLocation(centerPoint);
+             */
         }
 
         void ViewAnswerButtonClicked(object sender, EventArgs e)

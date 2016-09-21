@@ -16,7 +16,7 @@ namespace HCT_Client
 
         public static void SendEmailWithAttachment(string pdfName, string emailBody)
         {
-            string hctEmail = "hct.agent@gmail.com";
+            string hctEmail = GlobalData.HCT_EMAIL; ;
             
             SmtpClient client = new SmtpClient();
             client.Port = 587;
@@ -124,16 +124,26 @@ namespace HCT_Client
             return result;
         }
 
-        public static string CreateExamResultPDF(string userFullname, string citizenID, string courseName, string passOrFail, string dateString)
+        public static string CreateExamResultPDF(string userFullname, 
+                                                 string citizenID, 
+                                                 string courseName, 
+                                                 string passOrFail, 
+                                                 string examStartDateString,
+                                                 string examEndDateString,
+                                                 string courseRegisterDateString,
+                                                 string paperTestNumber,
+                                                 string examSeq)
         {
-            string dateStringForFileName = dateString.Replace("/", "-");
+            string dateStringForFileName = examStartDateString.Replace("/", "-");
+            dateStringForFileName = dateStringForFileName.Replace(":", "-");
+            dateStringForFileName = dateStringForFileName.Replace(" ", "_เวลา_");
 
             string executingPath = GetExecutingPath();
             string EXAM_RESULT_TEMPLATE_PATH = executingPath + "/ExamResultTemplate.xls";
             string EXAM_RESULT_TEMPLATE_TEMP_PATH = executingPath + "/ExamResultTemplate_Temp.xls";
 
             string userFullNameForFile = userFullname.Replace(" ", "_");
-            string PDF_NAME = "ผลการสอบ_" + userFullNameForFile + "_" + dateStringForFileName + ".pdf";
+            string PDF_NAME = "ผลการสอบ_" + userFullNameForFile + "_วันที่_" + dateStringForFileName + ".pdf";
             string EXAM_RESULT_PDF_PATH = executingPath + "/" + PDF_NAME;
 
             Application app = new Application();
@@ -143,8 +153,12 @@ namespace HCT_Client
             workSheet1.Cells[10, 3] = userFullname;
             workSheet1.Cells[11, 3] = citizenID;
             workSheet1.Cells[12, 3] = courseName;
-            workSheet1.Cells[13, 3] = passOrFail;
-            workSheet1.Cells[14, 3] = dateString;
+            workSheet1.Cells[13, 3] = courseRegisterDateString;
+            workSheet1.Cells[14, 3] = examSeq;
+            workSheet1.Cells[15, 3] = paperTestNumber;
+            workSheet1.Cells[16, 3] = passOrFail;
+            workSheet1.Cells[17, 3] = examStartDateString;
+            workSheet1.Cells[18, 3] = examEndDateString;                        
 
             workBook.SaveAs(EXAM_RESULT_TEMPLATE_TEMP_PATH);
             workBook.ExportAsFixedFormat(XlFixedFormatType.xlTypePDF, EXAM_RESULT_PDF_PATH);
@@ -200,6 +214,43 @@ namespace HCT_Client
         public static Color GetButtonBlinkColorAtSignalState(int state)
         {
             return buttonBlinkColorDict[state];
+        }
+
+        public static int GetMinuteDifferentOfTwoDates(DateTime dt1, DateTime dt2)
+        {
+            TimeSpan ts = dt2.Subtract(dt1);
+            int totalMinutes = (int)ts.TotalMinutes;
+            return totalMinutes;
+        }
+
+        public static string ConvertDateToMariaDBDateString(DateTime dt)
+        {
+            string year = dt.Year < 2500 ? "" + dt.Year : "" + (dt.Year - 543);
+            string month = dt.Month < 10 ? "0" + dt.Month : "" + dt.Month;
+            string day = dt.Day < 10 ? "0" + dt.Day : "" + dt.Day;
+            string hour = dt.Hour < 10 ? "0" + dt.Hour : "" + dt.Hour;
+            string minute = dt.Minute < 10 ? "0" + dt.Minute : "" + dt.Minute;
+            string second = dt.Second < 10 ? "0" + dt.Second : "" + dt.Second;
+
+            string result = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second;
+            return result;
+        }
+
+        public static string ConvertDateToNormalDateString(DateTime dt, bool showTimeString)
+        {
+            string year = dt.Year < 2500 ? "" + (dt.Year + 543) : "" + dt.Year;
+            string month = dt.Month < 10 ? "0" + dt.Month : "" + dt.Month;
+            string day = dt.Day < 10 ? "0" + dt.Day : "" + dt.Day;
+            string hour = dt.Hour < 10 ? "0" + dt.Hour : "" + dt.Hour;
+            string minute = dt.Minute < 10 ? "0" + dt.Minute : "" + dt.Minute;
+            string second = dt.Second < 10 ? "0" + dt.Second : "" + dt.Second;
+
+            string result = day + "/" + month + "/" + year;
+            if (showTimeString)
+            {
+                result += " " + hour + ":" + minute + ":" + second;
+            }
+            return result;
         }
 
         public static bool isBitmapEqual(Bitmap bmp1, Bitmap bmp2)

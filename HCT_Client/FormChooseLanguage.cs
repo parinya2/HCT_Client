@@ -25,7 +25,9 @@ namespace HCT_Client
             LocalizedTextManager.InitInstance();
             FormsManager.InitInstance();
             FormsManager.SetFormChooseLanguage(this);
+            UserProfileManager.InitInstance();
             CardReaderManager.InitInstance();
+            QuizManager.InitInstance();
             Util.GenerateButtonBlinkColorDict();
             
             RenderUI();

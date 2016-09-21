@@ -58,7 +58,6 @@ namespace HCT_Client
         public FormChooseExamCourse()
         {
             InitializeComponent();
-            QuizManager.InitInstance();
             RenderUI();
 
             blinkButtonSignalClock = new BlinkButtonSignalClock();

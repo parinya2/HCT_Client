@@ -43,7 +43,7 @@ namespace HCT_Client
             }
         }
 
-        public static string GetCourseRegisterDate()
+        public static string GetCourseRegisterDateString()
         {
             return instance.courseRegisterDate;
         }
@@ -60,12 +60,12 @@ namespace HCT_Client
 
         public static string GetFullnameTH()
         {
-            return instance.fullnameTH.Trim(); ;
+            return instance.fullnameTH.Trim();
         }
 
         public static string GetFullnameEN()
         {
-            return instance.fullnameEN.Trim(); ;
+            return instance.fullnameEN.Trim();
         }
 
         public static string GetAddress()
@@ -123,7 +123,7 @@ namespace HCT_Client
 
         public static void FillUserProfileWithMockData()
         {
-            if (GlobalData.tmpRount == 0)   instance.citizenID = "4234411056241";
+            if (GlobalData.tmpRount == 0) instance.citizenID = "4266767713407";
             else if (GlobalData.tmpRount == 1) instance.citizenID = "5006812126765";
             else instance.citizenID = "5852730731141";
 

@@ -6,12 +6,14 @@ using System.Net;
 using System.IO;
 using System.Drawing;
 using System.Xml;
+using System.Collections.Specialized;
 
 namespace HCT_Client
 {
     class WebServiceManager
     {
         const string DLT_WEB_SERVICE_URI = "http://ws.dlt.go.th:80/EExam/EExamService";
+        const string HCT_LOG_SERVER_URI = "http://128.199.95.79:8081/addExamHistory/";
         const string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
         const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
         const string CONTENT_DICT_SOAP_KEY = "SOAP";
@@ -22,7 +24,7 @@ namespace HCT_Client
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1),GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDate());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDateString());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), QuizManager.GetExamCourseCode());
 
@@ -143,7 +145,7 @@ namespace HCT_Client
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());            
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDate());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDateString());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), examStartStr);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(7), examEndStr);
@@ -195,7 +197,7 @@ namespace HCT_Client
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDate());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDateString());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), QuizManager.GetPaperTestNumber());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(7), paperQuestSeq);
@@ -525,12 +527,53 @@ namespace HCT_Client
             return result;            
         }
 
-        public static byte[] SendSoapRequestToWebService(string soapRequestMessage)
+        public static void SendExamResultToHCTLogServer()
+        {
+            string fullname = UserProfileManager.GetFullnameTH().Length > 0 ?  UserProfileManager.GetFullnameTH() : 
+                                                                               UserProfileManager.GetFullnameEN();
+            string citizenId = UserProfileManager.GetCitizenID();
+            string examNumber = QuizManager.GetPaperTestNumber();
+            string examTime = "" + Util.GetMinuteDifferentOfTwoDates(QuizManager.GetExamStartDateTime(), QuizManager.GetExamEndDateTime());
+            string examScore = QuizManager.GetQuizResult().quizScore;
+            string courseType = null;
+            string examDateTime = Util.ConvertDateToMariaDBDateString(QuizManager.GetExamStartDateTime());
+            string examResult = QuizManager.GetQuizResult().passFlag == QuizResultPassFlag.Pass ? "Y" : "N";
+
+            if (QuizManager.GetExamCourseType() == ExamCourseType.Car) 
+                courseType = "1";
+            else if (QuizManager.GetExamCourseType() == ExamCourseType.Motorcycle) 
+                courseType = "2";
+            else 
+                courseType = "0";
+
+            var values = new NameValueCollection();
+            values["fullname"] = fullname;
+            values["citizenId"] = citizenId;
+            values["examNumber"] = examNumber;
+            values["examTime"] = examTime;
+            values["examScore"] = examScore;
+            values["courseType"] = courseType;
+            values["examDateTime"] = examDateTime;
+            values["examResult"] = examResult;
+            SendPOSTRequestToHCTLogServer(values);
+        }
+
+        private static string SendPOSTRequestToHCTLogServer(NameValueCollection valueDict)
+        {
+            using (var client = new WebClient())
+            {
+                var response = client.UploadValues(HCT_LOG_SERVER_URI, valueDict);
+                var responseString = Encoding.UTF8.GetString(response);
+            }
+            return "";
+        }
+
+        private static byte[] SendSoapRequestToWebService(string soapRequestMessage)
         {
             return SendSoapRequestToWebService(soapRequestMessage, 30000);
         }
 
-        public static byte[] SendSoapRequestToWebService(string soapRequestMessage, int timeout)
+        private static byte[] SendSoapRequestToWebService(string soapRequestMessage, int timeout)
         {
             HttpWebResponse httpResponse = null;
             Stream responseStream = null;
@@ -541,7 +584,7 @@ namespace HCT_Client
             httpRequest.ProtocolVersion = HttpVersion.Version11;
             httpRequest.KeepAlive = true;
             httpRequest.Timeout = timeout;
-
+            
             // It can works without soapAction
             //string soapAction = "http://ws.eexam.dlt.go.th/EExamService/findStudentDetailRequest";
             //httpRequest.Headers.Add(String.Format("SOAPAction: \"{0}\"", soapAction));

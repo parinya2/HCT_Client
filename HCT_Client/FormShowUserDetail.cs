@@ -282,7 +282,7 @@ namespace HCT_Client
             bw.DoWork += new DoWorkEventHandler(
                 delegate(object o, DoWorkEventArgs args)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(10);
                     status = WebServiceManager.GetEExamQuestionFromServer();                    
                 }
              );

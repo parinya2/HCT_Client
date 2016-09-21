@@ -20,9 +20,7 @@ namespace HCT_Client
 
         public FormInsertSmartCard()
         {
-            InitializeComponent();
-
-            UserProfileManager.InitInstance();
+            InitializeComponent();            
 
             RenderUI();
             fadeForm = FormsManager.GetFormFadeView();
