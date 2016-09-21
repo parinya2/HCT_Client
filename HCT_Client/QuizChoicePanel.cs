@@ -12,6 +12,7 @@ namespace HCT_Client
         public BaseTextLabel choiceHeaderLabel;
         public BaseTextLabel choiceTextLabel;
         public PictureBox choiceCorrectStatusPictureBox;
+        public PictureBox choiceImagePictureBox;
         public int choiceNumber;
         int margin = 10;
 
@@ -27,6 +28,8 @@ namespace HCT_Client
         private void RenderUI()
         {
             Color panelColor = Color.Black;
+
+            this.Tag = this.choiceNumber;
 
             choiceHeaderLabel = new BaseTextLabel();
             choiceHeaderLabel.Location = new Point(margin, margin);
@@ -52,10 +55,37 @@ namespace HCT_Client
             choiceCorrectStatusPictureBox.Tag = this.choiceNumber;
             choiceCorrectStatusPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
+            choiceImagePictureBox = new PictureBox();
+            choiceImagePictureBox.BackColor = Color.Transparent;
+            choiceImagePictureBox.Tag = this.choiceNumber;
+            choiceImagePictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+
             this.BackColor = panelColor;
             this.Controls.Add(choiceHeaderLabel);
             this.Controls.Add(choiceTextLabel);
             this.Controls.Add(choiceCorrectStatusPictureBox);
+            this.Controls.Add(choiceImagePictureBox);
+        }
+
+        private void RefreshUI()
+        {
+            if (choiceImagePictureBox.Image == null)
+            {
+                choiceHeaderLabel.Height = this.Height;
+                choiceTextLabel.Height = this.Height;
+                choiceImagePictureBox.Height = 0;
+                choiceImagePictureBox.Width = choiceImagePictureBox.Height;
+            }
+            else
+            {
+                choiceHeaderLabel.Height = (int)(this.Height * 0.2);
+                choiceTextLabel.Height = choiceHeaderLabel.Height;
+
+                choiceImagePictureBox.Height = this.Height - choiceHeaderLabel.Height - margin;
+                choiceImagePictureBox.Width = choiceImagePictureBox.Height;
+                choiceImagePictureBox.Location = new Point(this.Width - choiceCorrectStatusPictureBox.Width - margin - choiceImagePictureBox.Width,
+                                                            choiceHeaderLabel.Height + margin / 2);
+            }
         }
 
         public void SetSelectedChoicePanel(bool flag)
@@ -69,9 +99,11 @@ namespace HCT_Client
             choiceTextLabel.ForeColor = textColor;
         }
 
-        public void SetChoiceText(string text)
+        public void SetChoiceTextAndImage(string text, Bitmap image)
         {
             choiceTextLabel.Text = text;
+            choiceImagePictureBox.Image = image;
+            RefreshUI();
         }
     }
 }

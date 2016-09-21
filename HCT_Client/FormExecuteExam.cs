@@ -202,6 +202,8 @@ namespace HCT_Client
                 obj.choiceHeaderLabel.Click += new EventHandler(ChoicePanelClicked);
                 obj.choiceTextLabel.Click += new EventHandler(ChoicePanelClicked);
                 obj.choiceCorrectStatusPictureBox.Click += new EventHandler(ChoicePanelClicked);
+                obj.choiceImagePictureBox.Click += new EventHandler(ChoicePanelClicked);
+                obj.Click += new EventHandler(ChoicePanelClicked);
 
                 choicePanelArray[i] = obj;
                 quizPanel.Controls.Add(obj);
@@ -290,7 +292,7 @@ namespace HCT_Client
             for (int i = 0; i < quizObj.choiceObjArray.Length; i++)
             {
                 SingleChoiceObject choiceObj = quizObj.choiceObjArray[i];
-                choicePanelArray[i].SetChoiceText(choiceObj.choiceText);
+                choicePanelArray[i].SetChoiceTextAndImage(choiceObj.choiceText, choiceObj.choiceImage);
 
                 bool isSelectedChoiceFlag = (i == quizObj.selectedChoice);
                 choicePanelArray[i].SetSelectedChoicePanel(isSelectedChoiceFlag);
