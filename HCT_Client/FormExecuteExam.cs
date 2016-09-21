@@ -11,6 +11,12 @@ using System.Threading;
 
 namespace HCT_Client
 {
+    public enum ExamState
+    { 
+        TakingExamState,
+        ShowAnswerState
+    }
+
     public partial class FormExecuteExam : FixedSizeForm
     {
         int QUIZ_COUNT = 50;
@@ -46,7 +52,8 @@ namespace HCT_Client
         Color correctAnswerColor = Color.ForestGreen;
         Color wrongAnswerColor = Color.Red;
 
-        bool modeShowAnswer = false;
+        public ExamState examState;
+        //bool modeShowAnswer = false;
 
         bool userHasTappedChoice = false;
         int signalClockState = -1;
@@ -289,7 +296,7 @@ namespace HCT_Client
                 choicePanelArray[i].SetSelectedChoicePanel(isSelectedChoiceFlag);
             }
 
-            if (modeShowAnswer)
+            if (examState == ExamState.ShowAnswerState)
             {
                 for (int i = 0; i < quizObj.choiceObjArray.Length; i++)
                 {
@@ -364,7 +371,7 @@ namespace HCT_Client
                 SingleQuizStatusPanel oldObj = (SingleQuizStatusPanel)singleQuizStatusPanelArray[currentQuizNumber];
                 SingleQuizStatusPanel newObj = (SingleQuizStatusPanel)singleQuizStatusPanelArray[newQuizNumber];
 
-                if (modeShowAnswer)
+                if (examState == ExamState.ShowAnswerState)
                 {
                     
                 }
@@ -411,48 +418,64 @@ namespace HCT_Client
         }
 
         public void GoToFormExamResult()
-        {
-            stopwatch.stopRunning();
+        {            
+            if (examState == ExamState.TakingExamState)
+            {
+                stopwatch.stopRunning();
+                QuizManager.SetExamEndDateTime(DateTime.Now);
 
-            QuizManager.SetExamEndDateTime(DateTime.Now);
-
-            FormsManager.GetFormLoadingView().ShowLoadingView(true);
-            BackgroundWorker bw = new BackgroundWorker();
-            string status = "";
-            bw.DoWork += new DoWorkEventHandler(
-                delegate(object o, DoWorkEventArgs args)
-                {
-                    Thread.Sleep(10);
-                    status = WebServiceManager.GetEExamResultFromServer();
-                }
-             );
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
-                delegate(object o, RunWorkerCompletedEventArgs args)
-                {
-                    FormsManager.GetFormLoadingView().ShowLoadingView(false);
-                    if (status.Equals(WebServiceResultStatus.SUCCESS))
+                FormsManager.GetFormLoadingView().ShowLoadingView(true);
+                BackgroundWorker bw = new BackgroundWorker();
+                string status = "";
+                bw.DoWork += new DoWorkEventHandler(
+                    delegate(object o, DoWorkEventArgs args)
                     {
-                        FormExamResult instanceFormExamResult = FormsManager.GetFormExamResult();
-                        instanceFormExamResult.RefreshUI();
-                        instanceFormExamResult.Visible = true;
-                        instanceFormExamResult.BringToFront();
-                        instanceFormExamResult.displayScore();
-
-                        this.Visible = false;
-                        fadeForm.Visible = false;
-                        timeoutMessageBox.Visible = false;
-                        quizNotCompletedMessageBox.Visible = false;
+                        Thread.Sleep(10);
+                        status = WebServiceManager.GetEExamResultFromServer();
                     }
-                    else
+                 );
+                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+                    delegate(object o, RunWorkerCompletedEventArgs args)
                     {
-                        FormLargeMessageBox errorFormMessageBox = FormsManager.GetFormErrorMessageBox(status, this);
-                        Point centerPoint = new Point((SCREEN_WIDTH - errorFormMessageBox.Width) / 2,
-                                                      (SCREEN_HEIGHT - errorFormMessageBox.Height) / 2);
-                        errorFormMessageBox.ShowMessageBoxAtLocation(centerPoint);
+                        FormsManager.GetFormLoadingView().ShowLoadingView(false);
+                        if (status.Equals(WebServiceResultStatus.SUCCESS))
+                        {
+                            FormExamResult instanceFormExamResult = FormsManager.GetFormExamResult();
+                            instanceFormExamResult.RefreshUI();
+                            instanceFormExamResult.Visible = true;
+                            instanceFormExamResult.BringToFront();
+                            instanceFormExamResult.displayScore();
+
+                            this.Visible = false;
+                            fadeForm.Visible = false;
+                            timeoutMessageBox.Visible = false;
+                            quizNotCompletedMessageBox.Visible = false;
+                        }
+                        else
+                        {
+                            FormLargeMessageBox errorFormMessageBox = FormsManager.GetFormErrorMessageBox(status, this);
+                            Point centerPoint = new Point((SCREEN_WIDTH - errorFormMessageBox.Width) / 2,
+                                                          (SCREEN_HEIGHT - errorFormMessageBox.Height) / 2);
+                            errorFormMessageBox.ShowMessageBoxAtLocation(centerPoint);
+                        }
                     }
-                }
-            );
-            bw.RunWorkerAsync();
+                );
+                bw.RunWorkerAsync();
+            }
+            else
+            {
+                FormExamResult instanceFormExamResult = FormsManager.GetFormExamResult();
+                instanceFormExamResult.RefreshUI();
+                instanceFormExamResult.Visible = true;
+                instanceFormExamResult.BringToFront();
+                instanceFormExamResult.displayScore();
+
+                this.Visible = false;
+                fadeForm.Visible = false;
+                timeoutMessageBox.Visible = false;
+                quizNotCompletedMessageBox.Visible = false;
+            }
+
         }
 
         void GoToFormChooseLanguage()
@@ -470,7 +493,7 @@ namespace HCT_Client
 
         public void ShowAnswer()
         {
-            modeShowAnswer = true;
+            examState = ExamState.ShowAnswerState;
             this.Enabled = true;
             this.BringToFront();
             for (int i = 0; i < singleQuizStatusPanelArray.Length; i++)
@@ -515,7 +538,7 @@ namespace HCT_Client
 
         void ChoicePanelClicked(object sender, EventArgs e)
         {
-            if (modeShowAnswer)
+            if (examState == ExamState.ShowAnswerState)
             {
                 return;
             }
@@ -565,9 +588,9 @@ namespace HCT_Client
 
         void SubmitExamButtonClicked(object sender, EventArgs e)
         {
-            if (modeShowAnswer)
+            if (examState == ExamState.ShowAnswerState)
             {
-                modeShowAnswer = false;
+               // modeShowAnswer = false;
                 GoToFormExamResult();
             }
             else
@@ -625,7 +648,7 @@ namespace HCT_Client
         {
             timeoutMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             quizNotCompletedMessageBox.leftButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            if (modeShowAnswer)
+            if (examState == ExamState.ShowAnswerState)
             {
                 submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             }

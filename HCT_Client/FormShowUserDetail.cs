@@ -293,6 +293,7 @@ namespace HCT_Client
                     if (status.Equals(WebServiceResultStatus.SUCCESS))
                     {
                         FormExecuteExam instanceFormExecuteExam = FormsManager.GetFormExecuteExam();
+                        instanceFormExecuteExam.examState = ExamState.TakingExamState;
                         instanceFormExecuteExam.LoadExamData();
                         instanceFormExecuteExam.Visible = true;
                         instanceFormExecuteExam.Enabled = true;
