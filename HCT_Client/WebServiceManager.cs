@@ -10,6 +10,12 @@ using System.Collections.Specialized;
 
 namespace HCT_Client
 {
+    enum WebServiceMode
+    { 
+        NormalMode,
+        MockMode
+    }
+
     class WebServiceManager
     {
         const string DLT_WEB_SERVICE_URI = "http://ws.dlt.go.th:80/EExam/EExamService";
@@ -17,9 +23,16 @@ namespace HCT_Client
         const string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
         const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
         const string CONTENT_DICT_SOAP_KEY = "SOAP";
+        const WebServiceMode webServiceMode = WebServiceMode.MockMode;
 
         public static string GetPaperTestNumberFromServer()
         {
+            if (webServiceMode == WebServiceMode.MockMode)
+            {
+                QuizManager.SetPaperTestNumber("99");
+                return WebServiceResultStatus.SUCCESS;
+            }
+
             string soapContent = UtilSOAP.GetSoapXmlTemplate_FindStudentDetail();
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1),GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
@@ -47,11 +60,17 @@ namespace HCT_Client
                     QuizManager.SetPaperTestNumber(paperTestNo);
                     return WebServiceResultStatus.SUCCESS;
                 }                
-            }
+            }       
         }
 
         public static string GetEExamQuestionFromServer()
         {
+            if (webServiceMode == WebServiceMode.MockMode)
+            {
+                QuizManager.MockQuiz();
+                return WebServiceResultStatus.SUCCESS;
+            }
+
             DateTime date = DateTime.Now;
             string dayStr = (date.Day < 10) ? ("0" + date.Day) : ("" + date.Day);
             string monthStr = (date.Month < 10) ? ("0" + date.Month) : ("" + date.Month);
@@ -67,7 +86,7 @@ namespace HCT_Client
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), todayStr);
 
             byte[] responseBytes = SendSoapRequestToWebService(soapContent);
-           
+
             if (WebServiceResultStatus.IsErrorBytesCode(responseBytes))
             {
                 string errorCode = WebServiceResultStatus.GetErrorStringFromBytesCode(responseBytes);
@@ -90,11 +109,19 @@ namespace HCT_Client
                     }
                     return WebServiceResultStatus.SUCCESS;
                 }
-            }
+            }                      
         }
 
         public static string GetEExamResultFromServer()
         {
+            if (webServiceMode == WebServiceMode.MockMode)
+            {
+                QuizManager.GetQuizResult().passFlag = QuizResultPassFlag.Pass;
+                QuizManager.GetQuizResult().quizScore = "29";
+
+                return WebServiceResultStatus.SUCCESS;
+            }
+
             SingleQuizObject[] quizObjectArray = QuizManager.GetQuizArray();
             StringBuilder sbQuizCode = new StringBuilder();
             StringBuilder sbChoiceCode = new StringBuilder();
@@ -193,6 +220,16 @@ namespace HCT_Client
 
         public static string GetEExamCorrectAnswerFromServer(string paperQuestSeq)
         {
+            if (webServiceMode == WebServiceMode.MockMode)
+            {
+                for (int i = 0; i < QuizManager.GetQuizArray().Length; i++)
+                {
+                    SingleQuizObject obj = QuizManager.GetQuizArray()[i];
+                    obj.correctChoice = 0;
+                }
+                return WebServiceResultStatus.SUCCESS;
+            }
+
             string soapContent = UtilSOAP.GetSoapXmlTemplate_CheckEExamCorrectAnswer();
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);

@@ -219,7 +219,7 @@ namespace HCT_Client
         public static int GetMinuteDifferentOfTwoDates(DateTime dt1, DateTime dt2)
         {
             TimeSpan ts = dt2.Subtract(dt1);
-            int totalMinutes = (int)ts.TotalMinutes;
+            int totalMinutes = (int)ts.TotalMinutes + 1;
             return totalMinutes;
         }
 

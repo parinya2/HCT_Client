@@ -79,7 +79,7 @@ namespace HCT_Client
             }
         }
 
-        private static void MockQuiz()
+        public static void MockQuiz()
         { 
             instance.quizArray = new SingleQuizObject[50];
 
@@ -104,7 +104,8 @@ namespace HCT_Client
 
                 for (int k = 0; k < 4; k++)
                 {
-                   obj.choiceObjArray[k].choiceText = LocalizedTextManager.GetLocalizedTextForKey("MockQuiz." + (i % 3 + 1) + ".Choice." + (k + 1));
+                    obj.choiceObjArray[k] = new SingleChoiceObject();
+                    obj.choiceObjArray[k].choiceText = LocalizedTextManager.GetLocalizedTextForKey("MockQuiz." + (i % 3 + 1) + ".Choice." + (k + 1));
                 }
 
                 obj.correctChoice = 0;
