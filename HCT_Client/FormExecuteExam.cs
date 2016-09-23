@@ -22,6 +22,7 @@ namespace HCT_Client
         int QUIZ_COUNT = 50;
         int TOTAL_EXAM_TIME_SECONDS = 3600;
         int currentQuizNumber = 0;
+        int totalAnsweredCount = 0;
         Panel monitorPanel;
         Panel quizListPanel;
         SingleQuizStatusPanel[] singleQuizStatusPanelArray;
@@ -29,6 +30,7 @@ namespace HCT_Client
         Panel quizPanel;
         BaseTextLabel usernameLabel;
         BaseTextLabel examCourseLabel;
+        BaseTextLabel questionCountLabel;
         PictureBox userPhotoPictureBox;
         BaseTextLabel timerLabel;
         Stopwatch stopwatch;
@@ -54,7 +56,6 @@ namespace HCT_Client
         Color wrongAnswerColor = Color.Red;
 
         public ExamState examState;
-        //bool modeShowAnswer = false;
 
         bool userHasTappedChoice = false;
         int signalClockState = -1;
@@ -251,6 +252,18 @@ namespace HCT_Client
                                                  usernameLabel.Location.Y + usernameLabel.Height + 20);
             examCourseLabel.Font = new Font(this.Font.FontFamily, 13);
 
+            questionCountLabel = new BaseTextLabel();
+            questionCountLabel.Width = usernameLabel.Width;
+            questionCountLabel.Location = new Point(usernameLabel.Location.X,
+                                                 examCourseLabel.Location.Y + examCourseLabel.Height + 20);
+            questionCountLabel.Font = new Font(this.Font.FontFamily, 13);
+            
+            string answeredCountText = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.AnsweredCount");
+            answeredCountText = answeredCountText.Replace(LocalizedTextManager.PARAM_1, totalAnsweredCount + "");
+            answeredCountText = answeredCountText.Replace(LocalizedTextManager.PARAM_2, (QuizManager.GetQuizArray().Length - totalAnsweredCount) + "");
+            questionCountLabel.Text = answeredCountText;
+
+
             timerLabel = new BaseTextLabel();
             timerLabel.Text = "";
             timerLabel.Location = new Point(userPhotoPictureBox.Location.X,
@@ -284,6 +297,7 @@ namespace HCT_Client
             monitorPanel.Controls.Add(userPhotoPictureBox);
             monitorPanel.Controls.Add(usernameLabel);
             monitorPanel.Controls.Add(examCourseLabel);
+            monitorPanel.Controls.Add(questionCountLabel);
             monitorPanel.Controls.Add(timerLabel);
             monitorPanel.Controls.Add(quizListPanel);
 
@@ -366,14 +380,23 @@ namespace HCT_Client
         }
 
         void PerformUserSelectChoiceAction(int quizNumber, int choiceNumber)
-        {
+        {            
             SingleQuizObject quizObject = quizArray[quizNumber];
+            if (quizObject.selectedChoice == -1)
+            {
+                totalAnsweredCount++;
+            }
             quizObject.selectedChoice = choiceNumber;
 
             SingleQuizStatusPanel singleQuizPanel = singleQuizStatusPanelArray[quizNumber];
             singleQuizPanel.selectedAnswerLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (choiceNumber + 1));
 
             userHasTappedChoice = true;
+            
+            string answeredCountText = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.AnsweredCount");
+            answeredCountText = answeredCountText.Replace(LocalizedTextManager.PARAM_1, totalAnsweredCount + "");
+            answeredCountText = answeredCountText.Replace(LocalizedTextManager.PARAM_2, (QuizManager.GetQuizArray().Length - totalAnsweredCount) + "");
+            questionCountLabel.Text = answeredCountText;
         }
 
         void GoToQuiz(int newQuizNumber)

@@ -13,6 +13,9 @@ namespace HCT_Client
         private Dictionary<string, string> dataDictEN;
         LanguageMode language;
 
+        public static string PARAM_1 = "<param1>";
+        public static string PARAM_2 = "<param2>";
+
         private LocalizedTextManager()
         {
             dataDictTH = new Dictionary<string, string>();
@@ -67,6 +70,7 @@ namespace HCT_Client
             SetDictValueForKey("FormExecuteExam.QuizTextLabel.Header", "ข้อที่", "Question No.");
             SetDictValueForKey("FormExecuteExam.SubmitExamButton", "ส่งข้อสอบ", "Submit Answer");
             SetDictValueForKey("FormExecuteExam.GoBack", "<< ย้อนกลับ", "<< Go Back");
+            SetDictValueForKey("FormExecuteExam.AnsweredCount", "ตอบแล้ว " + PARAM_1 + " ข้อ ยังไม่ตอบ " + PARAM_2 + " ข้อ", "Answered " + PARAM_1 + " Unanswered " + PARAM_2);
 
             SetDictValueForKey("QuizChoicePanel.ChoiceHeader.1", "ก", "A");
             SetDictValueForKey("QuizChoicePanel.ChoiceHeader.2", "ข", "B");
@@ -76,7 +80,7 @@ namespace HCT_Client
             SetDictValueForKey("TimeoutMessageBox.Message", "หมดเวลาทำข้อสอบ กรุณากดปุ่ม 'ส่งคำตอบ'", "Time is over, please click 'Submit' button");
             SetDictValueForKey("TimeoutMessageBox.RightButton", "ส่งคำตอบ", "Submit");
 
-            SetDictValueForKey("QuizNotCompletedMessageBox.Message", "คุณต้องตอบคำถามให้ครบทุกข้อ มิฉะนั้นจะสอบตก" + Environment.NewLine + " ข้อที่ยังไม่ตอบ ได้แก่ ", 
+            SetDictValueForKey("QuizNotCompletedMessageBox.Message", "คุณต้องตอบคำถามให้ครบทุกข้อ มิฉะนั้นจะสอบไม่ผ่าน" + Environment.NewLine + " ข้อที่ยังไม่ตอบ ได้แก่ ", 
                                                                      "You must answer all questions, otherwise you will fail." + Environment.NewLine + "Unanswered questions are ");
             SetDictValueForKey("QuizNotCompletedMessageBox.RightButton", "ย้อนกลับ", "Go Back");
 
