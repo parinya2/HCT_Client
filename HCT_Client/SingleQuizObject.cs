@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Media;
 
 namespace HCT_Client
 {
@@ -12,6 +13,7 @@ namespace HCT_Client
         public string choiceCode;
         public int choiceSeq;
         public Bitmap choiceImage;
+        public SoundPlayer choiceSoundPlayer;
     }
 
     public class SingleQuizObject
@@ -24,6 +26,7 @@ namespace HCT_Client
         public SingleChoiceObject correctChoiceObject;
         public int correctChoice;
         public int selectedChoice;
+        public SoundPlayer quizSoundPlayer;
 
         public SingleQuizObject()
         {

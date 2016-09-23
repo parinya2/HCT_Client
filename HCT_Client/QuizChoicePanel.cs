@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace HCT_Client
 {
@@ -13,6 +14,7 @@ namespace HCT_Client
         public BaseTextLabel choiceTextLabel;
         public PictureBox choiceCorrectStatusPictureBox;
         public PictureBox choiceImagePictureBox;
+        public PictureBox choiceSoundPictureBox;
         public int choiceNumber;
         int margin = 10;
 
@@ -60,7 +62,19 @@ namespace HCT_Client
             choiceImagePictureBox.Tag = this.choiceNumber;
             choiceImagePictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
+            Bitmap soundIconBitmap = Util.GetImageFromImageResources("SoundIcon.png");
+
+            choiceSoundPictureBox = new PictureBox();
+            choiceSoundPictureBox.Width = 50;
+            choiceSoundPictureBox.Height = choiceSoundPictureBox.Width;
+            choiceSoundPictureBox.Location = new Point(margin / 2, this.Height - choiceSoundPictureBox.Height - margin / 2);
+            choiceSoundPictureBox.BackColor = Color.Transparent;
+            choiceSoundPictureBox.Tag = this.choiceNumber;
+            choiceSoundPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            choiceSoundPictureBox.Image = soundIconBitmap;
+
             this.BackColor = panelColor;
+            this.Controls.Add(choiceSoundPictureBox);
             this.Controls.Add(choiceHeaderLabel);
             this.Controls.Add(choiceTextLabel);
             this.Controls.Add(choiceCorrectStatusPictureBox);

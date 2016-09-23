@@ -20,7 +20,7 @@ namespace HCT_Client
     public partial class FormExecuteExam : FixedSizeForm
     {
         int QUIZ_COUNT = 50;
-        int TOTAL_EXAM_TIME_SECONDS = 3;//3600;
+        int TOTAL_EXAM_TIME_SECONDS = 3600;
         int currentQuizNumber = 0;
         Panel monitorPanel;
         Panel quizListPanel;
@@ -37,6 +37,7 @@ namespace HCT_Client
 
         BaseTextLabel quizTextLabel;
         PictureBox quizImagePictureBox;
+        PictureBox quizSoundPictureBox;
         QuizChoicePanel[] choicePanelArray;
 
         MediumButton submitExamButton;
@@ -60,10 +61,12 @@ namespace HCT_Client
 
         Bitmap correctSignBitmap;
         Bitmap wrongSignBitmap;
+        Bitmap soundIconBitmap;
 
         public FormExecuteExam()
         {
-            InitializeComponent();         
+            InitializeComponent();
+
             RenderUI();
 
             timeoutMessageBox = new FormLargeMessageBox(0);
@@ -78,13 +81,6 @@ namespace HCT_Client
 
             fadeForm = FormsManager.GetFormFadeView();
 
-            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            Stream myStream = myAssembly.GetManifestResourceStream("HCT_Client.Images.CorrectSign.png");
-            correctSignBitmap = new Bitmap(myStream);
-
-            myStream = myAssembly.GetManifestResourceStream("HCT_Client.Images.WrongSign.png");
-            wrongSignBitmap = new Bitmap(myStream);
-
             signalClock = new SignalClock(30);
             signalClock.TheTimeChanged += new SignalClock.SignalClockTickHandler(SignalClockHasChanged);
 
@@ -94,6 +90,10 @@ namespace HCT_Client
 
         void RenderUI()
         {
+            correctSignBitmap = Util.GetImageFromImageResources("CorrectSign.png");
+            wrongSignBitmap = Util.GetImageFromImageResources("WrongSign.png");
+            soundIconBitmap = Util.GetImageFromImageResources("SoundIcon.png");
+
             RenderMonitorPanelUI();
             RenderQuizPanelUI();
        }
@@ -168,6 +168,16 @@ namespace HCT_Client
                 quizTextLabel.Location.Y + quizTextLabel.Height + quizTextLabelOffsetY);
             quizImagePictureBox.BackColor = Color.Transparent;
 
+            quizSoundPictureBox = new PictureBox();
+            quizSoundPictureBox.Width = 50;
+            quizSoundPictureBox.Height = quizSoundPictureBox.Width;
+            quizSoundPictureBox.Location = new Point(quizTextLabel.Location.X,
+                quizTextLabel.Location.Y + quizTextLabel.Height + quizTextLabelOffsetY);
+            quizSoundPictureBox.BackColor = Color.Transparent;
+            quizSoundPictureBox.Image = soundIconBitmap;
+            quizSoundPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            quizSoundPictureBox.Click += new EventHandler(QuizSoundPictureBoxClicked);
+
             int choiceLabelOffsetX = 5;
             int choiceLabelOffsetY = 5;
             choicePanelArray = new QuizChoicePanel[4];
@@ -201,15 +211,17 @@ namespace HCT_Client
                 obj.choiceTextLabel.Click += new EventHandler(ChoicePanelClicked);
                 obj.choiceCorrectStatusPictureBox.Click += new EventHandler(ChoicePanelClicked);
                 obj.choiceImagePictureBox.Click += new EventHandler(ChoicePanelClicked);
+                obj.choiceSoundPictureBox.Click += new EventHandler(ChoiceSoundPictureBoxClicked);
                 obj.Click += new EventHandler(ChoicePanelClicked);
 
                 choicePanelArray[i] = obj;
                 quizPanel.Controls.Add(obj);
             }
 
+            quizPanel.Controls.Add(quizSoundPictureBox);
             quizPanel.Controls.Add(quizImagePictureBox);
             quizPanel.Controls.Add(quizTextLabel);
-
+            
             this.Controls.Add(quizPanel);
         }
 
@@ -549,6 +561,19 @@ namespace HCT_Client
             this.Visible = true;
             this.Enabled = true;
             this.BringToFront();
+        }
+
+        void ChoiceSoundPictureBoxClicked(object sender, EventArgs e)
+        {
+            Control obj = (Control)sender;
+            int choiceNumber = (int)obj.Tag;
+            SingleQuizObject quizObj = QuizManager.GetQuizArray()[currentQuizNumber];
+            quizObj.choiceObjArray[choiceNumber].choiceSoundPlayer.Play();
+        }
+
+        void QuizSoundPictureBoxClicked(object sender, EventArgs e)
+        {
+            QuizManager.GetQuizArray()[currentQuizNumber].quizSoundPlayer.Play();
         }
 
         void ChoicePanelClicked(object sender, EventArgs e)

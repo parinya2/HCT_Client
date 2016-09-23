@@ -23,7 +23,7 @@ namespace HCT_Client
         const string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
         const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
         const string CONTENT_DICT_SOAP_KEY = "SOAP";
-        const WebServiceMode webServiceMode = WebServiceMode.MockMode;
+        const WebServiceMode webServiceMode = WebServiceMode.NormalMode;
 
         public static string GetPaperTestNumberFromServer()
         {
@@ -462,6 +462,9 @@ namespace HCT_Client
                 quizObj.quizImage = quizImage;
                 quizObj.paperQuestSeq = paperQuestSeq;
 
+                // TODO: Wait until DLT send the real sound data
+                quizObj.quizSoundPlayer = Util.GetSoundPlayerFromSoundResources("SampleSound.wav");
+
                 string[] tmpChoiceArray = tmpContent.Split(new string[] { EEXAM_ANSWER_XML_TAG }, StringSplitOptions.RemoveEmptyEntries);
                 for (int k = 0; k < tmpChoiceArray.Length; k++)
                 {
@@ -482,6 +485,9 @@ namespace HCT_Client
                     choiceObj.choiceText = choiceText;
                     choiceObj.choiceCode = choiceCode;
                     choiceObj.choiceImage = choiceImage;
+
+                    // TODO: Wait until DLT send the real sound data
+                    choiceObj.choiceSoundPlayer = Util.GetSoundPlayerFromSoundResources("SampleSound.wav");
 
                     quizObj.choiceObjArray[k] = choiceObj;
                 }

@@ -7,6 +7,7 @@ using System.IO;
 using Microsoft.Office.Interop.Excel;
 using System.Reflection;
 using System.Net.Mail;
+using System.Media;
 
 namespace HCT_Client
 {
@@ -188,6 +189,14 @@ namespace HCT_Client
             string path = "HCT_Client.Images." + imageName;
             Stream myStream = myAssembly.GetManifestResourceStream(path);
             return new Bitmap(myStream);
+        }
+
+        public static SoundPlayer GetSoundPlayerFromSoundResources(string soundName)
+        {
+            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+            string path = "HCT_Client.Sounds." + soundName;
+            Stream myStream = myAssembly.GetManifestResourceStream(path);
+            return new SoundPlayer(myStream);
         }
 
         public static void GenerateButtonBlinkColorDict()

@@ -169,6 +169,7 @@
     </Compile>
     <Compile Include="WebcamEventArgs.cs" />
     <Compile Include="WebServiceManager.cs" />
+    <EmbeddedResource Include="Sounds\SampleSound.wav" />
     <EmbeddedResource Include="FixedSizeForm.resx">
       <DependentUpon>FixedSizeForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -221,6 +222,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Images\SoundIcon.png" />
     <Content Include="RDNIDLib.DLX">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

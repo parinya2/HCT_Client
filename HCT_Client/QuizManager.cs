@@ -98,6 +98,7 @@ namespace HCT_Client
             {
                 SingleQuizObject obj = new SingleQuizObject();
                 obj.quizText = LocalizedTextManager.GetLocalizedTextForKey("MockQuiz.QuizText");
+                obj.quizSoundPlayer = Util.GetSoundPlayerFromSoundResources("SampleSound.wav");
 
                 if (i % 3 == 0) obj.quizImage = Q1image;
                 if (i % 3 == 1) obj.quizImage = Q2image;
@@ -107,6 +108,7 @@ namespace HCT_Client
                 {
                     obj.choiceObjArray[k] = new SingleChoiceObject();
                     obj.choiceObjArray[k].choiceText = LocalizedTextManager.GetLocalizedTextForKey("MockQuiz." + (i % 3 + 1) + ".Choice." + (k + 1));
+                    obj.choiceObjArray[k].choiceSoundPlayer = Util.GetSoundPlayerFromSoundResources("SampleSound.wav");
                 }
 
                 obj.correctChoice = 0;
