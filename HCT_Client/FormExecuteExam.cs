@@ -658,8 +658,32 @@ namespace HCT_Client
                     quizNotCompletedMessageBox.BringToFront();
                     quizNotCompletedMessageBox.Location = new Point((SCREEN_WIDTH - quizNotCompletedMessageBox.Width) / 2,
                                                                         (SCREEN_HEIGHT - quizNotCompletedMessageBox.Height) / 2);
+                    quizNotCompletedMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.Message") + 
+                                                                    GetUnansweredQuestionsString();
                 }  
             }
+        }
+
+        private string GetUnansweredQuestionsString()
+        {
+            StringBuilder sb = new StringBuilder("");
+            for (int i = 0; i < QuizManager.GetQuizArray().Length; i++)
+            {
+                SingleQuizObject quizObj = QuizManager.GetQuizArray()[i];
+                if (quizObj.selectedChoice == -1)
+                {
+                    sb.Append(i + 1);
+                    sb.Append(",");
+                }
+            }
+            string result = sb.ToString();
+            if (result.Contains(","))
+            {
+                int idx = result.LastIndexOf(',');
+                result = result.Substring(0, idx);           
+            }
+
+            return result;
         }
 
         protected void StopwatchHasChanged(string newTime)

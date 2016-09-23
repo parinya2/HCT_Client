@@ -26,8 +26,8 @@ namespace HCT_Client
             int SCREEN_HEIGHT = SystemInformation.VirtualScreen.Height;
 
             this.mode = mode;
-            this.Width = 600;
-            this.Height = 300;
+            this.Width = 620;
+            this.Height = 340;
 
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
