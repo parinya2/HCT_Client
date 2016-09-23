@@ -20,7 +20,7 @@ namespace HCT_Client
     public partial class FormExecuteExam : FixedSizeForm
     {
         int QUIZ_COUNT = 50;
-        int TOTAL_EXAM_TIME_SECONDS = 3600;
+        int TOTAL_EXAM_TIME_SECONDS = 3;//3600;
         int currentQuizNumber = 0;
         Panel monitorPanel;
         Panel quizListPanel;
@@ -70,10 +70,9 @@ namespace HCT_Client
             timeoutMessageBox.Visible = false;
             timeoutMessageBox.rightButton.Click += new EventHandler(TimeoutMessageBoxRightButtonClicked);
 
-            quizNotCompletedMessageBox = new FormLargeMessageBox(1);
+            quizNotCompletedMessageBox = new FormLargeMessageBox(0);
             quizNotCompletedMessageBox.Visible = false;
             quizNotCompletedMessageBox.rightButton.Click += new EventHandler(QuizNotCompletedMessageBoxRightButtonClicked);
-            quizNotCompletedMessageBox.leftButton.Click += new EventHandler(QuizNotCompletedMessageBoxLeftButtonClicked);
 
             submitExamButton.Click += new EventHandler(SubmitExamButtonClicked);
 
@@ -113,7 +112,6 @@ namespace HCT_Client
 
             quizNotCompletedMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.Message");
             quizNotCompletedMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.RightButton");
-            quizNotCompletedMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.LeftButton");
 
             submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");
             submitExamButton.BackColor = Color.White;
@@ -546,11 +544,6 @@ namespace HCT_Client
 
         void QuizNotCompletedMessageBoxRightButtonClicked(object sender, EventArgs e)
         {
-            GoToFormExamResult();
-        }
-
-        void QuizNotCompletedMessageBoxLeftButtonClicked(object sender, EventArgs e)
-        {
             quizNotCompletedMessageBox.Visible = false;
             fadeForm.Visible = false;
             this.Visible = true;
@@ -669,7 +662,6 @@ namespace HCT_Client
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
             timeoutMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            quizNotCompletedMessageBox.leftButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             if (examState == ExamState.ShowAnswerState)
             {
                 submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);

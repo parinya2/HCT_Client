@@ -114,13 +114,21 @@ namespace HCT_Client
 
         public static string GetEExamResultFromServer()
         {
+            if (!QuizManager.isAllQuestionsAnswered())
+            {
+                QuizManager.GetQuizResult().passFlag = QuizResultPassFlag.NotCompleted;
+                QuizManager.GetQuizResult().quizScore = "-";
+
+                return WebServiceResultStatus.SUCCESS;
+            }
+
             if (webServiceMode == WebServiceMode.MockMode)
             {
                 QuizManager.GetQuizResult().passFlag = QuizResultPassFlag.Pass;
                 QuizManager.GetQuizResult().quizScore = "29";
 
                 return WebServiceResultStatus.SUCCESS;
-            }
+            }            
 
             SingleQuizObject[] quizObjectArray = QuizManager.GetQuizArray();
             StringBuilder sbQuizCode = new StringBuilder();
@@ -574,7 +582,11 @@ namespace HCT_Client
             string examScore = QuizManager.GetQuizResult().quizScore;
             string courseType = null;
             string examDateTime = Util.ConvertDateToMariaDBDateString(QuizManager.GetExamStartDateTime());
-            string examResult = QuizManager.GetQuizResult().passFlag == QuizResultPassFlag.Pass ? "Y" : "N";
+            string examResult = "";
+
+            if (QuizManager.GetQuizResult().passFlag == QuizResultPassFlag.Pass) examResult = "Y";
+            if (QuizManager.GetQuizResult().passFlag == QuizResultPassFlag.Fail) examResult = "N";
+            if (QuizManager.GetQuizResult().passFlag == QuizResultPassFlag.NotCompleted) examResult = "X"; 
 
             if (QuizManager.GetExamCourseType() == ExamCourseType.Car) 
                 courseType = "1";

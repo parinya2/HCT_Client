@@ -132,6 +132,10 @@ namespace HCT_Client
             {
                 passOrFail = "สอบไม่ผ่าน ( ได้คะแนน " + quizResult.quizScore + " / " + quizCount + " )";
             }
+            else if (quizResult.passFlag == QuizResultPassFlag.NotCompleted)
+            {
+                passOrFail = "สอบไม่ผ่าน เนื่องจากตอบคำถามไม่ครบทุกข้อ";
+            }
             else
             {
                 passOrFail = "เกิดความผิดพลาดบางอย่าง กรุณาติดต่อผู้ดูแลระบบ";

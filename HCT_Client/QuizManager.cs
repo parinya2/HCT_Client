@@ -18,7 +18,8 @@ namespace HCT_Client
     {
         None,
         Pass,
-        Fail
+        Fail,
+        NotCompleted
     };
 
     public class QuizResult
@@ -111,6 +112,19 @@ namespace HCT_Client
                 obj.correctChoice = 0;
                 instance.quizArray[i] = obj;
             }
+        }
+
+        public static bool isAllQuestionsAnswered()
+        {
+            for (int i = 0; i < instance.quizArray.Length; i++)
+            {
+                SingleQuizObject obj = instance.quizArray[i];
+                if (obj.selectedChoice == -1)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public static void SetQuizArray(SingleQuizObject[] arr)

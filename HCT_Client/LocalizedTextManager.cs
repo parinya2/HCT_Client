@@ -76,9 +76,8 @@ namespace HCT_Client
             SetDictValueForKey("TimeoutMessageBox.Message", "หมดเวลาทำข้อสอบ กรุณากดปุ่ม 'ส่งคำตอบ'", "Time is over, please click 'Submit' button");
             SetDictValueForKey("TimeoutMessageBox.RightButton", "ส่งคำตอบ", "Submit");
 
-            SetDictValueForKey("QuizNotCompletedMessageBox.Message", "คุณยังตอบคำถามไม่ครบทุกข้อ คุณยังต้องการส่งข้อสอบหรือไม่", "You have not answered all questions yet. Do you still want to submit the answers ?");
-            SetDictValueForKey("QuizNotCompletedMessageBox.RightButton", "ส่งข้อสอบ", "Submit Answer");
-            SetDictValueForKey("QuizNotCompletedMessageBox.LeftButton", "ย้อนกลับ", "Go Back");
+            SetDictValueForKey("QuizNotCompletedMessageBox.Message", "คุณต้องตอบคำถามให้ครบทุกข้อ มิฉะนั้นจะถือว่าคุณสอบไม่ผ่านการทดสอบครั้งนี้", "You have to answer all questions, otherwise you will fail the exam.");
+            SetDictValueForKey("QuizNotCompletedMessageBox.RightButton", "ย้อนกลับ", "Go Back");
 
             SetDictValueForKey("ConfirmExitMessageBox.Message", "คุณต้องการออกจากโปรแกรมใช่หรือไม่", "Do you want to exit the program ?");
             SetDictValueForKey("ConfirmExitMessageBox.RightButton", "ตกลง", "OK");
