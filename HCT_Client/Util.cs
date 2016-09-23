@@ -5,9 +5,12 @@ using System.Text;
 using System.Drawing;
 using System.IO;
 using Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Core;
 using System.Reflection;
 using System.Net.Mail;
 using System.Media;
+using System.Drawing.Imaging;
+using System.Net.Mime;
 
 namespace HCT_Client
 {
@@ -53,10 +56,10 @@ namespace HCT_Client
 
             string EXAM_RESULT_PDF_PATH = GetExecutingPath() + "/" + pdfName;
             Attachment attachment;
-            attachment = new System.Net.Mail.Attachment(EXAM_RESULT_PDF_PATH);
+            attachment = new Attachment(EXAM_RESULT_PDF_PATH);
             attachment.Name = pdfName;
             mail.Attachments.Add(attachment);
-
+            
             try
             {
                 client.Send(mail);
@@ -142,6 +145,7 @@ namespace HCT_Client
             string executingPath = GetExecutingPath();
             string EXAM_RESULT_TEMPLATE_PATH = executingPath + "/ExamResultTemplate.xls";
             string EXAM_RESULT_TEMPLATE_TEMP_PATH = executingPath + "/ExamResultTemplate_Temp.xls";
+            string USER_PHOTO_TEMP_PATH = executingPath + "/UserPhoto.jpeg";
 
             string userFullNameForFile = userFullname.Replace(" ", "_");
             string PDF_NAME = "ผลการสอบ_" + userFullNameForFile + "_วันที่_" + dateStringForFileName + ".pdf";
@@ -159,13 +163,21 @@ namespace HCT_Client
             workSheet1.Cells[15, 3] = paperTestNumber;
             workSheet1.Cells[16, 3] = passOrFail;
             workSheet1.Cells[17, 3] = examStartDateString;
-            workSheet1.Cells[18, 3] = examEndDateString;                        
+            workSheet1.Cells[18, 3] = examEndDateString;
+
+            Image userPhoto = UserProfileManager.GetUserPhoto();
+            if (userPhoto != null)
+            {
+                userPhoto.Save(USER_PHOTO_TEMP_PATH, ImageFormat.Jpeg);
+                workSheet1.Shapes.AddPicture(USER_PHOTO_TEMP_PATH, MsoTriState.msoFalse, MsoTriState.msoCTrue, 360, 160, 100, 100);
+            }
 
             workBook.SaveAs(EXAM_RESULT_TEMPLATE_TEMP_PATH);
             workBook.ExportAsFixedFormat(XlFixedFormatType.xlTypePDF, EXAM_RESULT_PDF_PATH);
             workBook.Close();
 
             DeleteFileIfExists(EXAM_RESULT_TEMPLATE_TEMP_PATH);
+            DeleteFileIfExists(USER_PHOTO_TEMP_PATH);
 
             return PDF_NAME;
         }

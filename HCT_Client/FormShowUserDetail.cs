@@ -182,8 +182,8 @@ namespace HCT_Client
 
             noUserPhotoMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("NoUserPhotoMessageBox.Message");
             noUserPhotoMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("NoUserPhotoMessageBox.RightButton");
-        
 
+            userPhotoPictureBox.Image = null;
             UserProfileManager.ClearUserPhoto();
             StartWebcam();
         }

@@ -134,6 +134,7 @@ namespace HCT_Client
 
             currentQuizNumber = 0;
             signalClockState = -1;
+            totalAnsweredCount = 0;
         }
 
         public void LoadExamData()
