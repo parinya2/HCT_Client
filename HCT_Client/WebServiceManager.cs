@@ -642,10 +642,15 @@ namespace HCT_Client
 
             HttpWebResponse httpResponse = null;
             Stream responseStream = null;
+            string soapXmlContentID = "0.9934aabb9948282390c99d863e2343e34458f2323a3232@hct.com";
 
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(new Uri(DLT_WEB_SERVICE_URI));
             httpRequest.Method = "POST";
-            httpRequest.ContentType = "multipart/form-data; type=\"application/xop+xml;\" boundary=\"" + BoundaryMarker + "\"";
+            
+            //ต้องใช้ multipart/related เท่านั้น ห้ามใช้ multipart/form-data
+            httpRequest.ContentType = "multipart/related; type=\"application/xop+xml\";  boundary=\"" + BoundaryMarker + "\"";
+            //httpRequest.ContentType = "multipart/related; type=\"text/xml\"; start=\"<" + soapXmlContentID + ">\"; boundary=\"" + BoundaryMarker + "\""; //แบบนี้ก็ work เหมือนกัน
+            
             httpRequest.Headers.Add("MIME-Version", "1.0");
 
             httpRequest.ProtocolVersion = HttpVersion.Version11;
@@ -658,8 +663,9 @@ namespace HCT_Client
 
             sb.Append("--" + BoundaryMarker + CRLF);
             sb.Append("Content-Type: application/xop+xml; charset=utf-8; type=\"text/xml\"" + CRLF);
+            //sb.Append("Content-Type: text/xml; charset=utf-8" + CRLF);  //แบบนี้ก็ work เหมือนกัน          
             sb.Append("Content-Transfer-Encoding: binary" + CRLF);
-            sb.Append("Content-ID: <0.9934aabb9948282390c99d863e2343e34458f2323a3232@hct.com>" + CRLF + CRLF);
+            sb.Append("Content-ID: <" + soapXmlContentID + ">" + CRLF + CRLF);
             
             bool scanflag = true;
             int attachmentParamIndex = 1;
@@ -689,6 +695,7 @@ namespace HCT_Client
                 sb.Clear();
                 sb.Append("--" + BoundaryMarker + CRLF);
                 sb.Append("Content-Type: application/octet-stream" + CRLF);
+                //sb.Append("Content-Type: image/jpeg" + CRLF); // แบบนี้ก็ work เหมือนกัน               
                 sb.Append("Content-Transfer-Encoding: binary" + CRLF);
                 sb.Append("Content-ID: <" + attachmentContentID + ">" + CRLF + CRLF);
 
