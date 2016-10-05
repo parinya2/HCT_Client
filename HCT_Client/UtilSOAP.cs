@@ -12,11 +12,11 @@ namespace HCT_Client
         {
             if (paramNo < 10)
             {
-                return "HCT_param" + paramNo;
+                return "HCT_param0" + paramNo;
             }
             else
             {
-                return "HCT_paramA" + (paramNo - 10);
+                return "HCT_param" + paramNo;
             }            
         }
 

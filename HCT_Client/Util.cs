@@ -312,6 +312,15 @@ namespace HCT_Client
             return bmp;
         }
 
+        public static byte[] GetJpegBytesFromImage(Image image)
+        {
+            var stream = new MemoryStream();
+            image.Save(stream, ImageFormat.Jpeg);
+            byte[] result = stream.GetBuffer();
+            stream.Close();
+            return result;
+        }
+
         public static Color ColorFromHSL(int H, int S, int L)
         {
             double hue = (H / 240.0) * 360.0;

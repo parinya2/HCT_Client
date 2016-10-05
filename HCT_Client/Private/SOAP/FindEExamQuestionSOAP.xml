@@ -6,12 +6,12 @@
   <soapenv:Header/>
   <soapenv:Body>
     <ws:findEExamQuestion>
-      <certYear>HCT_param1</certYear>
-      <certNo>HCT_param2</certNo>
-      <paperTestNo>HCT_param3</paperTestNo>
-      <idNo>HCT_param4</idNo>
-      <eexamSeq>HCT_param5</eexamSeq>
-      <regisDate>HCT_param6</regisDate>
+      <certYear>HCT_param01</certYear>
+      <certNo>HCT_param02</certNo>
+      <paperTestNo>HCT_param03</paperTestNo>
+      <idNo>HCT_param04</idNo>
+      <eexamSeq>HCT_param05</eexamSeq>
+      <regisDate>HCT_param06</regisDate>
     </ws:findEExamQuestion>
   </soapenv:Body>
 </soapenv:Envelope>
