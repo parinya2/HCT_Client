@@ -316,9 +316,26 @@ namespace HCT_Client
         {
             var stream = new MemoryStream();
             image.Save(stream, ImageFormat.Jpeg);
-            byte[] result = stream.GetBuffer();
+            List<byte> result = new List<byte>();
+            byte[] tmpBuffer = stream.GetBuffer();
+            for (int i = 0; i < tmpBuffer.Length - 1; i++)
+            {
+                bool reachEndOfImage = false;
+                if (i >= 1)
+                {
+                    if (tmpBuffer[i - 1] == 0xff && tmpBuffer[i] == 0xd9)
+                    {
+                        reachEndOfImage = true;
+                    }               
+                }
+                result.Add(tmpBuffer[i]);
+                if (reachEndOfImage)
+                {
+                    break;
+                }
+            }
             stream.Close();
-            return result;
+            return result.ToArray();
         }
 
         public static Color ColorFromHSL(int H, int S, int L)

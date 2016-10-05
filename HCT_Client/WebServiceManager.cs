@@ -125,10 +125,10 @@ namespace HCT_Client
             if (webServiceMode == WebServiceMode.MockMode)
             {
                 QuizManager.GetQuizResult().passFlag = QuizResultPassFlag.Pass;
-                QuizManager.GetQuizResult().quizScore = "29";
+                QuizManager.GetQuizResult().quizScore = "49";
 
                 return WebServiceResultStatus.SUCCESS;
-            }            
+            }   
 
             SingleQuizObject[] quizObjectArray = QuizManager.GetQuizArray();
             StringBuilder sbQuizCode = new StringBuilder();
@@ -196,9 +196,14 @@ namespace HCT_Client
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(17), choiceCodeParamArray[2]);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(18), choiceCodeParamArray[3]);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(19), choiceCodeParamArray[4]);
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(20), UtilSOAP.GetSoapAttachmentParamStr(1));
 
-            byte[] responseBytes = SendSoapRequestToWebService(soapContent);
-           // File.WriteAllText(@"C:\Users\PRINYA\Desktop\XXXsoap.txt", soapContent);
+            byte[] userPhotoBytes = Util.GetJpegBytesFromImage(UserProfileManager.GetUserPhoto());
+            List<byte[]> attachmentList = new List<byte[]>();
+            attachmentList.Add(userPhotoBytes);
+
+            byte[] responseBytes = SendSoapRequestToWebServiceWithAttachment(soapContent, attachmentList, 30);
+          
             if (WebServiceResultStatus.IsErrorBytesCode(responseBytes))
             {
                 string errorCode = WebServiceResultStatus.GetErrorStringFromBytesCode(responseBytes);
@@ -625,10 +630,141 @@ namespace HCT_Client
 
         private static byte[] SendSoapRequestToWebService(string soapRequestMessage)
         {
-            return SendSoapRequestToWebService(soapRequestMessage, 30000);
+            return SendSoapRequestToWebService(soapRequestMessage, 30);
         }
 
-        private static byte[] SendSoapRequestToWebService(string soapRequestMessage, int timeout)
+        private static byte[] SendSoapRequestToWebServiceWithAttachment(string soapRequestMessage, List<byte[]> attachmentList, int timeout_seconds)
+        { 
+            String BoundaryMarker = "MIMEBoundary_a879b8f9987c98978d34123e3434ffee";
+            String CRLF = "\r\n";
+            List<byte> soapRequestBytes = new List<byte>();
+            StringBuilder sb = new StringBuilder();
+
+            HttpWebResponse httpResponse = null;
+            Stream responseStream = null;
+
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(new Uri(DLT_WEB_SERVICE_URI));
+            httpRequest.Method = "POST";
+            httpRequest.ContentType = "multipart/form-data; type=\"application/xop+xml;\" boundary=\"" + BoundaryMarker + "\"";
+            httpRequest.Headers.Add("MIME-Version", "1.0");
+
+            httpRequest.ProtocolVersion = HttpVersion.Version11;
+            httpRequest.KeepAlive = true;
+            httpRequest.Timeout = timeout_seconds * 1000;
+            
+            // It can works without soapAction
+            //string soapAction = "http://ws.eexam.dlt.go.th/EExamService/findStudentDetailRequest";
+            //httpRequest.Headers.Add(String.Format("SOAPAction: \"{0}\"", soapAction));
+
+            sb.Append("--" + BoundaryMarker + CRLF);
+            sb.Append("Content-Type: application/xop+xml; charset=utf-8; type=\"text/xml\"" + CRLF);
+            sb.Append("Content-Transfer-Encoding: binary" + CRLF);
+            sb.Append("Content-ID: <0.9934aabb9948282390c99d863e2343e34458f2323a3232@hct.com>" + CRLF + CRLF);
+            
+            bool scanflag = true;
+            int attachmentParamIndex = 1;
+            while (scanflag)
+            {
+                string attachmentParamStr = UtilSOAP.GetSoapAttachmentParamStr(attachmentParamIndex);
+                if (soapRequestMessage.Contains(attachmentParamStr))
+                {
+                    string newStr = UtilSOAP.GetSoapXMLContentForAttachment(attachmentParamIndex);
+                    soapRequestMessage = soapRequestMessage.Replace(attachmentParamStr, newStr);
+                    attachmentParamIndex++;
+                }
+                else
+                {
+                    scanflag = false;
+                }
+            }
+
+            sb.Append(soapRequestMessage + CRLF);
+            byte[] xmlContentBytes = Encoding.UTF8.GetBytes(sb.ToString());
+            soapRequestBytes.AddRange(xmlContentBytes);
+
+            for (int i = 0; i < attachmentList.Count; i++)
+            {   
+                string attachmentContentID = UtilSOAP.GetSoapAttachmentContentID(i + 1);
+                byte[] attachmentBytes = attachmentList[i];
+                sb.Clear();
+                sb.Append("--" + BoundaryMarker + CRLF);
+                sb.Append("Content-Type: application/octet-stream" + CRLF);
+                sb.Append("Content-Transfer-Encoding: binary" + CRLF);
+                sb.Append("Content-ID: <" + attachmentContentID + ">" + CRLF + CRLF);
+
+                byte[] attachmentHeaderBytes = Encoding.UTF8.GetBytes(sb.ToString());
+                byte[] CRLFbytes = Encoding.UTF8.GetBytes(CRLF);
+
+                soapRequestBytes.AddRange(attachmentHeaderBytes);
+                soapRequestBytes.AddRange(attachmentBytes);
+                soapRequestBytes.AddRange(CRLFbytes);
+            }
+
+            string endingStr = "--" + BoundaryMarker + "--";
+            byte[] endingBytes = Encoding.UTF8.GetBytes(endingStr);
+            soapRequestBytes.AddRange(endingBytes);
+
+            byte[] buffer = soapRequestBytes.ToArray();
+            httpRequest.ContentLength = buffer.Length;
+
+            Stream requestStream = httpRequest.GetRequestStream();
+            requestStream.Write(buffer, 0, buffer.Length);
+            requestStream.Close();
+
+            try
+            {
+                using (httpResponse = (HttpWebResponse)httpRequest.GetResponse())
+                {
+                    responseStream = httpResponse.GetResponseStream();
+
+                    MemoryStream ms = new MemoryStream();
+                    responseStream.CopyTo(ms);
+                    byte[] resultBytes = ms.ToArray();
+
+                    string result = Encoding.UTF8.GetString(resultBytes);
+                    if (result.Contains("Internal Error"))
+                    {
+                        return new byte[] { WebServiceResultStatus.ERROR_BYTE_SERVER_INTERNAL };
+                    }
+
+                    return resultBytes;
+                }
+            }
+            catch (WebException e)
+            {
+                using (var stream = e.Response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
+                {
+                    string errorStr = reader.ReadToEnd();
+                    Console.WriteLine(errorStr);
+                }
+
+                string errStr = e.ToString();
+                if (errStr.Contains("The operation has timed out"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
+                }
+
+                return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
+            }
+            catch (Exception e)
+            {
+                string errStr = e.ToString();
+                if (errStr.Contains("The operation has timed out"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
+                }
+
+                return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
+            }
+            finally
+            {
+                if(httpResponse != null)            httpResponse.Close();
+                if(responseStream != null)          responseStream.Close();              
+            }               
+        }
+
+        private static byte[] SendSoapRequestToWebService(string soapRequestMessage, int timeout_seconds)
         {
             HttpWebResponse httpResponse = null;
             Stream responseStream = null;
@@ -638,7 +774,7 @@ namespace HCT_Client
             httpRequest.ContentType = "text/xml; charset=utf-8";
             httpRequest.ProtocolVersion = HttpVersion.Version11;
             httpRequest.KeepAlive = true;
-            httpRequest.Timeout = timeout;
+            httpRequest.Timeout = timeout_seconds * 1000;
             
             // It can works without soapAction
             //string soapAction = "http://ws.eexam.dlt.go.th/EExamService/findStudentDetailRequest";
