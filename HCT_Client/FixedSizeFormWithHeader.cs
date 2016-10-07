@@ -25,7 +25,8 @@ namespace HCT_Client
             dltLogoPictureBox.Height = 150;
             dltLogoPictureBox.Location = new Point(70, 30);
             dltLogoPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            dltLogoPictureBox.Image = Util.GetImageFromImageResources("DLT_Logo.png");
+            //TODO: Temporary
+            dltLogoPictureBox.Image = null; //Util.GetImageFromImageResources("DLT_Logo.png");
 
             headerLineLabel = new Label();
             headerLineLabel.BackColor = Color.Black;
@@ -39,7 +40,7 @@ namespace HCT_Client
             headerTextLabel.Height = dltLogoPictureBox.Height;
             headerTextLabel.TextAlign = ContentAlignment.MiddleLeft;
             headerTextLabel.Font = new Font(this.Font.FontFamily, 22);
-            headerTextLabel.Text = "Department Of Land Transport \nElectronics Exam";
+            headerTextLabel.Text = "โรงเรียนสอนขับรถ หาดใหญ่ คาร์ เทรนเนอร์ \nElectronics Exam";
             headerTextLabel.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap, 
                                                  dltLogoPictureBox.Location.Y);
 
