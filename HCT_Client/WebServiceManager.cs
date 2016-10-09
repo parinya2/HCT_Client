@@ -813,6 +813,23 @@ namespace HCT_Client
                     return resultBytes;                                               
                 }
             }
+            catch (WebException e)
+            {
+                using (var stream = e.Response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
+                {
+                    string errorStr = reader.ReadToEnd();
+                    Console.WriteLine(errorStr);
+                }
+
+                string errStr = e.ToString();
+                if (errStr.Contains("The operation has timed out"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
+                }
+
+                return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
+            }
             catch (Exception e)
             {
                 string errStr = e.ToString();
