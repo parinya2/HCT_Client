@@ -615,6 +615,7 @@ namespace HCT_Client
             values["courseType"] = courseType;
             values["examDateTime"] = examDateTime;
             values["examResult"] = examResult;
+            values["schoolCertNo"] = GlobalData.SCHOOL_CERT_NUMBER;
             SendPOSTRequestToHCTLogServer(values);
         }
 

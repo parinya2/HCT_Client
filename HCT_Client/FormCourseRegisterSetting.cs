@@ -176,7 +176,7 @@ namespace HCT_Client
             examSeqLabel.TextAlign = dayLabel.TextAlign;
             examSeqLabel.Font = dayLabel.Font;
 
-            examSeqButtonArray = new Button[10];
+            examSeqButtonArray = new Button[3];
             for (int i = 0; i < examSeqButtonArray.Length; i++)
             {
                 Button b = new Button();
