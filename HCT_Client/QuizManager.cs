@@ -26,6 +26,7 @@ namespace HCT_Client
     {
         public QuizResultPassFlag passFlag;
         public string quizScore;
+        public string quizResultPdfBase64String;
 
         public QuizResult()
         {
@@ -36,6 +37,7 @@ namespace HCT_Client
         {
             passFlag = QuizResultPassFlag.None;
             quizScore = null;
+            quizResultPdfBase64String = null;
         }
     }
 

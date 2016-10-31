@@ -148,7 +148,7 @@ namespace HCT_Client
                                "\n\n\n" + "ขอแสดงความนับถือ" +
                                "\n" + "หาดใหญ่คาร์เทรนเนอร์";
 
-            string pdfPath = Util.CreateExamResultPDF(fullname, 
+            Dictionary<string, string> pdfDict = Util.CreateExamResultPDF(fullname, 
                                                       citizenID, 
                                                       courseName, 
                                                       passOrFail, 
@@ -157,7 +157,11 @@ namespace HCT_Client
                                                       courseRegisterDateString,
                                                       paperTestNumber,
                                                       examSeqString);
-            Util.SendEmailWithAttachment(pdfPath, emailBody);
+
+            string pdfName = pdfDict["pdfName"];
+            string pdfBase64String = pdfDict["pdfBase64String"];
+            QuizManager.GetQuizResult().quizResultPdfBase64String = pdfBase64String;
+            Util.SendEmailWithAttachment(pdfName, emailBody);
         }
 
         void GoToFirstForm()
@@ -187,8 +191,8 @@ namespace HCT_Client
                 delegate(object o, DoWorkEventArgs args)
                 {
                     Thread.Sleep(10);
-                    WebServiceManager.SendExamResultToHCTLogServer();
                     GenerateExamResultDocument();
+                    WebServiceManager.SendExamResultToHCTLogServer();                    
                 }
              );
             bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(

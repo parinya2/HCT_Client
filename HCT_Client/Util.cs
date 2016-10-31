@@ -91,6 +91,11 @@ namespace HCT_Client
             return GetExecutingPath() + "/Private/ErorLog2.txt";
         }
 
+        public static string GetKeystorePath()
+        {
+            return GetExecutingPath() + "/Private/Keystore/hct_keystore.p12";
+        }
+
         static string GetTokenPath()
         {
             return GetExecutingPath() + "/Private/token";
@@ -128,7 +133,7 @@ namespace HCT_Client
             return result;
         }
 
-        public static string CreateExamResultPDF(string userFullname, 
+        public static Dictionary<string, string> CreateExamResultPDF(string userFullname, 
                                                  string citizenID, 
                                                  string courseName, 
                                                  string passOrFail, 
@@ -179,7 +184,15 @@ namespace HCT_Client
             DeleteFileIfExists(EXAM_RESULT_TEMPLATE_TEMP_PATH);
             DeleteFileIfExists(USER_PHOTO_TEMP_PATH);
 
-            return PDF_NAME;
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict["pdfName"] = PDF_NAME;
+
+            byte[] pdfBytes = File.ReadAllBytes(EXAM_RESULT_PDF_PATH);
+            string pdfBase64String = Convert.ToBase64String(pdfBytes);
+
+            File.WriteAllText(@"C:\Users\PRINYA\Desktop\pdfBase64.txt", pdfBase64String);
+            dict["pdfBase64String"] = pdfBase64String;
+            return dict;
         }
 
         static void DeleteFileIfExists(string filePath)

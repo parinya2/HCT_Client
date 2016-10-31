@@ -7,6 +7,7 @@ using System.IO;
 using System.Drawing;
 using System.Xml;
 using System.Collections.Specialized;
+using System.Security.Cryptography.X509Certificates;
 
 namespace HCT_Client
 {
@@ -18,7 +19,7 @@ namespace HCT_Client
 
     class WebServiceManager
     {
-        const string DLT_WEB_SERVICE_URI = "http://ws.dlt.go.th:80/EExam/EExamService";
+        const string DLT_WEB_SERVICE_URI = "https://ws.dlt.go.th/EExam/EExamService";
         const string HCT_LOG_SERVER_URI = "http://128.199.95.79:8081/addExamHistory/";
         const string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
         const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
@@ -616,6 +617,7 @@ namespace HCT_Client
             values["examDateTime"] = examDateTime;
             values["examResult"] = examResult;
             values["schoolCertNo"] = GlobalData.SCHOOL_CERT_NUMBER;
+            values["examResultPdfBase64String"] = QuizManager.GetQuizResult().quizResultPdfBase64String;
             SendPOSTRequestToHCTLogServer(values);
         }
 
@@ -657,7 +659,13 @@ namespace HCT_Client
             httpRequest.ProtocolVersion = HttpVersion.Version11;
             httpRequest.KeepAlive = true;
             httpRequest.Timeout = timeout_seconds * 1000;
-            
+
+            httpRequest.Headers.Add("username", GlobalData.HCT_USERNAME);
+            httpRequest.Headers.Add("password", GlobalData.HCT_PASSWORD);
+
+            X509Certificate2 p12cert = new X509Certificate2(Util.GetKeystorePath(), GlobalData.HCT_KEYSTORE_PASSWORD);
+            httpRequest.ClientCertificates.Add(p12cert);
+
             // It can works without soapAction
             //string soapAction = "http://ws.eexam.dlt.go.th/EExamService/findStudentDetailRequest";
             //httpRequest.Headers.Add(String.Format("SOAPAction: \"{0}\"", soapAction));
@@ -783,7 +791,13 @@ namespace HCT_Client
             httpRequest.ProtocolVersion = HttpVersion.Version11;
             httpRequest.KeepAlive = true;
             httpRequest.Timeout = timeout_seconds * 1000;
-            
+           
+            httpRequest.Headers.Add("username", GlobalData.HCT_USERNAME);
+            httpRequest.Headers.Add("password", GlobalData.HCT_PASSWORD);
+
+            X509Certificate2 p12cert = new X509Certificate2(Util.GetKeystorePath(), GlobalData.HCT_KEYSTORE_PASSWORD);
+            httpRequest.ClientCertificates.Add(p12cert);
+
             // It can works without soapAction
             //string soapAction = "http://ws.eexam.dlt.go.th/EExamService/findStudentDetailRequest";
             //httpRequest.Headers.Add(String.Format("SOAPAction: \"{0}\"", soapAction));
@@ -816,20 +830,23 @@ namespace HCT_Client
             }
             catch (WebException e)
             {
-                using (var stream = e.Response.GetResponseStream())
-                using (var reader = new StreamReader(stream))
+                using (var stream = e.Response.GetResponseStream()) 
                 {
-                    string errorStr = reader.ReadToEnd();
-                    Console.WriteLine(errorStr);
+                    using (var reader = new StreamReader(stream))
+                    {
+                        string errorStr = reader.ReadToEnd();
+                        Console.WriteLine(errorStr);
+                    }
+
+                    string errStr = e.ToString();
+                    if (errStr.Contains("The operation has timed out"))
+                    {
+                        return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
+                    }
+
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
                 }
 
-                string errStr = e.ToString();
-                if (errStr.Contains("The operation has timed out"))
-                {
-                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
-                }
-
-                return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
             }
             catch (Exception e)
             {
