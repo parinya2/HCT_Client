@@ -285,6 +285,7 @@ namespace HCT_Client
             string SOAP_CONTENT_KEY = CONTENT_DICT_SOAP_KEY;
             bool foundContentIDHead = false;
             bool foundImageHeader = false;
+            bool foundFirstMIMEBoundary = false;
             string imageID = null;
             bool isJPEG = false;
             bool isPNG = false;
@@ -294,13 +295,23 @@ namespace HCT_Client
                 if (contentDict.Count == 0)
                 {
                     if (cb[i] == '-' && cb[i + 1] == '-' && cb[i + 2] == 'M' && cb[i + 3] == 'I' &&
-                        cb[i + 4] == 'M' && cb[i + 5] == 'E' && cb[i + 6] == 'B' && cb[i + 7] == 'o' &&
-                        tmpByteList.Count > 0)
+                        cb[i + 4] == 'M' && cb[i + 5] == 'E' && cb[i + 6] == 'B' && cb[i + 7] == 'o')
                     {
-                        contentDict.Add(SOAP_CONTENT_KEY, tmpByteList.ToArray());
-                        tmpByteList.Clear();
+                        if (foundFirstMIMEBoundary && tmpByteList.Count > 0)
+                        {
+                            contentDict.Add(SOAP_CONTENT_KEY, tmpByteList.ToArray());
+                            tmpByteList.Clear();
+                        }
+                        else
+                        {
+                            foundFirstMIMEBoundary = true;
+                        }
+                        
                     }
-                    tmpByteList.Add(cb[i]);
+                    if (foundFirstMIMEBoundary)
+                    {
+                        tmpByteList.Add(cb[i]);
+                    }                  
                 }
                 else
                 {
