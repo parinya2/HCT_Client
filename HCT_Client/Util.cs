@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.Media;
 using System.Drawing.Imaging;
 using System.Net.Mime;
+using System.Net;
 
 namespace HCT_Client
 {
@@ -349,6 +350,16 @@ namespace HCT_Client
             }
             stream.Close();
             return result.ToArray();
+        }
+
+        public static string GetUTF8fromHTMLEntity(string str)
+        {
+            if (str.Contains("&#") && str.Contains(";"))
+            {
+                string newStr = WebUtility.HtmlDecode(str);
+                return newStr;
+            }
+            return str;
         }
 
         public static Color ColorFromHSL(int H, int S, int L)

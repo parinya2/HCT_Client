@@ -388,6 +388,7 @@ namespace HCT_Client
                 byte[] xmlContentBytes = contentDict[SOAP_CONTENT_KEY];
                 string xmlContent = Encoding.UTF8.GetString(xmlContentBytes);
                 string correctChoiceDesc = ExtractValueInsideXMLTag(xmlContent, "correctChoiceDesc");
+                correctChoiceDesc = Util.GetUTF8fromHTMLEntity(correctChoiceDesc);
 
                 string corectChoiceImageIDFullStr = ExtractValueInsideXMLTag(xmlContent, "correctChoiceImage");
                 string correctImageID = ExtractAttachmentIDFromXOPString(corectChoiceImageIDFullStr);
@@ -461,6 +462,8 @@ namespace HCT_Client
             {
                 string tmpContent = tmpStrArray[i];
                 string quizText = ExtractValueInsideXMLTag(tmpContent, "questDesc");
+                quizText = Util.GetUTF8fromHTMLEntity(quizText);
+
                 string quizCode = ExtractValueInsideXMLTag(tmpContent, "questCode");
                 string paperQuestSeq = ExtractValueInsideXMLTag(tmpContent, "paperQuestSeq");
                 string quizImageIDFullStr = ExtractValueInsideXMLTag(tmpContent, "questImage");
@@ -488,6 +491,8 @@ namespace HCT_Client
                     string tmpChoiceContent = tmpChoiceArray[k];
                     SingleChoiceObject choiceObj = new SingleChoiceObject();
                     string choiceText = ExtractValueInsideXMLTag(tmpChoiceContent, "choiceDesc");
+                    choiceText = Util.GetUTF8fromHTMLEntity(choiceText);
+
                     string choiceCode = ExtractValueInsideXMLTag(tmpChoiceContent, "choiceCode");
                     string choiceImageIDFullStr = ExtractValueInsideXMLTag(tmpContent, "choiceImage");
                     string choiceImageID = ExtractAttachmentIDFromXOPString(choiceImageIDFullStr);
