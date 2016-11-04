@@ -7,25 +7,25 @@
   <soapenv:Body>
     <ws:checkEExamResult>
       <studentAnswerDetail>
-        <certYear>HCT_param01</certYear>
-        <certNo>HCT_param02</certNo>
-        <studentIdNo>HCT_param03</studentIdNo>
-        <applyDate>HCT_param04</applyDate>
-        <seqNo>HCT_param05</seqNo>
-        <startTestDate>HCT_param06</startTestDate>
-        <endTestDate>HCT_param07</endTestDate>
-        <paperTestNo>HCT_param08</paperTestNo>      
-        <outCourseCode>HCT_param09</outCourseCode>
-        <questCode0110>HCT_param10</questCode0110>
-        <questCode1120>HCT_param11</questCode1120>
-        <questCode2130>HCT_param12</questCode2130>
-        <questCode3140>HCT_param13</questCode3140>
-        <questCode4150>HCT_param14</questCode4150>
         <ansCode0110>HCT_param15</ansCode0110>
         <ansCode1120>HCT_param16</ansCode1120>
         <ansCode2130>HCT_param17</ansCode2130>
         <ansCode3140>HCT_param18</ansCode3140>
         <ansCode4150>HCT_param19</ansCode4150>
+        <applyDate>HCT_param04</applyDate>
+        <certNo>HCT_param02</certNo>
+        <certYear>HCT_param01</certYear>
+        <endTestDate>HCT_param07</endTestDate>
+        <outCourseCode>HCT_param09</outCourseCode>
+        <paperTestNo>HCT_param08</paperTestNo>
+        <questCode0110>HCT_param10</questCode0110>
+        <questCode1120>HCT_param11</questCode1120>
+        <questCode2130>HCT_param12</questCode2130>
+        <questCode3140>HCT_param13</questCode3140>
+        <questCode4150>HCT_param14</questCode4150>
+        <seqNo>HCT_param05</seqNo>
+        <startTestDate>HCT_param06</startTestDate>
+        <studentIdNo>HCT_param03</studentIdNo>
         <studentImage>HCT_param20</studentImage>
       </studentAnswerDetail>
     </ws:checkEExamResult>
