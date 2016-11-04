@@ -382,6 +382,10 @@ namespace HCT_Client
                 }
             }
 
+            if (!contentDict.ContainsKey(SOAP_CONTENT_KEY))
+            {
+                contentDict.Add(SOAP_CONTENT_KEY, contentBytes);
+            }
             return contentDict;
         }
 
