@@ -45,8 +45,10 @@ namespace HCT_Client
         public static string GetSoapXMLContentForAttachment(int attachmentNo)
         {
             string contentID = GetSoapAttachmentContentID(attachmentNo);
-            string result = "<xop:Include xmlns:xop=\"http://www.w3.org/2004/08/xop/include\"" +
-                            " href=\"cid:" + contentID + "\"/>";
+            //เขียนแบบไหนก็ได้ล่ะมั้ง แต่สุดท้ายแล้ว method นี้ก็ไม่ได้ใช้ เพราะเรายัดรูปภาพเป็น base64string เข้าไปใน SOAP request ตรงๆเลย
+           // string result = "<xop:Include xmlns:xop=\"http://www.w3.org/2004/08/xop/include\"" +
+           //                 " href=\"cid:" + contentID + "\"/>";
+            string result = "cid:" + contentID;
             return result;
         }
 

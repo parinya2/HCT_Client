@@ -196,15 +196,21 @@ namespace HCT_Client
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(16), choiceCodeParamArray[1]);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(17), choiceCodeParamArray[2]);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(18), choiceCodeParamArray[3]);
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(19), choiceCodeParamArray[4]);
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(20), UtilSOAP.GetSoapAttachmentParamStr(1));
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(19), choiceCodeParamArray[4]);           
 
             byte[] userPhotoBytes = Util.GetJpegBytesFromImage(UserProfileManager.GetUserPhoto());
             List<byte[]> attachmentList = new List<byte[]>();
             attachmentList.Add(userPhotoBytes);
 
-            byte[] responseBytes = SendSoapRequestToWebServiceWithAttachment(soapContent, attachmentList, 30);
-          
+            string userPhotoBase64String = Convert.ToBase64String(userPhotoBytes);
+
+            //แต่ก่อนส่งรูปภาพไปแบบ attachment แต่ตอนหลังเปลี่ยนเป็นส่งไปตรงๆด้วย base64 string ซะเลย ง่ายดี
+            //soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(20), UtilSOAP.GetSoapAttachmentParamStr(1));
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(20), userPhotoBase64String);
+
+            //byte[] responseBytes = SendSoapRequestToWebServiceWithAttachment(soapContent, attachmentList, 30);
+            byte[] responseBytes = SendSoapRequestToWebService(soapContent);
+
             if (WebServiceResultStatus.IsErrorBytesCode(responseBytes))
             {
                 string errorCode = WebServiceResultStatus.GetErrorStringFromBytesCode(responseBytes);
