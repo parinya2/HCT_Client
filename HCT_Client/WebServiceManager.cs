@@ -651,8 +651,16 @@ namespace HCT_Client
         {
             using (var client = new WebClient())
             {
-                var response = client.UploadValues(HCT_LOG_SERVER_URI, valueDict);
-                var responseString = Encoding.UTF8.GetString(response);
+                try
+                {
+                    var response = client.UploadValues(HCT_LOG_SERVER_URI, valueDict);
+                    var responseString = Encoding.UTF8.GetString(response);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("HCT Log server is down");
+                }
+                
             }
             return "";
         }
