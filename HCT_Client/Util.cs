@@ -294,19 +294,34 @@ namespace HCT_Client
             {
                 return false;
             }
+            
+            BitmapData bmp1Data = bmp1.LockBits(new System.Drawing.Rectangle(0, 0, bmp1.Width, bmp1.Height), ImageLockMode.ReadOnly, bmp1.PixelFormat);
+            BitmapData bmp2Data = bmp2.LockBits(new System.Drawing.Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, bmp2.PixelFormat);
 
-            for (int x = 0; x < bmp1.Width; x++)
+            IntPtr ptr1 = bmp1Data.Scan0;
+            IntPtr ptr2 = bmp2Data.Scan0;
+
+            int numBytes = bmp1Data.Stride * bmp1.Height;
+            byte[] bytes1 = new byte[numBytes];
+            byte[] bytes2 = new byte[numBytes];
+
+            System.Runtime.InteropServices.Marshal.Copy(ptr1, bytes1, 0, numBytes);
+            System.Runtime.InteropServices.Marshal.Copy(ptr2, bytes2, 0, numBytes);
+
+            bool isEqual = true;
+            for (int i = 0; i < numBytes; i++)
             {
-                for (int y = 0; y < bmp1.Height; y++)
+                if (bytes1[i] != bytes2[i])
                 {
-                    if (bmp1.GetPixel(x, y) != bmp2.GetPixel(x, y))
-                    {
-                        return false;
-                    }
+                    isEqual = false;
+                    break;
                 }
             }
 
-            return true;
+            bmp1.UnlockBits(bmp1Data);
+            bmp2.UnlockBits(bmp2Data);
+
+            return isEqual;         
         }
 
         public static Bitmap GetBitmapFromBytes(byte[] imageData)
