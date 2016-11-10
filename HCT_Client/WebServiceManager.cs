@@ -679,6 +679,7 @@ namespace HCT_Client
 
             HttpWebResponse httpResponse = null;
             Stream responseStream = null;
+            Stream requestStream = null;
             string soapXmlContentID = "0.9934aabb9948282390c99d863e2343e34458f2323a3232@hct.com";
 
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(new Uri(DLT_WEB_SERVICE_URI));
@@ -757,12 +758,11 @@ namespace HCT_Client
             byte[] buffer = soapRequestBytes.ToArray();
             httpRequest.ContentLength = buffer.Length;
 
-            Stream requestStream = httpRequest.GetRequestStream();
-            requestStream.Write(buffer, 0, buffer.Length);
-            requestStream.Close();
-
             try
             {
+                requestStream = httpRequest.GetRequestStream();
+                requestStream.Write(buffer, 0, buffer.Length);
+
                 using (httpResponse = (HttpWebResponse)httpRequest.GetResponse())
                 {
                     responseStream = httpResponse.GetResponseStream();
@@ -787,6 +787,10 @@ namespace HCT_Client
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
                 }
+                if (errStr.Contains("The remote name could not be resolved"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
+                }
 
                 using (var stream = e.Response.GetResponseStream())
                 using (var reader = new StreamReader(stream))
@@ -804,13 +808,18 @@ namespace HCT_Client
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
                 }
+                if (errStr.Contains("The remote name could not be resolved"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
+                }
 
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
             }
             finally
             {
-                if(httpResponse != null)            httpResponse.Close();
-                if(responseStream != null)          responseStream.Close();              
+                if (httpResponse != null)            httpResponse.Close();
+                if (responseStream != null)          responseStream.Close();
+                if (requestStream != null)           requestStream.Close();  
             }               
         }
 
@@ -818,6 +827,7 @@ namespace HCT_Client
         {
             HttpWebResponse httpResponse = null;
             Stream responseStream = null;
+            Stream requestStream = null;
 
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(new Uri(DLT_WEB_SERVICE_URI));
             httpRequest.Method = "POST";
@@ -839,12 +849,11 @@ namespace HCT_Client
             byte[] buffer = Encoding.UTF8.GetBytes(soapRequestMessage);
             httpRequest.ContentLength = buffer.Length;
 
-            Stream requestStream = httpRequest.GetRequestStream();
-            requestStream.Write(buffer, 0, buffer.Length);
-            requestStream.Close();
-
             try
             {
+                requestStream = httpRequest.GetRequestStream();
+                requestStream.Write(buffer, 0, buffer.Length);
+
                 using (httpResponse = (HttpWebResponse)httpRequest.GetResponse())
                 {                    
                     responseStream = httpResponse.GetResponseStream();                          
@@ -869,6 +878,10 @@ namespace HCT_Client
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
                 }
+                if (errStr.Contains("The remote name could not be resolved"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
+                }
 
                 using (var stream = e.Response.GetResponseStream()) 
                 {
@@ -889,13 +902,18 @@ namespace HCT_Client
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
                 }
+                if (errStr.Contains("The remote name could not be resolved"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
+                }
 
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
             }
             finally
             {
-                if(httpResponse != null)            httpResponse.Close();
-                if(responseStream != null)          responseStream.Close();              
+                if (httpResponse != null)            httpResponse.Close();
+                if (responseStream != null)          responseStream.Close();
+                if (requestStream != null)           requestStream.Close();  
             }
         }
     }
@@ -905,10 +923,12 @@ namespace HCT_Client
         public const string SUCCESS = "SUCCESS";
         public const byte ERROR_BYTE_HTTP_TIMEOUT = 0xFF;
         public const byte ERROR_BYTE_SERVER_INTERNAL = 0xFD;
+        public const byte ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED = 0xFC;
         public const byte ERROR_BYTE_99 = 0xFE;
 
         public const string ERROR_HTTP_TIMEOUT = "ERROR_HttpTimeout";
         public const string ERROR_SERVER_INTERNAL = "ERROR_ServerInternal";
+        public const string ERROR_REMOTE_NAME_NOT_RESOLVED = "ERROR_RemoteNameNotResolved";
         public const string ERROR_99 = "ERROR_99";
 
         public const string ERROR_STUDENT_DETAIL_NOT_FOUND = "ERROR_FindStudentDetailWebService_StudentNotFound";
@@ -932,6 +952,7 @@ namespace HCT_Client
             {
                 if (bytesCode[0] == ERROR_BYTE_99 ||
                     bytesCode[0] == ERROR_BYTE_HTTP_TIMEOUT ||
+                    bytesCode[0] == ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED ||
                     bytesCode[0] == ERROR_BYTE_SERVER_INTERNAL)
                 {
                     return true;
@@ -946,9 +967,10 @@ namespace HCT_Client
             {
                 switch (bytesCode[0])
                 {
-                    case ERROR_BYTE_99:              return ERROR_99;
-                    case ERROR_BYTE_HTTP_TIMEOUT:    return ERROR_HTTP_TIMEOUT;
-                    case ERROR_BYTE_SERVER_INTERNAL: return ERROR_SERVER_INTERNAL;
+                    case ERROR_BYTE_99:                         return ERROR_99;
+                    case ERROR_BYTE_HTTP_TIMEOUT:               return ERROR_HTTP_TIMEOUT;
+                    case ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED:   return ERROR_REMOTE_NAME_NOT_RESOLVED;
+                    case ERROR_BYTE_SERVER_INTERNAL:            return ERROR_SERVER_INTERNAL;
                     default: return ERROR_99;
                 }
             }
