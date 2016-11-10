@@ -504,7 +504,7 @@ namespace HCT_Client
                     choiceText = Util.GetUTF8fromHTMLEntity(choiceText);
 
                     string choiceCode = ExtractValueInsideXMLTag(tmpChoiceContent, "choiceCode");
-                    string choiceImageIDFullStr = ExtractValueInsideXMLTag(tmpContent, "choiceImage");
+                    string choiceImageIDFullStr = ExtractValueInsideXMLTag(tmpChoiceContent, "choiceImage");
                     string choiceImageID = ExtractAttachmentIDFromXOPString(choiceImageIDFullStr);
 
                     Bitmap choiceImage = null;
@@ -782,17 +782,17 @@ namespace HCT_Client
             }
             catch (WebException e)
             {
+                string errStr = e.ToString();
+                if (errStr.Contains("The operation has timed out"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
+                }
+
                 using (var stream = e.Response.GetResponseStream())
                 using (var reader = new StreamReader(stream))
                 {
                     string errorStr = reader.ReadToEnd();
                     Console.WriteLine(errorStr);
-                }
-
-                string errStr = e.ToString();
-                if (errStr.Contains("The operation has timed out"))
-                {
-                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
                 }
 
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
@@ -864,18 +864,18 @@ namespace HCT_Client
             }
             catch (WebException e)
             {
+                string errStr = e.ToString();
+                if (errStr.Contains("The operation has timed out"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
+                }
+
                 using (var stream = e.Response.GetResponseStream()) 
                 {
                     using (var reader = new StreamReader(stream))
                     {
                         string errorStr = reader.ReadToEnd();
                         Console.WriteLine(errorStr);
-                    }
-
-                    string errStr = e.ToString();
-                    if (errStr.Contains("The operation has timed out"))
-                    {
-                        return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
                     }
 
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
