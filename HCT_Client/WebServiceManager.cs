@@ -797,6 +797,11 @@ namespace HCT_Client
                 {
                     string errorStr = reader.ReadToEnd();
                     Console.WriteLine(errorStr);
+
+                    if (errorStr.Contains("Invalid parameters"))
+                    {
+                        return new byte[] { WebServiceResultStatus.ERROR_BYTE_INVALID_PARAMETERS };
+                    }
                 }
 
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
@@ -889,6 +894,11 @@ namespace HCT_Client
                     {
                         string errorStr = reader.ReadToEnd();
                         Console.WriteLine(errorStr);
+
+                        if (errorStr.Contains("Invalid parameters"))
+                        {
+                            return new byte[] { WebServiceResultStatus.ERROR_BYTE_INVALID_PARAMETERS };
+                        }
                     }
 
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
@@ -924,11 +934,13 @@ namespace HCT_Client
         public const byte ERROR_BYTE_HTTP_TIMEOUT = 0xFF;
         public const byte ERROR_BYTE_SERVER_INTERNAL = 0xFD;
         public const byte ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED = 0xFC;
+        public const byte ERROR_BYTE_INVALID_PARAMETERS = 0xFB;
         public const byte ERROR_BYTE_99 = 0xFE;
 
         public const string ERROR_HTTP_TIMEOUT = "ERROR_HttpTimeout";
         public const string ERROR_SERVER_INTERNAL = "ERROR_ServerInternal";
         public const string ERROR_REMOTE_NAME_NOT_RESOLVED = "ERROR_RemoteNameNotResolved";
+        public const string ERROR_INVALID_PARAMETERS = "ERROR_InvalidParameters";
         public const string ERROR_99 = "ERROR_99";
 
         public const string ERROR_STUDENT_DETAIL_NOT_FOUND = "ERROR_FindStudentDetailWebService_StudentNotFound";
@@ -953,6 +965,7 @@ namespace HCT_Client
                 if (bytesCode[0] == ERROR_BYTE_99 ||
                     bytesCode[0] == ERROR_BYTE_HTTP_TIMEOUT ||
                     bytesCode[0] == ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED ||
+                    bytesCode[0] == ERROR_BYTE_INVALID_PARAMETERS ||
                     bytesCode[0] == ERROR_BYTE_SERVER_INTERNAL)
                 {
                     return true;
@@ -970,6 +983,7 @@ namespace HCT_Client
                     case ERROR_BYTE_99:                         return ERROR_99;
                     case ERROR_BYTE_HTTP_TIMEOUT:               return ERROR_HTTP_TIMEOUT;
                     case ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED:   return ERROR_REMOTE_NAME_NOT_RESOLVED;
+                    case ERROR_BYTE_INVALID_PARAMETERS:         return ERROR_INVALID_PARAMETERS;
                     case ERROR_BYTE_SERVER_INTERNAL:            return ERROR_SERVER_INTERNAL;
                     default: return ERROR_99;
                 }

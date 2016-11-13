@@ -98,7 +98,8 @@ namespace HCT_Client
             SetDictValueForKey("SystemProcessingMessageBox.Message", "ระบบกำลังดำเนินการ กรุณารอสักครู่ ...", "Please wait while the system is processing ...");
 
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_HTTP_TIMEOUT + ".Message", "ไม่มีการตอบกลับจาก Server กรุณารอ 5 วินาที แล้วลองอีกครั้ง", "Server did not response, please wait for 5 seconds and try again");
-            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_REMOTE_NAME_NOT_RESOLVED + ".Message", "ไม่สามารถติดต่อ Server ได้ กรุณาตรวจสอบ Internet ของท่าน", "Unable to connect to the server, please check your internet connection.");            
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_REMOTE_NAME_NOT_RESOLVED + ".Message", "ไม่สามารถติดต่อ Server ได้ กรุณาตรวจสอบ Internet ของท่าน", "Unable to connect to the server, please check your internet connection.");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_INVALID_PARAMETERS + ".Message", "คุณกรอกข้อมูลบางอย่างไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง", "Some information you filled is incorrect, please check it again.");           
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_99 + ".Message", "เกิดข้อผิดพลาดบางอย่าง กรุณาติดต่อเจ้าหน้าที่", "Something went wrong, please contact an officer.");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_STUDENT_DETAIL_NOT_FOUND + ".Message", "ไม่พบชื่อของท่านในรายชื่อผู้มีสิทธิ์สอบ กรุณาติดต่อเจ้าหน้าที่", "Your name was not found in students list. Please contact an officer.");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_SERVER_INTERNAL + ".Message", "Server มีปัญหาบางประการ กรุณาติดต่อเจ้าหน้าที่", "Internal Server error");
