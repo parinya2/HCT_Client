@@ -24,6 +24,7 @@ namespace HCT_Client
         const string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
         const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
         const string CONTENT_DICT_SOAP_KEY = "SOAP";
+        const bool IMAGE_IS_MTOM_ATTACHMENT = true;
         const WebServiceMode webServiceMode = WebServiceMode.NormalMode;
 
         public static string GetPaperTestNumberFromServer()
@@ -401,13 +402,33 @@ namespace HCT_Client
                 correctChoiceDesc = Util.GetUTF8fromHTMLEntity(correctChoiceDesc);
 
                 string corectChoiceImageIDFullStr = ExtractValueInsideXMLTag(xmlContent, "correctChoiceImage");
-                string correctImageID = ExtractAttachmentIDFromXOPString(corectChoiceImageIDFullStr);
-
                 Bitmap correctChoiceImage = null;
-                if (correctImageID != null && contentDict.ContainsKey(correctImageID))
+
+                if (IMAGE_IS_MTOM_ATTACHMENT)
                 {
-                    byte[] correctChoiceImageBytes = contentDict[correctImageID];
-                    correctChoiceImage = Util.GetBitmapFromBytes(correctChoiceImageBytes);
+                    string correctImageID = ExtractAttachmentIDFromXOPString(corectChoiceImageIDFullStr);
+                    
+                    if (correctImageID != null && contentDict.ContainsKey(correctImageID))
+                    {
+                        byte[] correctChoiceImageBytes = contentDict[correctImageID];
+                        correctChoiceImage = Util.GetBitmapFromBytes(correctChoiceImageBytes);
+                    }
+                }
+                else
+                {
+                    if (corectChoiceImageIDFullStr != null)
+                    {
+                        string correctChoiceImageBase64Str = corectChoiceImageIDFullStr;
+                        try
+                        {
+                            byte[] correctChoiceImageBytes = Convert.FromBase64String(correctChoiceImageBase64Str);
+                            correctChoiceImage = Util.GetBitmapFromBytes(correctChoiceImageBytes);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("CorrectChoiceImage base64 error : " + e.ToString());
+                        }
+                    }
                 }
 
                 for (int i = 0; i < QuizManager.GetQuizArray().Length; i++)
@@ -477,13 +498,32 @@ namespace HCT_Client
                 string quizCode = ExtractValueInsideXMLTag(tmpContent, "questCode");
                 string paperQuestSeq = ExtractValueInsideXMLTag(tmpContent, "paperQuestSeq");
                 string quizImageIDFullStr = ExtractValueInsideXMLTag(tmpContent, "questImage");
-                string quizImageID = ExtractAttachmentIDFromXOPString(quizImageIDFullStr);
 
                 Bitmap quizImage = null;
-                if (quizImageID != null && contentDict.ContainsKey(quizImageID))
+                if (IMAGE_IS_MTOM_ATTACHMENT)
                 {
-                    byte[] quizImageBytes = contentDict[quizImageID];
-                    quizImage = Util.GetBitmapFromBytes(quizImageBytes);
+                    string quizImageID = ExtractAttachmentIDFromXOPString(quizImageIDFullStr);                  
+                    if (quizImageID != null && contentDict.ContainsKey(quizImageID))
+                    {
+                        byte[] quizImageBytes = contentDict[quizImageID];
+                        quizImage = Util.GetBitmapFromBytes(quizImageBytes);
+                    }
+                }
+                else
+                {
+                    if (quizImageIDFullStr != null)
+                    {
+                        string quizImageBase64Str = quizImageIDFullStr;
+                        try
+                        {
+                            byte[] quizImageBytes = Convert.FromBase64String(quizImageBase64Str);
+                            quizImage = Util.GetBitmapFromBytes(quizImageBytes);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("QuizImage base64 error : " + e.ToString());
+                        }                   
+                    }
                 }
                 
                 SingleQuizObject quizObj = new SingleQuizObject();
@@ -505,15 +545,34 @@ namespace HCT_Client
 
                     string choiceCode = ExtractValueInsideXMLTag(tmpChoiceContent, "choiceCode");
                     string choiceImageIDFullStr = ExtractValueInsideXMLTag(tmpChoiceContent, "choiceImage");
-                    string choiceImageID = ExtractAttachmentIDFromXOPString(choiceImageIDFullStr);
 
                     Bitmap choiceImage = null;
-                    if (choiceImageID != null && contentDict.ContainsKey(choiceImageID))
+                    if (IMAGE_IS_MTOM_ATTACHMENT)
                     {
-                        byte[] choiceImageBytes = contentDict[choiceImageID];
-                        choiceImage = Util.GetBitmapFromBytes(choiceImageBytes);
+                        string choiceImageID = ExtractAttachmentIDFromXOPString(choiceImageIDFullStr);                     
+                        if (choiceImageID != null && contentDict.ContainsKey(choiceImageID))
+                        {
+                            byte[] choiceImageBytes = contentDict[choiceImageID];
+                            choiceImage = Util.GetBitmapFromBytes(choiceImageBytes);
+                        }
                     }
-
+                    else
+                    {
+                        if (choiceImageIDFullStr != null)
+                        {
+                            string choiceImageBase64Str = choiceImageIDFullStr;
+                            try
+                            {
+                                byte[] choiceImageBytes = Convert.FromBase64String(choiceImageBase64Str);
+                                choiceImage = Util.GetBitmapFromBytes(choiceImageBytes);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("ChoiceImage base64 error : " + e.ToString());
+                            }                        
+                        }
+                    }
+                   
                     choiceObj.choiceText = choiceText;
                     choiceObj.choiceCode = choiceCode;
                     choiceObj.choiceImage = choiceImage;
