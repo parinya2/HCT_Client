@@ -102,6 +102,16 @@ namespace HCT_Client
             return GetExecutingPath() + "/Private/token";
         }
 
+        public static string GetSimulatorQuizFolderPath()
+        {
+            string folderPath = GetExecutingPath() + "/SimulatorQuiz";
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            return folderPath;
+        }
+
         static string ExtractEmailPassword()
         {
             string text = "" + File.ReadAllText(GetTokenPath(), Encoding.UTF8);

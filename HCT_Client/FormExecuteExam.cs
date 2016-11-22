@@ -409,6 +409,14 @@ namespace HCT_Client
 
                 SingleQuizObject newQuizObj = quizArray[newQuizNumber];
 
+                if (WebServiceManager.QUIZ_STEAL_ENABLED)
+                {
+                    if (examState == ExamState.ShowAnswerState)
+                    {
+                        WebServiceManager.GetEExamCorrectAnswerFromServer(newQuizObj.paperQuestSeq);
+                    }
+                }
+
                 if (examState == ExamState.ShowAnswerState && newQuizObj.correctChoice == -1)
                 {
                     FormsManager.GetFormLoadingView().ShowLoadingView(true);

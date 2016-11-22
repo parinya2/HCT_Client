@@ -14,11 +14,14 @@ namespace HCT_Client
         public Label headerLineLabel;
         private Label headerTextLabel;
         private PictureBox dltLogoPictureBox;
+        private Label simulatorTextLabel;
         int headerLineGap = 20;
 
         public FixedSizeFormWithHeader()
         {
             InitializeComponent();
+
+            bool isSimulatorMode = WebServiceManager.webServiceMode == WebServiceMode.SimulatorMode;
 
             dltLogoPictureBox = new PictureBox();
             dltLogoPictureBox.Width = 150;
@@ -37,7 +40,7 @@ namespace HCT_Client
             headerTextLabel = new Label();
             headerTextLabel.ForeColor = Color.Black;
             headerTextLabel.Width = SCREEN_WIDTH - dltLogoPictureBox.Width - dltLogoPictureBox.Location.X - headerLineGap * 3;
-            headerTextLabel.Height = dltLogoPictureBox.Height;
+            headerTextLabel.Height = isSimulatorMode ? (int)(dltLogoPictureBox.Height * 0.7) : dltLogoPictureBox.Height;
             headerTextLabel.TextAlign = ContentAlignment.MiddleLeft;
             headerTextLabel.Font = new Font(this.Font.FontFamily, 22);
             headerTextLabel.Text = "โรงเรียนสอนขับรถ หาดใหญ่ คาร์ เทรนเนอร์ \nElectronics Exam";
@@ -47,6 +50,20 @@ namespace HCT_Client
             this.Controls.Add(headerTextLabel);
             this.Controls.Add(dltLogoPictureBox);
             this.Controls.Add(headerLineLabel);
+
+            if (isSimulatorMode)
+            {
+                simulatorTextLabel = new Label();
+                simulatorTextLabel.ForeColor = Color.Red;
+                simulatorTextLabel.Width = SCREEN_WIDTH - dltLogoPictureBox.Width - dltLogoPictureBox.Location.X - headerLineGap * 3;
+                simulatorTextLabel.Height = dltLogoPictureBox.Height - headerTextLabel.Height;
+                simulatorTextLabel.TextAlign = ContentAlignment.MiddleLeft;
+                simulatorTextLabel.Font = new Font(this.Font.FontFamily, 14);
+                simulatorTextLabel.Text = "โปรแกรมนี้เป็นแบบจำลองการทำข้อสอบเท่านั้น ไม่ใช่การทำข้อสอบจริง";
+                simulatorTextLabel.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap,
+                                                     headerTextLabel.Location.Y + headerTextLabel.Height + 5);
+                this.Controls.Add(simulatorTextLabel);
+            }
         }
 
        

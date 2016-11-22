@@ -123,11 +123,11 @@ namespace HCT_Client
 
         public static void FillUserProfileWithMockData()
         {
-            if (GlobalData.tmpRount == 0) instance.citizenID = "4266767713407";
+            if (GlobalData.tmpRount == 0) instance.citizenID = "5851801522689";
             else if (GlobalData.tmpRount == 1) instance.citizenID = "5006812126765";
             else instance.citizenID = "5852730731141";
 
-            instance.fullnameTH = "นายณัฐภัทร์ บัวทอง";
+            instance.fullnameTH = "นายสมปอง ทองดี";
             instance.address = "123 ซ.สุขุมวิท 33 กทม. 10120";
             instance.courseRegisterDate = "14/09/2559";
             instance.examSeq = "1";

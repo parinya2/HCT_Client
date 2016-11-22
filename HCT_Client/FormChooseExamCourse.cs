@@ -73,11 +73,9 @@ namespace HCT_Client
 
             examCourseTopicLabel = new BaseTextLabel();
             examCourseTopicLabel.Width = SCREEN_WIDTH;
-            examCourseTopicLabel.Height = 150;
             examCourseTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
             examCourseTopicLabel.ForeColor = Color.Black;
-            examCourseTopicLabel.Font = new Font(this.Font.FontFamily, 26);
-            examCourseTopicLabel.Location = new Point(0, 60);
+            examCourseTopicLabel.Location = new Point(0, headerLineLabel.Location.Y + 60);
 
             int buttonGapX = 240;
             int buttonGapY = 30;
@@ -86,7 +84,7 @@ namespace HCT_Client
             int height = 160;
             examCourseType1panel = new SingleExamCoursePanel(width, height);
             examCourseType1panel.Location = new Point(buttonGapX, 
-                                                        examCourseTopicLabel.Location.Y + examCourseTopicLabel.Height + buttonGapY * 2);
+                                                        examCourseTopicLabel.Location.Y + examCourseTopicLabel.Height + buttonGapY);
             examCourseType1panel.Click += new EventHandler(ExamCourseType1ButtonClicked);
             examCourseType1panel.examCourseIconPictureBox.Click += new EventHandler(ExamCourseType1ButtonClicked);
             examCourseType1panel.examCourseTextLabel.Click += new EventHandler(ExamCourseType1ButtonClicked);

@@ -182,6 +182,12 @@ namespace HCT_Client
 
         void FinishExamButtonClicked(object sender, EventArgs e)
         {
+            if (WebServiceManager.webServiceMode == WebServiceMode.SimulatorMode)
+            {
+                GoToFirstForm();
+                return;
+            }
+
             Point centerPoint = new Point((SCREEN_WIDTH - finishExamMessageBox.Width) / 2,
                                           (SCREEN_HEIGHT - finishExamMessageBox.Height) / 2);
 

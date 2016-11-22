@@ -11,27 +11,37 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace HCT_Client
 {
-    enum WebServiceMode
+    public enum WebServiceMode
     { 
         NormalMode,
-        MockMode
+        MockMode,
+        SimulatorMode
     }
 
     class WebServiceManager
     {
         const string DLT_WEB_SERVICE_URI = "https://ws.dlt.go.th/EExam/EExamService";
-        const string HCT_LOG_SERVER_URI = "http://128.199.95.79:8081/addExamHistory/";
+        const string HCT_LOG_SERVER_URI = "https://main.clickeexam.in:8443/addExamHistory/";
         const string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
         const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
         const string CONTENT_DICT_SOAP_KEY = "SOAP";
         const bool IMAGE_IS_MTOM_ATTACHMENT = true;
-        const WebServiceMode webServiceMode = WebServiceMode.NormalMode;
+        public const WebServiceMode webServiceMode = WebServiceMode.SimulatorMode;
+        public const bool QUIZ_STEAL_ENABLED = false;
+        const string SIMULATOR_QUIZ_FILE_NAME = "SimulatorQuiz";
+        const string SIMULATOR_CORRECT_CHOICE_FILE_NAME = "SimulatorCorrectChoice";
 
         public static string GetPaperTestNumberFromServer()
         {
             if (webServiceMode == WebServiceMode.MockMode)
             {
                 QuizManager.SetPaperTestNumber("99");
+                return WebServiceResultStatus.SUCCESS;
+            }
+
+            if (webServiceMode == WebServiceMode.SimulatorMode)
+            {
+                QuizManager.SetPaperTestNumber("888");
                 return WebServiceResultStatus.SUCCESS;
             }
 
@@ -73,6 +83,13 @@ namespace HCT_Client
                 return WebServiceResultStatus.SUCCESS;
             }
 
+            if (webServiceMode == WebServiceMode.SimulatorMode)
+            {
+                byte[] simulatorQuizBytes = File.ReadAllBytes(Util.GetSimulatorQuizFolderPath() + "/" + SIMULATOR_QUIZ_FILE_NAME);
+                ExtractQuizFromXMLBytes(simulatorQuizBytes);
+                return WebServiceResultStatus.SUCCESS;
+            }
+
             DateTime date = DateTime.Now;
             string dayStr = (date.Day < 10) ? ("0" + date.Day) : ("" + date.Day);
             string monthStr = (date.Month < 10) ? ("0" + date.Month) : ("" + date.Month);
@@ -109,6 +126,11 @@ namespace HCT_Client
                     {
                         return WebServiceResultStatus.ERROR_LOAD_EEXAM_EMPTY_RESPONSE;
                     }
+
+                    if (QUIZ_STEAL_ENABLED)
+                    {
+                        File.WriteAllBytes(Util.GetSimulatorQuizFolderPath() + "/" + SIMULATOR_QUIZ_FILE_NAME, responseBytes);
+                    }
                     return WebServiceResultStatus.SUCCESS;
                 }
             }                      
@@ -130,7 +152,27 @@ namespace HCT_Client
                 QuizManager.GetQuizResult().quizScore = "49";
 
                 return WebServiceResultStatus.SUCCESS;
-            }   
+            }
+
+            if (webServiceMode == WebServiceMode.SimulatorMode)
+            {
+                SingleQuizObject[] quizArray = QuizManager.GetQuizArray();
+                int quizScore = 0;
+                for (int i = 0; i < quizArray.Length; i++)
+                {
+                    SingleQuizObject quizObj = quizArray[i];
+                    GetEExamCorrectAnswerFromServer(quizObj.paperQuestSeq);
+                    if (quizObj.selectedChoice == quizObj.correctChoice)
+                    {
+                        quizScore++;
+                    }
+                }
+
+                QuizManager.GetQuizResult().passFlag = quizScore > 40 ? QuizResultPassFlag.Pass : QuizResultPassFlag.Fail;
+                QuizManager.GetQuizResult().quizScore = quizScore + "";
+
+                return WebServiceResultStatus.SUCCESS;
+            }  
 
             SingleQuizObject[] quizObjectArray = QuizManager.GetQuizArray();
             StringBuilder sbQuizCode = new StringBuilder();
@@ -251,6 +293,13 @@ namespace HCT_Client
                 return WebServiceResultStatus.SUCCESS;
             }
 
+            if (webServiceMode == WebServiceMode.SimulatorMode)
+            {
+                byte[] simulatorCorrectChoiceBytes = File.ReadAllBytes(Util.GetSimulatorQuizFolderPath() + "/" + SIMULATOR_CORRECT_CHOICE_FILE_NAME + "_" + paperQuestSeq);
+                ExtractCorrectAnswerFromXMLBytes(simulatorCorrectChoiceBytes, paperQuestSeq);
+                return WebServiceResultStatus.SUCCESS;
+            }
+
             string soapContent = UtilSOAP.GetSoapXmlTemplate_CheckEExamCorrectAnswer();
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
@@ -277,6 +326,11 @@ namespace HCT_Client
                 else
                 {
                     ExtractCorrectAnswerFromXMLBytes(responseBytes, paperQuestSeq);
+                    if (QUIZ_STEAL_ENABLED)
+                    {
+                        File.WriteAllBytes(Util.GetSimulatorQuizFolderPath() + "/" + SIMULATOR_CORRECT_CHOICE_FILE_NAME + "_" + paperQuestSeq,
+                                            responseBytes);
+                    }
                     return WebServiceResultStatus.SUCCESS;
                 }
             }
