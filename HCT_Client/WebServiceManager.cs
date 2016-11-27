@@ -40,6 +40,10 @@ namespace HCT_Client
             if (webServiceMode == WebServiceMode.MockMode)
             {
                 QuizManager.SetPaperTestNumber("99");
+                if (UserProfileManager.GetFullnameTH() == null || UserProfileManager.GetFullnameTH().Length == 0)
+                {
+                    UserProfileManager.SetFullnameTH("Miss Mock Mock");
+                }
                 return WebServiceResultStatus.SUCCESS;
             }
 
@@ -739,7 +743,7 @@ namespace HCT_Client
         {
             string fullname = UserProfileManager.GetFullnameTH().Length > 0 ?  UserProfileManager.GetFullnameTH() : 
                                                                                UserProfileManager.GetFullnameEN();
-            string citizenId = UserProfileManager.GetCitizenID();
+            string citizenId = UserProfileManager.GetAvailablePersonID();
             string examNumber = QuizManager.GetPaperTestNumber();
             string examTime = "" + Util.GetMinuteDifferentOfTwoDates(QuizManager.GetExamStartDateTime(), QuizManager.GetExamEndDateTime());
             string examScore = QuizManager.GetQuizResult().quizScore;

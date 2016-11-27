@@ -180,6 +180,10 @@ namespace HCT_Client
             workSheet1.Cells[16, 3] = passOrFail;
             workSheet1.Cells[17, 3] = examStartDateString;
             workSheet1.Cells[18, 3] = examEndDateString;
+            if (!useCitizenID)
+            {
+                workSheet1.Cells[11, 1] = "หมายเลข Passport";
+            }
 
             Image userPhoto = UserProfileManager.GetUserPhoto();
             if (userPhoto != null)

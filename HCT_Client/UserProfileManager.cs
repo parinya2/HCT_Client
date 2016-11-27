@@ -54,6 +54,22 @@ namespace HCT_Client
             instance.courseRegisterDate = date;
         }
 
+        public static string GetAvailablePersonID()
+        {
+            if (instance.citizenID != null && instance.citizenID.Length > 0)
+                return instance.citizenID;
+            else if (instance.passportID != null && instance.passportID.Length > 0)
+                return instance.passportID;
+            else
+                return "";
+        }
+
+        public static bool IsCitizenIDAvailable()
+        {
+            bool result = instance.citizenID != null && instance.citizenID.Length > 0;
+            return result;
+        }
+
         public static string GetCitizenID()
         {
             return instance.citizenID;

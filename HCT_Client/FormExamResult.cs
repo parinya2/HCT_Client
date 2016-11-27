@@ -108,7 +108,7 @@ namespace HCT_Client
         void GenerateExamResultDocument()
         {
             string fullname = UserProfileManager.GetFullnameTH().Length > 0 ? UserProfileManager.GetFullnameTH() : UserProfileManager.GetFullnameEN();
-            string citizenID = UserProfileManager.GetCitizenID();
+            string citizenID = UserProfileManager.GetAvailablePersonID();
             
             string courseName = LocalizedTextManager.GetLocalizedTextForKeyTH("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
 
@@ -118,6 +118,7 @@ namespace HCT_Client
             string examDuration = "" + Util.GetMinuteDifferentOfTwoDates(QuizManager.GetExamStartDateTime(), QuizManager.GetExamEndDateTime());
             string courseRegisterDateString = UserProfileManager.GetCourseRegisterDateString();
             string examSeqString = UserProfileManager.GetExamSeq();
+            bool isCitizenIDAvailable = UserProfileManager.IsCitizenIDAvailable();
 
             string passOrFail = "";
 
@@ -156,7 +157,8 @@ namespace HCT_Client
                                                       examEndDateString,
                                                       courseRegisterDateString,
                                                       paperTestNumber,
-                                                      examSeqString);
+                                                      examSeqString,
+                                                      isCitizenIDAvailable);
 
             string pdfName = pdfDict["pdfName"];
             string pdfBase64String = pdfDict["pdfBase64String"];
