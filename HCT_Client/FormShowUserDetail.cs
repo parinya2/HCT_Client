@@ -165,16 +165,25 @@ namespace HCT_Client
             goToExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Button.TakeExam");
             
             fullnamePanel.attributeHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Label.Fullname");
-            citizenIDPanel.attributeHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Label.CitizenID");
             addressPanel.attributeHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Label.Address");
             courseNamePanel.attributeHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Label.CourseName");
             examDatePanel.attributeHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Label.ExamDate");
 
             fullnamePanel.attributeContentLabel.Text = "  " + (UserProfileManager.GetFullnameTH().Trim().Length > 0 ? UserProfileManager.GetFullnameTH() : UserProfileManager.GetFullnameEN());
-            citizenIDPanel.attributeContentLabel.Text = "  " + UserProfileManager.GetCitizenID();
             addressPanel.attributeContentLabel.Text = "  " + UserProfileManager.GetAddress();
             courseNamePanel.attributeContentLabel.Text = "  " + LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
             examDatePanel.attributeContentLabel.Text = "  " + DateTime.Now.ToString("d/MM/yyyy");
+
+            if (UserProfileManager.GetCitizenID() != null && UserProfileManager.GetCitizenID().Length > 0)
+            {
+                citizenIDPanel.attributeHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Label.CitizenID");
+                citizenIDPanel.attributeContentLabel.Text = "  " + UserProfileManager.GetCitizenID();
+            }
+            else if (UserProfileManager.GetPassportID() != null && UserProfileManager.GetPassportID().Length > 0)
+            {
+                citizenIDPanel.attributeHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Label.PassportID");
+                citizenIDPanel.attributeContentLabel.Text = "  " + UserProfileManager.GetPassportID();
+            }
 
             goToExamMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("GoToExamMessageBox.Message");
             goToExamMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("GoToExamMessageBox.RightButton");

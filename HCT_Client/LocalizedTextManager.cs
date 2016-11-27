@@ -68,6 +68,7 @@ namespace HCT_Client
             SetDictValueForKey("FormShowUserDetail.Button.TakeExam", "เริ่มทำข้อสอบ", "Start an exam");
             SetDictValueForKey("FormShowUserDetail.Label.Fullname", "  ชื่อ-นามสกุล", "  Name");
             SetDictValueForKey("FormShowUserDetail.Label.CitizenID", "  เลขประจำตัวประชาชน", "  Citizen ID");
+            SetDictValueForKey("FormShowUserDetail.Label.PassportID", "  หมายเลข Passport", "  Passport ID");
             SetDictValueForKey("FormShowUserDetail.Label.Address", "  ที่อยู่", "  Address");
             SetDictValueForKey("FormShowUserDetail.Label.CourseName", "  หลักสูตรที่เรียน", "  Course Name");
             SetDictValueForKey("FormShowUserDetail.Label.ExamDate", "  วันที่สอบ", "  Exam Date");

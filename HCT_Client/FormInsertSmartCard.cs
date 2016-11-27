@@ -84,6 +84,9 @@ namespace HCT_Client
 
             passportTextLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormInsertSmartCard.Passport.Label");
             passportButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormInsertSmartCard.Passport.Button");
+
+            UserProfileManager.ClearUserProfile();
+            UserProfileManager.ClearUserPhoto();
         }
 
         void LoginButtonClicked(object sender, EventArgs e)

@@ -71,16 +71,24 @@ namespace HCT_Client
 
         public static string GetFullnameTH()
         {
+            if (instance.fullnameTH == null) return null;
             return instance.fullnameTH.Trim();
+        }
+
+        public static void SetFullnameTH(string text)
+        {
+            instance.fullnameTH = text; ;
         }
 
         public static string GetFullnameEN()
         {
+            if (instance.fullnameEN == null) return null;
             return instance.fullnameEN.Trim();
         }
 
         public static string GetAddress()
         {
+            if (instance.address == null) return null;
             return instance.address.Trim();
         }
 

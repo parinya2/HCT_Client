@@ -22,7 +22,6 @@ namespace HCT_Client
     {
         const string DLT_WEB_SERVICE_URI = "https://ws.dlt.go.th/EExam/EExamService";
         const string HCT_LOG_SERVER_URI = "https://main.clickeexam.in:8443/addExamHistory/";
-        const string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
         const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
         const string CONTENT_DICT_SOAP_KEY = "SOAP";
         const bool IMAGE_IS_MTOM_ATTACHMENT = true;
@@ -33,6 +32,11 @@ namespace HCT_Client
 
         public static string GetPaperTestNumberFromServer()
         {
+            const string PAPER_TEST_NUMBER_XML_TAG_INSIDE = "paperTestNo";
+            const string FIRST_NAME_XML_TAG_INSIDE = "firstname";
+            const string LAST_NAME_XML_TAG_INSIDE = "lastname";
+            const string TITLE_NAME_XML_TAG_INSIDE = "titleName";
+
             if (webServiceMode == WebServiceMode.MockMode)
             {
                 QuizManager.SetPaperTestNumber("99");
@@ -42,6 +46,10 @@ namespace HCT_Client
             if (webServiceMode == WebServiceMode.SimulatorMode)
             {
                 QuizManager.SetPaperTestNumber("888");
+                if (UserProfileManager.GetFullnameTH() == null || UserProfileManager.GetFullnameTH().Length == 0)
+                {
+                    UserProfileManager.SetFullnameTH("Miss Test Test");
+                }
                 return WebServiceResultStatus.SUCCESS;
             }
 
@@ -63,6 +71,10 @@ namespace HCT_Client
             {
                 string responseStr = Encoding.UTF8.GetString(responseBytes);
                 string paperTestNo = ExtractValueInsideXMLTag(responseStr, PAPER_TEST_NUMBER_XML_TAG_INSIDE);
+                string firstname = ExtractValueInsideXMLTag(responseStr, FIRST_NAME_XML_TAG_INSIDE);
+                string lastname = ExtractValueInsideXMLTag(responseStr, LAST_NAME_XML_TAG_INSIDE);
+                string titleName = ExtractValueInsideXMLTag(responseStr, TITLE_NAME_XML_TAG_INSIDE);
+
                 if (paperTestNo == null)
                 {
                     return WebServiceResultStatus.ERROR_STUDENT_DETAIL_NOT_FOUND;
@@ -70,6 +82,10 @@ namespace HCT_Client
                 else
                 {
                     QuizManager.SetPaperTestNumber(paperTestNo);
+                    if (UserProfileManager.GetFullnameTH() == null || UserProfileManager.GetFullnameTH().Length == 0)
+                    {
+                        UserProfileManager.SetFullnameTH(titleName + " " + firstname + " " + lastname);
+                    }
                     return WebServiceResultStatus.SUCCESS;
                 }                
             }       
