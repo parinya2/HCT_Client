@@ -18,6 +18,7 @@ namespace HCT_Client
         private FormChooseExamCourse instanceFormChooseExamCourse;
         private FormCourseRegisterSetting instanceFormCourseRegisterSetting;
         private FormInsertSmartCard instanceFormInsertSmartCard;
+        private FormPassport instanceFormPassport;
         private FormShowUserDetail instanceFormShowUserDetail;
         private FormLargeMessageBox instanceFormSystemProcessingMessageBox;
         private FormLargeMessageBox instanceFormErrorMessageBox;
@@ -137,6 +138,15 @@ namespace HCT_Client
                 Instance.instanceFormInsertSmartCard = new FormInsertSmartCard();
             }
             return Instance.instanceFormInsertSmartCard;
+        }
+
+        public static FormPassport GetFormPassport()
+        {
+            if (Instance.instanceFormPassport == null)
+            {
+                Instance.instanceFormPassport = new FormPassport();
+            }
+            return Instance.instanceFormPassport;
         }
 
         public static FormLargeMessageBox GetFormSystemProcessingMessageBox()

@@ -60,6 +60,12 @@
     </Compile>
     <Compile Include="ButtonBlinkSignalClock.cs" />
     <Compile Include="CardReaderManager.cs" />
+    <Compile Include="FormPassport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPassport.Designer.cs">
+      <DependentUpon>FormPassport.cs</DependentUpon>
+    </Compile>
     <Compile Include="FixedSizeForm.cs">
       <SubType>Form</SubType>
     </Compile>

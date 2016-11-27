@@ -28,11 +28,17 @@ namespace HCT_Client
 
             SetDictValueForKey("FormInsertSmartCard.Login.Label", "กรุณาสอดบัตรประชาชนของท่าน แล้วกดปุ่ม 'เข้าสู่ระบบ'", "Please insert your ID card and click 'Login' button");
             SetDictValueForKey("FormInsertSmartCard.Login.Button", "เข้าสู่ระบบ", "Login");
+            SetDictValueForKey("FormInsertSmartCard.Passport.Label", "หากท่านต้องการใช้ Passport ในการสอบ กรุณากดปุ่มด้านล่าง", "If you want to use your passport for this exam, please press the button below");
+            SetDictValueForKey("FormInsertSmartCard.Passport.Button", "ใช้ Passport", "Use Passport");
             SetDictValueForKey("FormInsertSmartCard.GoBack", "<< ย้อนกลับ", "<< Go Back");
             SetDictValueForKey("FormInsertSmartCard.Error.ReaderNotFound", "ไม่พบเครื่องอ่านบัตรประชาชน กรุณาตรวจสอบเครื่องอ่านบัตรประชาชนอีกครั้ง", "ID Card Reader not found. Please check the ID Card Reader and try again.");
             SetDictValueForKey("FormInsertSmartCard.Error.CardNotFound", "ไม่พบบัตรประชาชน กรุณาสอดบัตรประชาชนของท่าน และกดปุ่ม 'เข้าสู่ระบบ' อีกครั้ง", "ID Card not found. Please insert your ID Card and press 'Login' button again");
             SetDictValueForKey("FormInsertSmartCard.Error.Unknown", "เกิดข้อผิดพลาดบางอย่างขึ้น กรุณาติดต่อผู้ดูแลระบบ", "Some errors occurred. Please contact system administrators.");
             SetDictValueForKey("SmartCardErrorMessageBox.RightButton", "ตกลง", "OK");
+
+            SetDictValueForKey("FormPassport.Passport.Label", "กรุณากรอกหมายเลข Passport ของท่าน เพื่อเข้าสู่ระบบ", "Please insert your Passport number in order to login");
+            SetDictValueForKey("FormPassport.Login.Button", "เข้าสู่ระบบ", "Login");
+            SetDictValueForKey("FormPassport.Delete.Button", "ลบ", "Delete");
 
             SetDictValueForKey("FormCourseRegisterSetting.Button.GoBack", "<< ย้อนกลับ", "<< Go Back");
             SetDictValueForKey("FormCourseRegisterSetting.Button.Next", "ถัดไป", "Next");

@@ -13,8 +13,10 @@ namespace HCT_Client
     {
         BlinkButtonSignalClock blinkButtonSignalClock;
         LargeButton loginButton;
+        MediumButton passportButton;
         MediumButton backButton;
         BaseTextLabel loginTextLabel;
+        BaseTextLabel passportTextLabel;
         FormLargeMessageBox smartCardErrorMessageBox;
         FormFadeView fadeForm;
 
@@ -44,8 +46,22 @@ namespace HCT_Client
 
             loginButton = new LargeButton();
             loginButton.Location = new Point((SCREEN_WIDTH - loginButton.Width) / 2,
-                                            loginTextLabel.Location.Y + loginTextLabel.Height + 50);
+                                            loginTextLabel.Location.Y + loginTextLabel.Height + 40);
             loginButton.Click += new EventHandler(LoginButtonClicked);
+
+            passportTextLabel = new BaseTextLabel();
+            passportTextLabel.Width = SCREEN_WIDTH;
+            passportTextLabel.Location = new Point(0, loginButton.Location.Y + loginButton.Height + 60);
+            passportTextLabel.TextAlign = ContentAlignment.MiddleCenter;
+            passportTextLabel.ForeColor = Color.Black;
+
+            passportButton = new MediumButton();
+            passportButton.Width = loginButton.Width;
+            passportButton.Height = 80;
+            passportButton.Font = new Font(this.Font.FontFamily, 15);
+            passportButton.Location = new Point((SCREEN_WIDTH - passportButton.Width) / 2,
+                                            passportTextLabel.Location.Y + passportTextLabel.Height + 20);
+            passportButton.Click += new EventHandler(PassportButtonClicked);
 
             backButton = new MediumButton();
             backButton.Location = new Point(SCREEN_WIDTH - backButton.Width - 50,
@@ -55,6 +71,8 @@ namespace HCT_Client
             this.Controls.Add(loginTextLabel);
             this.Controls.Add(loginButton);
             this.Controls.Add(backButton);
+            this.Controls.Add(passportTextLabel);
+            this.Controls.Add(passportButton);
         }
 
         public void RefreshUI()
@@ -63,6 +81,9 @@ namespace HCT_Client
             loginButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormInsertSmartCard.Login.Button");
             backButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormInsertSmartCard.GoBack");
             smartCardErrorMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("SmartCardErrorMessageBox.RightButton");
+
+            passportTextLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormInsertSmartCard.Passport.Label");
+            passportButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormInsertSmartCard.Passport.Button");
         }
 
         void LoginButtonClicked(object sender, EventArgs e)
@@ -72,6 +93,11 @@ namespace HCT_Client
             {
                 GoToNextForm();
             }   
+        }
+
+        void PassportButtonClicked(object sender, EventArgs e)
+        {
+            GoToFormPassport();
         }
 
         void BackButtonClicked(object sender, EventArgs e)
@@ -131,6 +157,16 @@ namespace HCT_Client
             this.Visible = false;
         }
 
+        private void GoToFormPassport()
+        {
+            FormPassport instanceFormPassport = FormsManager.GetFormPassport();
+            instanceFormPassport.Visible = true;
+            instanceFormPassport.Enabled = true;
+            instanceFormPassport.RefreshUI();
+            instanceFormPassport.BringToFront();
+            this.Visible = false;
+        }
+
         private void GoToPreviousForm()
         {
             FormChooseLanguage instanceFormChooseLanguage = FormsManager.GetFormChooseLanguage();
@@ -143,6 +179,7 @@ namespace HCT_Client
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
             loginButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            passportButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             smartCardErrorMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
         }
 

@@ -10,6 +10,7 @@ namespace HCT_Client
     {
         private static UserProfileManager instance;
         string citizenID;
+        string passportID;
         string fullnameTH;
         string fullnameEN;
         string address;
@@ -56,6 +57,16 @@ namespace HCT_Client
         public static string GetCitizenID()
         {
             return instance.citizenID;
+        }
+
+        public static string GetPassportID()
+        {
+            return instance.passportID;
+        }
+
+        public static void SetPassportID(string text)
+        {
+            instance.passportID = text;
         }
 
         public static string GetFullnameTH()
@@ -179,6 +190,7 @@ namespace HCT_Client
         public static void ClearUserProfile()
         {
             instance.citizenID = null;
+            instance.passportID = null;
             instance.fullnameTH = null;
             instance.fullnameEN = null;
             instance.address = null;
