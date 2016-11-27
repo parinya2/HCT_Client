@@ -82,6 +82,53 @@ namespace HCT_Client
             }
         }
 
+        public static void GenerateQuizFromSimulatorFolder()
+        {
+            /* ข้อมูล Simulator หน้าตาแบบนี้
+             7|ผู้ขับรถกระทำผิดตามกฎหมายจราจรทางบกและได้รับใบสั่งจากเจ้าพนักงานจราจรต้องไปติดต่อชำระค่าปรับภายในกี่วัน$x|
+             10 วัน$x|7 วัน$x|15 วัน$x|30 วัน$x|1#
+             8|เมื่อใบอนุญาตขับรถสูญหายหรือชำรุดต้องยื่นขอรับใบแทนต่อนายทะเบียนภายในกี่วัน$x|
+             20 วัน$x|30 วัน$x|15 วัน$x|45 วัน$x|2# 
+             */
+            string simulatorFolderPath = Util.GetSimulatorQuizFolderPath();
+            string simulatorImageFolderPath = simulatorFolderPath + "/SimulatorImages";
+            string quizDataString = File.ReadAllText(simulatorFolderPath + "/SimulatorQuiz.txt");
+            quizDataString = quizDataString.Replace(Environment.NewLine, "");
+
+            List<SingleQuizObject> quizList = new List<SingleQuizObject>();
+            string[] quizStrArray = quizDataString.Split('#');
+            for (int i = 0; i < quizStrArray.Length; i++)
+            {         
+                SingleQuizObject quizObj = new SingleQuizObject();
+                string tmpQuizStr = quizStrArray[i].Trim();
+                string[] tmpArr = tmpQuizStr.Split('|');
+
+                if (tmpArr.Length == 7)
+                {
+                    quizObj.paperQuestSeq = tmpArr[0]; //หมายเลขโจทย์
+                    quizObj.correctChoice = Int32.Parse(tmpArr[6]);
+
+                    string[] tmpQuest_Arr = tmpArr[1].Split('$');
+                    quizObj.quizText = tmpQuest_Arr[0];
+                    quizObj.quizImage = tmpQuest_Arr[1].Equals("x") ? null : (Bitmap)Image.FromFile(simulatorImageFolderPath + "/" + tmpQuest_Arr[1]);
+
+                    List<SingleChoiceObject> choiceList = new List<SingleChoiceObject>();
+                    for (int m = 2; m <= 5; m++)
+                    {
+                        SingleChoiceObject choiceObj = new SingleChoiceObject();
+                        string[] tmpChoice_Arr = tmpArr[m].Split('$');
+                        choiceObj.choiceText = tmpChoice_Arr[0];
+                        choiceObj.choiceImage = tmpChoice_Arr[1].Equals("x") ? null : (Bitmap)Image.FromFile(simulatorImageFolderPath + "/" + tmpChoice_Arr[1]);
+
+                        choiceList.Add(choiceObj);
+                    }
+                    quizObj.choiceObjArray = choiceList.ToArray();                 
+                }
+                quizList.Add(quizObj);
+            }
+            instance.quizArray = quizList.ToArray();
+        }
+
         public static void MockQuiz()
         { 
             instance.quizArray = new SingleQuizObject[50];

@@ -85,8 +85,7 @@ namespace HCT_Client
 
             if (webServiceMode == WebServiceMode.SimulatorMode)
             {
-                byte[] simulatorQuizBytes = File.ReadAllBytes(Util.GetSimulatorQuizFolderPath() + "/" + SIMULATOR_QUIZ_FILE_NAME);
-                ExtractQuizFromXMLBytes(simulatorQuizBytes);
+                QuizManager.GenerateQuizFromSimulatorFolder();
                 return WebServiceResultStatus.SUCCESS;
             }
 
@@ -161,14 +160,13 @@ namespace HCT_Client
                 for (int i = 0; i < quizArray.Length; i++)
                 {
                     SingleQuizObject quizObj = quizArray[i];
-                    GetEExamCorrectAnswerFromServer(quizObj.paperQuestSeq);
                     if (quizObj.selectedChoice == quizObj.correctChoice)
                     {
                         quizScore++;
                     }
                 }
 
-                QuizManager.GetQuizResult().passFlag = quizScore > 40 ? QuizResultPassFlag.Pass : QuizResultPassFlag.Fail;
+                QuizManager.GetQuizResult().passFlag = quizScore > 45 ? QuizResultPassFlag.Pass : QuizResultPassFlag.Fail;
                 QuizManager.GetQuizResult().quizScore = quizScore + "";
 
                 return WebServiceResultStatus.SUCCESS;
@@ -295,8 +293,6 @@ namespace HCT_Client
 
             if (webServiceMode == WebServiceMode.SimulatorMode)
             {
-                byte[] simulatorCorrectChoiceBytes = File.ReadAllBytes(Util.GetSimulatorQuizFolderPath() + "/" + SIMULATOR_CORRECT_CHOICE_FILE_NAME + "_" + paperQuestSeq);
-                ExtractCorrectAnswerFromXMLBytes(simulatorCorrectChoiceBytes, paperQuestSeq);
                 return WebServiceResultStatus.SUCCESS;
             }
 

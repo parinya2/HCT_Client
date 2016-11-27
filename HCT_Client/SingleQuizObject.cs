@@ -11,7 +11,6 @@ namespace HCT_Client
     {
         public string choiceText;
         public string choiceCode;
-        public int choiceSeq;
         public Bitmap choiceImage;
         public SoundPlayer choiceSoundPlayer;
     }
@@ -23,7 +22,6 @@ namespace HCT_Client
         public string quizCode;
         public Bitmap quizImage;
         public SingleChoiceObject[] choiceObjArray;
-        public SingleChoiceObject correctChoiceObject;
         public int correctChoice;
         public int selectedChoice;
         public SoundPlayer quizSoundPlayer;
