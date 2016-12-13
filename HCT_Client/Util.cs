@@ -152,7 +152,8 @@ namespace HCT_Client
                                                  string examEndDateString,
                                                  string courseRegisterDateString,
                                                  string paperTestNumber,
-                                                 string examSeq)
+                                                 string examSeq,
+                                                 bool useCitizenID)
         {
             string dateStringForFileName = examStartDateString.Replace("/", "-");
             dateStringForFileName = dateStringForFileName.Replace(":", "-");
