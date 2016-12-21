@@ -60,7 +60,7 @@ namespace HCT_Client
             string soapContent = UtilSOAP.GetSoapXmlTemplate_FindStudentDetail();
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1),GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetAvailablePersonID());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDateString());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), QuizManager.GetExamCourseCode());
@@ -88,6 +88,9 @@ namespace HCT_Client
                     QuizManager.SetPaperTestNumber(paperTestNo);
                     if (UserProfileManager.GetFullnameTH() == null || UserProfileManager.GetFullnameTH().Length == 0)
                     {
+                        firstname = Util.GetUTF8fromHTMLEntity(firstname);
+                        lastname = Util.GetUTF8fromHTMLEntity(lastname);
+                        titleName = Util.GetUTF8fromHTMLEntity(titleName);
                         UserProfileManager.SetFullnameTH(titleName + " " + firstname + " " + lastname);
                     }
                     return WebServiceResultStatus.SUCCESS;
@@ -119,7 +122,7 @@ namespace HCT_Client
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), QuizManager.GetPaperTestNumber());
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCitizenID());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetAvailablePersonID());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), todayStr);
 
@@ -241,7 +244,7 @@ namespace HCT_Client
             string soapContent = UtilSOAP.GetSoapXmlTemplate_CheckEExamResult();
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());            
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetAvailablePersonID());            
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDateString());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), examStartStr);
@@ -319,7 +322,7 @@ namespace HCT_Client
             string soapContent = UtilSOAP.GetSoapXmlTemplate_CheckEExamCorrectAnswer();
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(1), GlobalData.SCHOOL_CERT_YEAR);
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(2), GlobalData.SCHOOL_CERT_NUMBER);
-            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetCitizenID());
+            soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(3), UserProfileManager.GetAvailablePersonID());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(4), UserProfileManager.GetCourseRegisterDateString());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(5), UserProfileManager.GetExamSeq());
             soapContent = soapContent.Replace(UtilSOAP.GetSoapParamStr(6), QuizManager.GetPaperTestNumber());
