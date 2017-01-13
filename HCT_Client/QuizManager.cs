@@ -111,7 +111,8 @@ namespace HCT_Client
                     string[] tmpQuest_Arr = tmpArr[1].Split('$');
                     quizObj.quizText = tmpQuest_Arr[0];
                     quizObj.quizImage = tmpQuest_Arr[1].Equals("x") ? null : (Bitmap)Image.FromFile(simulatorImageFolderPath + "/" + tmpQuest_Arr[1]);
-
+                    quizObj.quizSoundPlayer = Util.GetSoundPlayerFromSoundResources("SampleSound.wav");
+                    
                     List<SingleChoiceObject> choiceList = new List<SingleChoiceObject>();
                     for (int m = 2; m <= 5; m++)
                     {
@@ -119,6 +120,7 @@ namespace HCT_Client
                         string[] tmpChoice_Arr = tmpArr[m].Split('$');
                         choiceObj.choiceText = tmpChoice_Arr[0];
                         choiceObj.choiceImage = tmpChoice_Arr[1].Equals("x") ? null : (Bitmap)Image.FromFile(simulatorImageFolderPath + "/" + tmpChoice_Arr[1]);
+                        choiceObj.choiceSoundPlayer = Util.GetSoundPlayerFromSoundResources("SampleSound.wav");
 
                         choiceList.Add(choiceObj);
                     }
