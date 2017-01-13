@@ -68,6 +68,9 @@ namespace HCT_Client
 
             int gapX = 30;
             int gapY = 5;
+            int buttonHeight = 50;
+            int buttonFontSize = 16;
+
             courseRegisterDateTopicLabel = new Label();
             courseRegisterDateTopicLabel.Width = SCREEN_WIDTH - gapX * 2;
             courseRegisterDateTopicLabel.Height = 60;
@@ -80,7 +83,7 @@ namespace HCT_Client
             examSeqTopicLabel.Width = courseRegisterDateTopicLabel.Width;
             examSeqTopicLabel.Height = courseRegisterDateTopicLabel.Height;
             examSeqTopicLabel.BackColor = courseRegisterDateTopicLabel.BackColor;
-            examSeqTopicLabel.Location = new Point(gapX, backButton.Location.Y - examSeqTopicLabel.Height - 80);
+            examSeqTopicLabel.Location = new Point(gapX, backButton.Location.Y - examSeqTopicLabel.Height - 130);
             examSeqTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
             examSeqTopicLabel.Font = courseRegisterDateTopicLabel.Font;
 
@@ -109,22 +112,22 @@ namespace HCT_Client
             for (int i = 0; i < dayButtonArray.Length; i++)
             {
                 Button b = new Button();
-                b.Height = (dayLabel.Height - gapY * 4) / 2;
-                b.Width = (int)(b.Height * 1.2);
+                b.Height = buttonHeight;
+                b.Width = (int)(b.Height * 1.6);
                 b.Text = "" + (i + 1);
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, 10);
+                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 if (i <= 15)
                 {
                     b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
-                                           dayLabel.Location.Y + gapY);
+                                           dayLabel.Location.Y + dayLabel.Height / 2 - b.Height - gapY);
                 }
                 else
                 {
                     b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * (i - 16),
-                                           dayLabel.Location.Y + b.Height + gapY * 2);
+                                           dayLabel.Location.Y + dayLabel.Height / 2 + gapY);
                }
                 b.Click += new EventHandler(DayButtonArrayClicked);
                 dayButtonArray[i] = b;
@@ -135,15 +138,15 @@ namespace HCT_Client
             for (int i = 0; i < monthButtonArray.Length; i++ )
             {
                 Button b = new Button();
-                b.Height = monthLabel.Height - gapY * 2;
+                b.Height = buttonHeight;
                 b.Width = (int)(b.Height * 1.6);
                 b.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Month." + (i + 1));
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, 14);
+                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
-                                           monthLabel.Location.Y + gapY);
+                                           monthLabel.Location.Y + monthLabel.Height / 2 - b.Height / 2);
                 b.Click += new EventHandler(MonthButtonArrayClicked);
                 monthButtonArray[i] = b;
                 this.Controls.Add(b);
@@ -156,15 +159,15 @@ namespace HCT_Client
             for (int i = 0; i < yearButtonArray.Length; i++)
             {
                 Button b = new Button();
-                b.Height = yearLabel.Height - gapY * 2;
+                b.Height = buttonHeight;
                 b.Width = (int)(b.Height * 2);
                 b.Text = (thisYear - (2 - i)) + "";
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, 14);
+                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
-                                           yearLabel.Location.Y + gapY);
+                                           yearLabel.Location.Y + yearLabel.Height / 2 - b.Height / 2);
                 b.Click += new EventHandler(YearButtonArrayClicked);
                 yearButtonArray[i] = b;
                 this.Controls.Add(b);
@@ -180,15 +183,15 @@ namespace HCT_Client
             for (int i = 0; i < examSeqButtonArray.Length; i++)
             {
                 Button b = new Button();
-                b.Height = monthLabel.Height - gapY * 2;
+                b.Height = buttonHeight;
                 b.Width = (int)(b.Height * 1.6);
                 b.Text = "" + (i + 1);
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, 14);
+                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 b.Location = new Point(examSeqLabel.Location.X + examSeqLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
-                                           examSeqLabel.Location.Y + gapY);
+                                           examSeqLabel.Location.Y + examSeqLabel.Height / 2 - b.Height / 2);
                 b.Click += new EventHandler(ExamSeqButtonArrayClicked);
                 examSeqButtonArray[i] = b;
                 this.Controls.Add(b);
