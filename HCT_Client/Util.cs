@@ -4,14 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.IO;
-using Microsoft.Office.Interop.Excel;
-using Microsoft.Office.Core;
 using System.Reflection;
 using System.Net.Mail;
 using System.Media;
 using System.Drawing.Imaging;
 using System.Net.Mime;
 using System.Net;
+ 
+using Spire.Xls;
+/* To download Spire.XLS
+ * 1. Install nuget.exe
+ * 2. open CMD, type "nuget install FreeSpire.XLS"
+ * 3. Go to destination folder, then go to folder "net40-client"
+ * 4. In Visual Studio, add reference to Spire.XLS in folder "net40-client"
+ */
 
 namespace HCT_Client
 {
@@ -168,37 +174,31 @@ namespace HCT_Client
             string PDF_NAME = "ผลการสอบ_" + userFullNameForFile + "_วันที่_" + dateStringForFileName + ".pdf";
             string EXAM_RESULT_PDF_PATH = executingPath + "/" + PDF_NAME;
 
-            Application app = new Application();
-            Workbook workBook = app.Workbooks.Open(EXAM_RESULT_TEMPLATE_PATH);
-            Sheets workSheets = workBook.Worksheets;
-            Worksheet workSheet1 = workSheets.get_Item("Sheet1");
-            workSheet1.Cells[10, 3] = userFullname;
-            workSheet1.Cells[11, 3] = citizenID;
-            workSheet1.Cells[12, 3] = courseName;
-            workSheet1.Cells[13, 3] = courseRegisterDateString;
-            workSheet1.Cells[14, 3] = examSeq;
-            workSheet1.Cells[15, 3] = paperTestNumber;
-            workSheet1.Cells[16, 3] = passOrFail;
-            workSheet1.Cells[17, 3] = examStartDateString;
-            workSheet1.Cells[18, 3] = examEndDateString;
+            Workbook workbook = new Workbook();
+            workbook.LoadFromFile(EXAM_RESULT_TEMPLATE_PATH);
+            Worksheet workSheet1 = workbook.Worksheets[0];
+            workSheet1.Range["C10"].Text = userFullname;
+            workSheet1.Range["C11"].Text = citizenID;
+            workSheet1.Range["C12"].Text = courseName;
+            workSheet1.Range["C13"].Text = courseRegisterDateString;
+            workSheet1.Range["C14"].Text = examSeq;
+            workSheet1.Range["C15"].Text = paperTestNumber;
+            workSheet1.Range["C16"].Text = passOrFail;
+            workSheet1.Range["C17"].Text = examStartDateString;
+            workSheet1.Range["C18"].Text = examEndDateString;
             if (!useCitizenID)
             {
-                workSheet1.Cells[11, 1] = "หมายเลข Passport";
+                workSheet1.Range["A11"].Text = "หมายเลข Passport";
             }
 
             Image userPhoto = UserProfileManager.GetUserPhoto();
             if (userPhoto != null)
             {
-                userPhoto.Save(USER_PHOTO_TEMP_PATH, ImageFormat.Jpeg);
-                workSheet1.Shapes.AddPicture(USER_PHOTO_TEMP_PATH, MsoTriState.msoFalse, MsoTriState.msoCTrue, 360, 160, 100, 100);
+                workSheet1.Pictures.Add(10, 8, userPhoto);
             }
 
-            workBook.SaveAs(EXAM_RESULT_TEMPLATE_TEMP_PATH);
-            workBook.ExportAsFixedFormat(XlFixedFormatType.xlTypePDF, EXAM_RESULT_PDF_PATH);
-            workBook.Close();
-
-            DeleteFileIfExists(EXAM_RESULT_TEMPLATE_TEMP_PATH);
-            DeleteFileIfExists(USER_PHOTO_TEMP_PATH);
+            workbook.ConverterSetting.SheetFitToPage = true;
+            workbook.SaveToFile(EXAM_RESULT_PDF_PATH, FileFormat.PDF);           
 
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict["pdfName"] = PDF_NAME;
@@ -206,7 +206,6 @@ namespace HCT_Client
             byte[] pdfBytes = File.ReadAllBytes(EXAM_RESULT_PDF_PATH);
             string pdfBase64String = Convert.ToBase64String(pdfBytes);
 
-            File.WriteAllText(@"C:\Users\PRINYA\Desktop\pdfBase64.txt", pdfBase64String);
             dict["pdfBase64String"] = pdfBase64String;
             return dict;
         }
