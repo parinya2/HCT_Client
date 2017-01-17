@@ -790,7 +790,7 @@ namespace HCT_Client
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("HCT Log server is down");
+                    Console.WriteLine("SendPOSTRequestToHCTLogServer : " + e.ToString());
                 }
                 
             }
