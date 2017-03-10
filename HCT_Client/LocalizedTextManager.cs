@@ -78,6 +78,8 @@ namespace HCT_Client
             SetDictValueForKey("FormExecuteExam.SubmitExamButton", "ส่งข้อสอบ", "Submit Answer");
             SetDictValueForKey("FormExecuteExam.GoBack", "<< ย้อนกลับ", "<< Go Back");
             SetDictValueForKey("FormExecuteExam.AnsweredCount", "ตอบแล้ว " + PARAM_1 + " ข้อ ยังไม่ตอบ " + PARAM_2 + " ข้อ", "Answered " + PARAM_1 + " Unanswered " + PARAM_2);
+            SetDictValueForKey("FormExecuteExam.PrevQuiz", "ข้อก่อนหน้า", "Previous");
+            SetDictValueForKey("FormExecuteExam.NextQuiz", "ข้อถัดไป", "Next");
 
             SetDictValueForKey("QuizChoicePanel.ChoiceHeader.1", "ก", "A");
             SetDictValueForKey("QuizChoicePanel.ChoiceHeader.2", "ข", "B");

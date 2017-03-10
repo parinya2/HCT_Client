@@ -7,6 +7,13 @@ using System.Drawing;
 
 namespace HCT_Client
 {
+    public enum SingleQuizStatusPanel_State
+    {
+        Active,
+        Answered,
+        Unanswered
+    }
+
     public class SingleQuizStatusPanel : Panel
     {
         public Label numberLabel;
@@ -44,11 +51,15 @@ namespace HCT_Client
             this.Controls.Add(selectedAnswerLabel);
         }
 
-        public void SetActiveQuiz(bool flag)
+        public void SetQuizState(SingleQuizStatusPanel_State state)
         {
-            if (flag)
+            if (state == SingleQuizStatusPanel_State.Active)
             {
                 numberLabel.BackColor = Color.White;
+            }
+            else if (state == SingleQuizStatusPanel_State.Unanswered)
+            {
+                numberLabel.BackColor = Color.LemonChiffon;
             }
             else
             {

@@ -122,7 +122,14 @@ namespace HCT_Client
                 SingleQuizStatusPanel obj = singleQuizStatusPanelArray[i];
                 obj.selectedAnswerLabel.Text = "-";
                 obj.selectedAnswerLabel.BackColor = Color.Transparent;
-                obj.SetActiveQuiz(i == 0);
+                if (i == 0)
+                {
+                    obj.SetQuizState(SingleQuizStatusPanel_State.Active);
+                }                   
+                else
+                {
+                    obj.SetQuizState(SingleQuizStatusPanel_State.Unanswered);  
+                }
             }
 
             for (int i = 0; i < choicePanelArray.Length; i++)
@@ -279,17 +286,17 @@ namespace HCT_Client
             prepareQuizListPanelUI();
 
             prevQuizButton = new MediumButton();
-            prevQuizButton.Width = 50;
+            prevQuizButton.Width = 120;
             prevQuizButton.Height = submitExamButton.Height;
             prevQuizButton.Location = new Point(timerLabel.Location.X, submitExamButton.Location.Y);
-            prevQuizButton.Text = "<<";
+            prevQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.PrevQuiz");
             prevQuizButton.Click += new EventHandler(PrevQuizButtonClicked);
 
             nextQuizButton = new MediumButton();
-            nextQuizButton.Width = 50;
+            nextQuizButton.Width = 120;
             nextQuizButton.Height = submitExamButton.Height;
             nextQuizButton.Location = new Point(prevQuizButton.Location.X + prevQuizButton.Width + 5, submitExamButton.Location.Y);
-            nextQuizButton.Text = ">>";
+            nextQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.NextQuiz");
             nextQuizButton.Click += new EventHandler(NextQuizButtonClicked);
 
             monitorPanel.Controls.Add(prevQuizButton);
@@ -372,7 +379,14 @@ namespace HCT_Client
                 obj.selectedAnswerLabel.Click += new EventHandler(SingleQuizStatusPanelClicked);
 
                 bool isActiveQuiz = (i == currentQuizNumber);
-                obj.SetActiveQuiz(isActiveQuiz);
+                if (isActiveQuiz)
+                {
+                    obj.SetQuizState(SingleQuizStatusPanel_State.Active);
+                }
+                else
+                {
+                    obj.SetQuizState(SingleQuizStatusPanel_State.Unanswered);
+                }
 
                 quizListPanel.Controls.Add(obj);
                 singleQuizStatusPanelArray[i] = obj;
@@ -443,8 +457,16 @@ namespace HCT_Client
                 {
                     if (examState == ExamState.TakingExamState)
                     {
-                        oldObj.SetActiveQuiz(false);
-                        newObj.SetActiveQuiz(true);
+                        SingleQuizObject tmpQuizObj = quizArray[currentQuizNumber];
+                        if (tmpQuizObj.selectedChoice == -1)
+                        {
+                            oldObj.SetQuizState(SingleQuizStatusPanel_State.Unanswered);
+                        }
+                        else
+                        {
+                            oldObj.SetQuizState(SingleQuizStatusPanel_State.Answered);
+                        }
+                        newObj.SetQuizState(SingleQuizStatusPanel_State.Active);
                     }
                     currentQuizNumber = newQuizNumber;
                     SetContentForQuizPanel(currentQuizNumber);
