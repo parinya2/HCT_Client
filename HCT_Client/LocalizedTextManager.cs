@@ -26,10 +26,10 @@ namespace HCT_Client
             SetDictValueForKey("FormChooseExamCourse.Button." + ExamCourseType.Car, "หลักสูตรการสอนขับรถยนต์", "Car Course");
             SetDictValueForKey("FormChooseExamCourse.Button." + ExamCourseType.Motorcycle, "หลักสูตรการสอนขับรถจักรยานยนต์", "Motorcycle Course");
 
-            SetDictValueForKey("FormInsertSmartCard.Login.Label", "กรุณาสอดบัตรประชาชนของท่าน แล้วกดปุ่ม 'เข้าสู่ระบบ'", "Please insert your ID card and click 'Login' button");
-            SetDictValueForKey("FormInsertSmartCard.Login.Button", "เข้าสู่ระบบ", "Login");
-            SetDictValueForKey("FormInsertSmartCard.Passport.Label", "หากท่านต้องการใช้ Passport ในการสอบ กรุณากดปุ่มด้านล่าง", "If you want to use your passport for this exam, please press the button below");
-            SetDictValueForKey("FormInsertSmartCard.Passport.Button", "ใช้ Passport", "Use Passport");
+            SetDictValueForKey("FormInsertSmartCard.Login.Label", "กรุณาสอดบัตรประชาชนของท่าน แล้วกดปุ่ม 'เข้าสู่ระบบ'", "กรุณาสอดบัตรประชาชนของท่าน แล้วกดปุ่ม 'เข้าสู่ระบบ'");
+            SetDictValueForKey("FormInsertSmartCard.Login.Button", "เข้าสู่ระบบ", "เข้าสู่ระบบ");
+            SetDictValueForKey("FormInsertSmartCard.Passport.Label", "Please enter your passport number", "Please enter your passport no.");
+            SetDictValueForKey("FormInsertSmartCard.Passport.Button", "Passport No.", "Passport No.");
             SetDictValueForKey("FormInsertSmartCard.GoBack", "<< ย้อนกลับ", "<< Go Back");
             SetDictValueForKey("FormInsertSmartCard.Error.ReaderNotFound", "ไม่พบเครื่องอ่านบัตรประชาชน กรุณาตรวจสอบเครื่องอ่านบัตรประชาชนอีกครั้ง", "ID Card Reader not found. Please check the ID Card Reader and try again.");
             SetDictValueForKey("FormInsertSmartCard.Error.CardNotFound", "ไม่พบบัตรประชาชน กรุณาสอดบัตรประชาชนของท่าน และกดปุ่ม 'เข้าสู่ระบบ' อีกครั้ง", "ID Card not found. Please insert your ID Card and press 'Login' button again");
