@@ -36,7 +36,7 @@ namespace HCT_Client
             SetDictValueForKey("FormInsertSmartCard.Error.Unknown", "เกิดข้อผิดพลาดบางอย่างขึ้น กรุณาติดต่อผู้ดูแลระบบ", "Some errors occurred. Please contact system administrators.");
             SetDictValueForKey("SmartCardErrorMessageBox.RightButton", "ตกลง", "OK");
 
-            SetDictValueForKey("FormPassport.Passport.Label", "กรุณากรอกหมายเลข Passport ของท่าน เพื่อเข้าสู่ระบบ", "Please insert your Passport number in order to login");
+            SetDictValueForKey("FormPassport.Passport.Label", "Passport Number", "Passport Number");
             SetDictValueForKey("FormPassport.Login.Button", "เข้าสู่ระบบ", "Login");
             SetDictValueForKey("FormPassport.Delete.Button", "ลบ", "Delete");
 
