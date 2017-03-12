@@ -97,7 +97,7 @@ namespace HCT_Client
             SetDictValueForKey("ConfirmExitMessageBox.RightButton", "ตกลง", "OK");
             SetDictValueForKey("ConfirmExitMessageBox.LeftButton", "ย้อนกลับ", "Go Back");
 
-            SetDictValueForKey("FinishExamMessageBox.Message", "การสอบได้เสร็จสิ้นแล้ว กรุณาติดต่อเจ้าหน้าที่ เพื่อรับเอกสารแสดงผลการสอบของท่าน", "Examination is now completed. Please contact an officer to receive your examination document ?");
+            SetDictValueForKey("FinishExamMessageBox.Message", "การสอบได้เสร็จสิ้นแล้ว กรุณาติดต่อเจ้าหน้าที่ เพื่อรับเอกสารแสดงผลการสอบของท่าน", "Examination is now completed. Please contact an officer to receive your examination document");
             SetDictValueForKey("FinishExamMessageBox.RightButton", "ตกลง", "OK");
 
             SetDictValueForKey("GoToExamMessageBox.Message", "คุณพร้อมจะเริ่มต้นการสอบแล้วใช่หรือไม่", "Are you ready to start the exam ?");

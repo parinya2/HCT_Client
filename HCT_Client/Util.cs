@@ -61,9 +61,9 @@ namespace HCT_Client
             mail.To.Add(hctEmail);           
             mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
-            string EXAM_RESULT_PDF_PATH = GetExecutingPath() + "/" + pdfName;
+            string TEMP_EXAM_RESULT_PDF_PATH = GetExecutingPath() + "/" + pdfName;
             Attachment attachment;
-            attachment = new Attachment(EXAM_RESULT_PDF_PATH);
+            attachment = new Attachment(TEMP_EXAM_RESULT_PDF_PATH);
             attachment.Name = pdfName;
             mail.Attachments.Add(attachment);
             
@@ -71,7 +71,7 @@ namespace HCT_Client
             {
                 client.Send(mail);
                 attachment.Dispose();
-                DeleteFileIfExists(EXAM_RESULT_PDF_PATH);
+                DeleteFileIfExists(TEMP_EXAM_RESULT_PDF_PATH);
             }
             catch (Exception ex)
             {
@@ -111,6 +111,16 @@ namespace HCT_Client
         public static string GetSimulatorQuizFolderPath()
         {
             string folderPath = GetExecutingPath() + "/SimulatorQuiz";
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            return folderPath;
+        }
+
+        public static string GetExamResultPDFFolderPath()
+        {
+            string folderPath = GetExecutingPath() + "/ExamResultPDF";
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
@@ -172,7 +182,8 @@ namespace HCT_Client
 
             string userFullNameForFile = userFullname.Replace(" ", "_");
             string PDF_NAME = "ผลการสอบ_" + userFullNameForFile + "_วันที่_" + dateStringForFileName + ".pdf";
-            string EXAM_RESULT_PDF_PATH = executingPath + "/" + PDF_NAME;
+            string TEMP_EXAM_RESULT_PDF_PATH = executingPath + "/" + PDF_NAME;
+            string BACKUP_EXAM_RESULT_PDF_PATH = Util.GetExamResultPDFFolderPath() + "/" + PDF_NAME;
 
             Workbook workbook = new Workbook();
             workbook.LoadFromFile(EXAM_RESULT_TEMPLATE_PATH);
@@ -198,12 +209,15 @@ namespace HCT_Client
             }
 
             workbook.ConverterSetting.SheetFitToPage = true;
-            workbook.SaveToFile(EXAM_RESULT_PDF_PATH, FileFormat.PDF);           
+            workbook.SaveToFile(TEMP_EXAM_RESULT_PDF_PATH, FileFormat.PDF);
+
+            // Create backup file for ExamResultPDF
+            File.Copy(TEMP_EXAM_RESULT_PDF_PATH, BACKUP_EXAM_RESULT_PDF_PATH, true);
 
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict["pdfName"] = PDF_NAME;
 
-            byte[] pdfBytes = File.ReadAllBytes(EXAM_RESULT_PDF_PATH);
+            byte[] pdfBytes = File.ReadAllBytes(TEMP_EXAM_RESULT_PDF_PATH);
             string pdfBase64String = Convert.ToBase64String(pdfBytes);
 
             dict["pdfBase64String"] = pdfBase64String;
