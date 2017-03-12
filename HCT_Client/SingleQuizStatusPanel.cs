@@ -59,7 +59,7 @@ namespace HCT_Client
             }
             else if (state == SingleQuizStatusPanel_State.Unanswered)
             {
-                numberLabel.BackColor = Color.LemonChiffon;
+                numberLabel.BackColor = Color.MediumSpringGreen;
             }
             else
             {
