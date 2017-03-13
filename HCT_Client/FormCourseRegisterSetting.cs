@@ -150,7 +150,7 @@ namespace HCT_Client
                 this.Controls.Add(b);
             }
 
-            yearButtonArray = new Button[3];
+            yearButtonArray = new Button[2];
             int thisYear = DateTime.Now.Year;
             thisYear = thisYear < 2500 ? thisYear + 543 : thisYear;
 
@@ -159,7 +159,7 @@ namespace HCT_Client
                 Button b = new Button();
                 b.Height = buttonHeight;
                 b.Width = (int)(b.Height * 2);
-                b.Text = (thisYear - (2 - i)) + "";
+                b.Text = (thisYear - (yearButtonArray.Length - 1 - i)) + "";
                 b.TextAlign = ContentAlignment.MiddleCenter;
                 b.Font = new Font(this.Font.FontFamily, buttonFontSize);
                 b.BackColor = buttonDefaultColor;
