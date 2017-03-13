@@ -11,12 +11,18 @@ namespace HCT_Client
     {
         public MediumButton() 
         {
-            this.Width = 160;
-            this.Height = 80;
-            this.Font = new Font(this.Font.FontFamily, 12);
+            this.Width = 220;
+            this.Height = 120;
+            this.Font = new Font(this.Font.FontFamily, 20);
             this.TextAlign = ContentAlignment.MiddleCenter;
             this.BackColor = Color.White;
             this.ForeColor = Color.Black;
+        }
+
+        public void SetLocationForBackButton()
+        {
+            int SCREEN_HEIGHT = SystemInformation.VirtualScreen.Height;
+            this.Location = new Point(80, SCREEN_HEIGHT - this.Height - 80);
         }
     }
 }

@@ -55,16 +55,14 @@ namespace HCT_Client
 
         private void RenderUI()
         {
-            goToUserDetailButton = new MediumButton();
-            goToUserDetailButton.Location = new Point(SCREEN_WIDTH - goToUserDetailButton.Width - 50,
-                                                      SCREEN_HEIGHT - goToUserDetailButton.Height - 50);
-            goToUserDetailButton.Click += new EventHandler(GoToUserDetailButtonClicked);
-
-
             backButton = new MediumButton();
-            backButton.Location = new Point(goToUserDetailButton.Location.X - backButton.Width - 50,
-                                            goToUserDetailButton.Location.Y);
+            backButton.SetLocationForBackButton();
             backButton.Click += new EventHandler(BackButtonClicked);
+
+            goToUserDetailButton = new MediumButton();
+            goToUserDetailButton.Location = new Point(SCREEN_WIDTH - goToUserDetailButton.Width - backButton.Location.X,
+                                                      backButton.Location.Y);
+            goToUserDetailButton.Click += new EventHandler(GoToUserDetailButtonClicked);
 
             int gapX = 30;
             int gapY = 5;
@@ -113,7 +111,7 @@ namespace HCT_Client
             {
                 Button b = new Button();
                 b.Height = buttonHeight;
-                b.Width = (int)(b.Height * 1.6);
+                b.Width = (int)(b.Height * 1.2);
                 b.Text = "" + (i + 1);
                 b.TextAlign = ContentAlignment.MiddleCenter;
                 b.Font = new Font(this.Font.FontFamily, buttonFontSize);
@@ -179,7 +177,7 @@ namespace HCT_Client
             examSeqLabel.TextAlign = dayLabel.TextAlign;
             examSeqLabel.Font = dayLabel.Font;
 
-            examSeqButtonArray = new Button[3];
+            examSeqButtonArray = new Button[10];
             for (int i = 0; i < examSeqButtonArray.Length; i++)
             {
                 Button b = new Button();

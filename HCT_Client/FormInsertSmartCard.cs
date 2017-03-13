@@ -64,8 +64,7 @@ namespace HCT_Client
             passportButton.Click += new EventHandler(PassportButtonClicked);
 
             backButton = new MediumButton();
-            backButton.Location = new Point(SCREEN_WIDTH - backButton.Width - 50,
-                                            SCREEN_HEIGHT - backButton.Height - 50);
+            backButton.SetLocationForBackButton();
             backButton.Click += new EventHandler(BackButtonClicked);
 
             this.Controls.Add(loginTextLabel);

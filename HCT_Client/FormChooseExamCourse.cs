@@ -53,7 +53,7 @@ namespace HCT_Client
         public SingleExamCoursePanel examCourseType2panel;
         public BaseTextLabel examCourseTopicLabel;
         private BlinkButtonSignalClock blinkButtonSignalClock;
-        public Button backButton;
+        public MediumButton backButton;
 
         public FormChooseExamCourse()
         {
@@ -67,8 +67,7 @@ namespace HCT_Client
         private void RenderUI()
         {
             backButton = new MediumButton();
-            backButton.Location = new Point(SCREEN_WIDTH - backButton.Width - 50,
-                                            SCREEN_HEIGHT - backButton.Height - 50);
+            backButton.SetLocationForBackButton();
             backButton.Click += new EventHandler(BackButtonClicked);
 
             examCourseTopicLabel = new BaseTextLabel();

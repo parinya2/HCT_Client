@@ -116,15 +116,14 @@ namespace HCT_Client
                                                  userPhotoPictureBox.Location.Y + userPhotoPictureBox.Height + 40);
             takePhotoButton.Click += new EventHandler(TakePhotoButtonClicked);
 
-            goToExamButton = new MediumButton();
-            goToExamButton.Location = new Point(SCREEN_WIDTH - goToExamButton.Width - 50,
-                                                SCREEN_HEIGHT - goToExamButton.Height - 50);
-            goToExamButton.Click += new EventHandler(GoToExamButtonClicked);
-
             backButton = new MediumButton();
-            backButton.Location = new Point(goToExamButton.Location.X - backButton.Width - 50,
-                                            goToExamButton.Location.Y);
+            backButton.SetLocationForBackButton();
             backButton.Click += new EventHandler(BackButtonClicked);
+
+            goToExamButton = new MediumButton();
+            goToExamButton.Location = new Point(SCREEN_WIDTH - goToExamButton.Width - backButton.Location.X,
+                                                backButton.Location.Y);
+            goToExamButton.Click += new EventHandler(GoToExamButtonClicked);
 
             int attributePanelWidth = SCREEN_WIDTH - userPhotoPictureBox.Width - userPhotoPictureBox.Location.X - 100;
             int attributePanelHeight = 60;
