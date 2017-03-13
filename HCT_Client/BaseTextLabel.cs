@@ -12,8 +12,19 @@ namespace HCT_Client
         public BaseTextLabel() 
         {
             this.Width = 200;
+            this.Height = 50;
+            this.Font = new Font(this.Font.FontFamily, 20);
+            this.ForeColor = Color.White;
+        }
+    }
+
+    public class BaseTextLabel2 : Label
+    {
+        public BaseTextLabel2()
+        {
+            this.Width = 200;
             this.Height = 30;
-            this.Font = new Font(this.Font.FontFamily, 16);
+            this.Font = new Font(this.Font.FontFamily, 18);
             this.ForeColor = Color.White;
         }
     }

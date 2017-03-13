@@ -28,11 +28,11 @@ namespace HCT_Client
         SingleQuizStatusPanel[] singleQuizStatusPanelArray;
 
         Panel quizPanel;
-        BaseTextLabel usernameLabel;
-        BaseTextLabel examCourseLabel;
-        BaseTextLabel questionCountLabel;
+        BaseTextLabel2 usernameLabel;
+        BaseTextLabel2 examCourseLabel;
+        BaseTextLabel2 questionCountLabel;
         PictureBox userPhotoPictureBox;
-        BaseTextLabel timerLabel;
+        BaseTextLabel2 timerLabel;
         Stopwatch stopwatch;
         SignalClock signalClock;
         BlinkButtonSignalClock blinkButtonSignalClock;
@@ -166,7 +166,8 @@ namespace HCT_Client
             int quizTextLabelOffsetX = 40;
             int quizTextLabelOffsetY = 40;
             quizTextLabel.Width = quizPanel.Width - (quizTextLabelOffsetX * 2);
-            quizTextLabel.Height = 70;
+            quizTextLabel.Height = 120;
+            quizTextLabel.BackColor = Color.Yellow;
             quizTextLabel.Location = new Point(quizTextLabelOffsetX, quizTextLabelOffsetY);
             quizTextLabel.ForeColor = Color.Black;
 
@@ -248,23 +249,24 @@ namespace HCT_Client
             userPhotoPictureBox.Location = new Point(40, 40);
             userPhotoPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
-            usernameLabel = new BaseTextLabel();
+            usernameLabel = new BaseTextLabel2();
             usernameLabel.Width = monitorPanel.Width - userPhotoPictureBox.Width - userPhotoPictureBox.Location.X - 10;
             usernameLabel.Location = new Point(userPhotoPictureBox.Location.X + userPhotoPictureBox.Width + 10,
                                                userPhotoPictureBox.Location.Y);
+            usernameLabel.Font = new Font(this.Font.FontFamily, 18);
 
-            examCourseLabel = new BaseTextLabel();
+            examCourseLabel = new BaseTextLabel2();
             examCourseLabel.Width = usernameLabel.Width;
             examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
             examCourseLabel.Location = new Point(usernameLabel.Location.X,
                                                  usernameLabel.Location.Y + usernameLabel.Height + 20);
-            examCourseLabel.Font = new Font(this.Font.FontFamily, 13);
+            examCourseLabel.Font = new Font(this.Font.FontFamily, 15);
 
-            questionCountLabel = new BaseTextLabel();
+            questionCountLabel = new BaseTextLabel2();
             questionCountLabel.Width = usernameLabel.Width;
             questionCountLabel.Location = new Point(usernameLabel.Location.X,
                                                  examCourseLabel.Location.Y + examCourseLabel.Height + 20);
-            questionCountLabel.Font = new Font(this.Font.FontFamily, 13);
+            questionCountLabel.Font = new Font(this.Font.FontFamily, 15);
             
             string answeredCountText = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.AnsweredCount");
             answeredCountText = answeredCountText.Replace(LocalizedTextManager.PARAM_1, totalAnsweredCount + "");
@@ -272,8 +274,9 @@ namespace HCT_Client
             questionCountLabel.Text = answeredCountText;
 
 
-            timerLabel = new BaseTextLabel();
+            timerLabel = new BaseTextLabel2();
             timerLabel.Text = "";
+            timerLabel.ForeColor = Color.Yellow;
             timerLabel.Location = new Point(userPhotoPictureBox.Location.X,
                                             userPhotoPictureBox.Location.Y + userPhotoPictureBox.Height + 20);
             timerLabel.Width = monitorPanel.Width - (userPhotoPictureBox.Location.X * 2);
@@ -286,15 +289,19 @@ namespace HCT_Client
             prepareQuizListPanelUI();
 
             prevQuizButton = new MediumButton();
-            prevQuizButton.Width = 120;
+            prevQuizButton.Width = 150;
             prevQuizButton.Height = submitExamButton.Height;
+            prevQuizButton.BackColor = Color.LemonChiffon;
+            prevQuizButton.Font = new Font(this.Font.FontFamily, 15);
             prevQuizButton.Location = new Point(timerLabel.Location.X, submitExamButton.Location.Y);
             prevQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.PrevQuiz");
             prevQuizButton.Click += new EventHandler(PrevQuizButtonClicked);
 
             nextQuizButton = new MediumButton();
-            nextQuizButton.Width = 120;
+            nextQuizButton.Width = 150;
             nextQuizButton.Height = submitExamButton.Height;
+            nextQuizButton.BackColor = prevQuizButton.BackColor;
+            nextQuizButton.Font = new Font(this.Font.FontFamily, 15);
             nextQuizButton.Location = new Point(prevQuizButton.Location.X + prevQuizButton.Width + 5, submitExamButton.Location.Y);
             nextQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.NextQuiz");
             nextQuizButton.Click += new EventHandler(NextQuizButtonClicked);
@@ -357,10 +364,10 @@ namespace HCT_Client
             singleQuizStatusPanelArray = new SingleQuizStatusPanel[QUIZ_COUNT];
             int quizPerColumn = 10;
             int columnCount = QUIZ_COUNT / quizPerColumn;
-            int quizGapX = 10;
+            int quizGapX = 18;
             int quizGapY = 10;
 
-            int singleQuizStatusPanelWidth = 60;
+            int singleQuizStatusPanelWidth = 90;
             int singleQuizStatusPanelHeight = (quizListPanel.Height / quizPerColumn) - quizGapY - 5;
 
             int panelOffsetX = (quizListPanel.Width - (columnCount * singleQuizStatusPanelWidth) - ((columnCount - 1) * quizGapX)) / 2;
