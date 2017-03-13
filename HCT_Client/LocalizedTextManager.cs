@@ -41,7 +41,7 @@ namespace HCT_Client
             SetDictValueForKey("FormPassport.Delete.Button", "ลบ", "Delete");
 
             SetDictValueForKey("FormCourseRegisterSetting.Button.GoBack", "<< ย้อนกลับ", "<< Go Back");
-            SetDictValueForKey("FormCourseRegisterSetting.Button.Next", "ถัดไป", "Next");
+            SetDictValueForKey("FormCourseRegisterSetting.Button.Next", "ถัดไป >>", "Next >>");
             SetDictValueForKey("FormCourseRegisterSetting.Topic.CourseRegisterDate", "กรุณาระบุวันที่ท่านสมัครเรียน", "Please specify your course registration date.");
             SetDictValueForKey("FormCourseRegisterSetting.Topic.ExamSeq", "ครั้งนี้ท่านสอบเป็นครั้งที่เท่าไหร่", "Please specify your exam seq.");
             SetDictValueForKey("FormCourseRegisterSetting.Label.Day", "วันที่", "Day");
@@ -65,7 +65,7 @@ namespace HCT_Client
             SetDictValueForKey("FormShowUserDetail.Button.TakePhoto", "ถ่ายภาพ", "Take a photo");
             SetDictValueForKey("FormShowUserDetail.Button.DeletePhoto", "ลบรูปภาพ", "Delete photo");
             SetDictValueForKey("FormShowUserDetail.Button.GoBack", "<< ย้อนกลับ", "<< Go Back");
-            SetDictValueForKey("FormShowUserDetail.Button.TakeExam", "เริ่มทำข้อสอบ", "Start an exam");
+            SetDictValueForKey("FormShowUserDetail.Button.TakeExam", "เริ่มทำข้อสอบ >>", "Start an exam >>");
             SetDictValueForKey("FormShowUserDetail.Label.Fullname", "  ชื่อ-นามสกุล", "  Name");
             SetDictValueForKey("FormShowUserDetail.Label.CitizenID", "  เลขประจำตัวประชาชน", "  Citizen ID");
             SetDictValueForKey("FormShowUserDetail.Label.PassportID", "  หมายเลข Passport", "  Passport ID");

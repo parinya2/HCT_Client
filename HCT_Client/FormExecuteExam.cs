@@ -290,7 +290,7 @@ namespace HCT_Client
             prevQuizButton = new MediumButton();
             prevQuizButton.Width = 150;
             prevQuizButton.Height = submitExamButton.Height;
-            prevQuizButton.BackColor = Color.LemonChiffon;
+            prevQuizButton.BackColor = Color.Yellow;
             prevQuizButton.Font = new Font(this.Font.FontFamily, 15);
             prevQuizButton.Location = new Point(timerLabel.Location.X, submitExamButton.Location.Y);
             prevQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.PrevQuiz");

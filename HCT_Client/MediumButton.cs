@@ -11,7 +11,7 @@ namespace HCT_Client
     {
         public MediumButton() 
         {
-            this.Width = 220;
+            this.Width = 270;
             this.Height = 120;
             this.Font = new Font(this.Font.FontFamily, 20);
             this.TextAlign = ContentAlignment.MiddleCenter;

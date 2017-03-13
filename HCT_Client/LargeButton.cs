@@ -11,7 +11,7 @@ namespace HCT_Client
     {
         public LargeButton() 
         {
-            this.Width = 300;
+            this.Width = 380;
             this.Height = 150;
             this.Font = new Font(this.Font.FontFamily, 26);
         }
