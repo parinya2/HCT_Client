@@ -769,6 +769,24 @@ namespace HCT_Client
             {
                 submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             }
+            else if (examState == ExamState.TakingExamState)
+            {
+                bool allQuizAnswered = true;
+                for (int i = 0; i < quizArray.Length; i++)
+                {
+                    SingleQuizObject obj = quizArray[i];
+                    if (obj.selectedChoice == -1)
+                    {
+                        allQuizAnswered = false;
+                        break;
+                    }
+                }
+
+                if (allQuizAnswered)
+                {
+                    submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+                }
+            }
         }
 
         protected void SignalClockHasChanged(int state)
