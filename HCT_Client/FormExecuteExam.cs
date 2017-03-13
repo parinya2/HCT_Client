@@ -247,9 +247,11 @@ namespace HCT_Client
             minimizeAppButton = new Button();
             minimizeAppButton.Width = 20;
             minimizeAppButton.Height = 20;
-            minimizeAppButton.BackColor = Color.Red;
+            minimizeAppButton.BackColor = Color.Transparent;
             minimizeAppButton.Location = new Point(0,0);
             minimizeAppButton.Click += new EventHandler(MinimizeAppButtonClicked);
+            minimizeAppButton.FlatAppearance.BorderSize = 0;
+            minimizeAppButton.FlatStyle = FlatStyle.Flat;
 
             userPhotoPictureBox = new PictureBox();
             userPhotoPictureBox.Width = 120;
