@@ -28,7 +28,7 @@ namespace HCT_Client
         Label examSeqLabel;
 
         Color buttonClickColor = Color.Orange;
-        Color buttonDefaultColor = Color.White;
+        Color buttonDefaultColor = Color.LemonChiffon;
 
         FormLargeMessageBox dataMissingMessageBox;
         BlinkButtonSignalClock blinkButtonSignalClock;
@@ -66,8 +66,8 @@ namespace HCT_Client
 
             int gapX = 30;
             int gapY = 5;
-            int buttonHeight = 50;
-            int buttonFontSize = 16;
+            int buttonHeight = 70;
+            int buttonFontSize = 20;
 
             courseRegisterDateTopicLabel = new Label();
             courseRegisterDateTopicLabel.Width = SCREEN_WIDTH - gapX * 2;
@@ -75,13 +75,13 @@ namespace HCT_Client
             courseRegisterDateTopicLabel.BackColor = Color.Orange;
             courseRegisterDateTopicLabel.Location = new Point(gapX, headerLineLabel.Location.Y + 20);
             courseRegisterDateTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
-            courseRegisterDateTopicLabel.Font = new Font(this.Font.FontFamily, 18);
+            courseRegisterDateTopicLabel.Font = new Font(this.Font.FontFamily, 20);
 
             examSeqTopicLabel = new Label();
             examSeqTopicLabel.Width = courseRegisterDateTopicLabel.Width;
             examSeqTopicLabel.Height = courseRegisterDateTopicLabel.Height;
             examSeqTopicLabel.BackColor = courseRegisterDateTopicLabel.BackColor;
-            examSeqTopicLabel.Location = new Point(gapX, backButton.Location.Y - examSeqTopicLabel.Height - 130);
+            examSeqTopicLabel.Location = new Point(gapX, backButton.Location.Y - examSeqTopicLabel.Height - 160);
             examSeqTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
             examSeqTopicLabel.Font = courseRegisterDateTopicLabel.Font;
 
