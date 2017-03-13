@@ -13,7 +13,7 @@ namespace HCT_Client
         {
             this.Width = 380;
             this.Height = 150;
-            this.Font = new Font(this.Font.FontFamily, 26);
+            this.Font = new Font(this.Font.FontFamily, 32);
         }
     }
 }

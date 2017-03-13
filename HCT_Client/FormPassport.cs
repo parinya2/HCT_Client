@@ -57,7 +57,7 @@ namespace HCT_Client
             deleteCharacterButton.TextAlign = ContentAlignment.MiddleCenter;
             deleteCharacterButton.Location = new Point(passportTextbox.Location.X + passportTextbox.Width + 20,
                                                         passportTextbox.Location.Y);
-            deleteCharacterButton.Font = new Font(this.Font.FontFamily, 19);
+            deleteCharacterButton.Font = new Font(this.Font.FontFamily, 20);
             deleteCharacterButton.Click += new EventHandler(DeleteCharacterButtonClicked);
 
             backButton = new MediumButton();
@@ -100,7 +100,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 1.3);
                 b.Text = characterArray[i];
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, 20);
+                b.Font = new Font(this.Font.FontFamily, 24);
                 b.BackColor = characterButtonColor;
                 int offsetX = (SCREEN_WIDTH - (b.Width * 13) - (buttonGapX * 11) - characterAndNumberGapX) / 2;
                 if (yPos == 1)  offsetX += b.Width / 2 + buttonGapX;
@@ -148,7 +148,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 1.3);
                 b.Text = numberArray[i];
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, 20);
+                b.Font = new Font(this.Font.FontFamily, 24);
                 b.BackColor = characterButtonColor;
                 int offsetX = characterButtonArray[9].Location.X + characterButtonArray[9].Width + characterAndNumberGapX;//(SCREEN_WIDTH - (b.Width * 13) - (buttonGapX * 12)) / 2;
                 int offsetY = passportTextbox.Location.Y + passportTextbox.Height + 70;

@@ -67,7 +67,7 @@ namespace HCT_Client
             int gapX = 30;
             int gapY = 5;
             int buttonHeight = 70;
-            int buttonFontSize = 20;
+            int buttonFontSize = 26;
 
             courseRegisterDateTopicLabel = new Label();
             courseRegisterDateTopicLabel.Width = SCREEN_WIDTH - gapX * 2;
@@ -75,7 +75,7 @@ namespace HCT_Client
             courseRegisterDateTopicLabel.BackColor = Color.Orange;
             courseRegisterDateTopicLabel.Location = new Point(gapX, headerLineLabel.Location.Y + 20);
             courseRegisterDateTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
-            courseRegisterDateTopicLabel.Font = new Font(this.Font.FontFamily, 20);
+            courseRegisterDateTopicLabel.Font = new Font(this.Font.FontFamily, 24);
 
             examSeqTopicLabel = new Label();
             examSeqTopicLabel.Width = courseRegisterDateTopicLabel.Width;
@@ -91,7 +91,7 @@ namespace HCT_Client
             dayLabel.Height = heightPerRow * 2;
             dayLabel.Location = new Point(gapX * 3, courseRegisterDateTopicLabel.Location.Y + courseRegisterDateTopicLabel.Height + gapY);
             dayLabel.TextAlign = ContentAlignment.MiddleLeft;
-            dayLabel.Font = new Font(this.Font.FontFamily, 18);
+            dayLabel.Font = new Font(this.Font.FontFamily, 26);
 
             monthLabel = new Label();
             monthLabel.Size = new Size(dayLabel.Width, heightPerRow);

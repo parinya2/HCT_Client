@@ -40,7 +40,7 @@ namespace HCT_Client
             examCourseTextLabel.BackColor = Color.Transparent;
             examCourseTextLabel.TextAlign = ContentAlignment.MiddleCenter;
             examCourseTextLabel.ForeColor = Color.Black;
-            examCourseTextLabel.Font = new Font(this.Font.FontFamily, 24);
+            examCourseTextLabel.Font = new Font(this.Font.FontFamily, 28);
 
             this.Controls.Add(examCourseIconPictureBox);
             this.Controls.Add(examCourseTextLabel);

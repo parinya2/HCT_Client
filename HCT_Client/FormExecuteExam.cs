@@ -117,6 +117,9 @@ namespace HCT_Client
             submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");
             submitExamButton.BackColor = Color.White;
 
+            prevQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.PrevQuiz");
+            nextQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.NextQuiz");
+
             for (int i = 0; i < singleQuizStatusPanelArray.Length; i++)
             {
                 SingleQuizStatusPanel obj = singleQuizStatusPanelArray[i];
@@ -250,22 +253,23 @@ namespace HCT_Client
 
             usernameLabel = new BaseTextLabel2();
             usernameLabel.Width = monitorPanel.Width - userPhotoPictureBox.Width - userPhotoPictureBox.Location.X - 10;
+            usernameLabel.Height += 10;
             usernameLabel.Location = new Point(userPhotoPictureBox.Location.X + userPhotoPictureBox.Width + 10,
                                                userPhotoPictureBox.Location.Y);
-            usernameLabel.Font = new Font(this.Font.FontFamily, 18);
+            usernameLabel.Font = new Font(this.Font.FontFamily, 24);
 
             examCourseLabel = new BaseTextLabel2();
             examCourseLabel.Width = usernameLabel.Width;
             examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
             examCourseLabel.Location = new Point(usernameLabel.Location.X,
-                                                 usernameLabel.Location.Y + usernameLabel.Height + 20);
-            examCourseLabel.Font = new Font(this.Font.FontFamily, 15);
+                                                 usernameLabel.Location.Y + usernameLabel.Height + 15);
+            examCourseLabel.Font = new Font(this.Font.FontFamily, 20);
 
             questionCountLabel = new BaseTextLabel2();
             questionCountLabel.Width = usernameLabel.Width;
             questionCountLabel.Location = new Point(usernameLabel.Location.X,
-                                                 examCourseLabel.Location.Y + examCourseLabel.Height + 20);
-            questionCountLabel.Font = new Font(this.Font.FontFamily, 15);
+                                                 examCourseLabel.Location.Y + examCourseLabel.Height + 15);
+            questionCountLabel.Font = new Font(this.Font.FontFamily, 20);
             
             string answeredCountText = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.AnsweredCount");
             answeredCountText = answeredCountText.Replace(LocalizedTextManager.PARAM_1, totalAnsweredCount + "");
@@ -279,6 +283,7 @@ namespace HCT_Client
             timerLabel.Location = new Point(userPhotoPictureBox.Location.X,
                                             userPhotoPictureBox.Location.Y + userPhotoPictureBox.Height + 20);
             timerLabel.Width = monitorPanel.Width - (userPhotoPictureBox.Location.X * 2);
+            timerLabel.Font = new Font(this.Font.FontFamily, 24);
 
             submitExamButton = new MediumButton();
             submitExamButton.Location = new Point(monitorPanel.Width - 20 - submitExamButton.Width, 
@@ -291,7 +296,7 @@ namespace HCT_Client
             prevQuizButton.Width = 150;
             prevQuizButton.Height = submitExamButton.Height;
             prevQuizButton.BackColor = Color.Yellow;
-            prevQuizButton.Font = new Font(this.Font.FontFamily, 15);
+            prevQuizButton.Font = new Font(this.Font.FontFamily, 20);
             prevQuizButton.Location = new Point(timerLabel.Location.X, submitExamButton.Location.Y);
             prevQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.PrevQuiz");
             prevQuizButton.Click += new EventHandler(PrevQuizButtonClicked);
@@ -300,7 +305,7 @@ namespace HCT_Client
             nextQuizButton.Width = 150;
             nextQuizButton.Height = submitExamButton.Height;
             nextQuizButton.BackColor = prevQuizButton.BackColor;
-            nextQuizButton.Font = new Font(this.Font.FontFamily, 15);
+            nextQuizButton.Font = prevQuizButton.Font;
             nextQuizButton.Location = new Point(prevQuizButton.Location.X + prevQuizButton.Width + 5, submitExamButton.Location.Y);
             nextQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.NextQuiz");
             nextQuizButton.Click += new EventHandler(NextQuizButtonClicked);

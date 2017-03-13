@@ -13,7 +13,7 @@ namespace HCT_Client
         {
             this.Width = 200;
             this.Height = 50;
-            this.Font = new Font(this.Font.FontFamily, 20);
+            this.Font = new Font(this.Font.FontFamily, 26);
             this.ForeColor = Color.White;
         }
     }
@@ -24,7 +24,7 @@ namespace HCT_Client
         {
             this.Width = 200;
             this.Height = 30;
-            this.Font = new Font(this.Font.FontFamily, 18);
+            this.Font = new Font(this.Font.FontFamily, 22);
             this.ForeColor = Color.White;
         }
     }

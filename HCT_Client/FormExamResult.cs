@@ -55,10 +55,10 @@ namespace HCT_Client
 
             passOrFailLabel = new BaseTextLabel();
             passOrFailLabel.Width = SCREEN_WIDTH;
-            passOrFailLabel.Height = 100;
+            passOrFailLabel.Height = 140;
             passOrFailLabel.TextAlign = ContentAlignment.MiddleCenter;
             passOrFailLabel.Location = new Point(0, headerLineLabel.Location.Y + 60);
-            passOrFailLabel.Font = new Font(this.Font.FontFamily, 50);
+            passOrFailLabel.Font = new Font(this.Font.FontFamily, 85);
 
             scoreLabel = new BaseTextLabel();
             scoreLabel.Width = SCREEN_WIDTH;
@@ -66,7 +66,7 @@ namespace HCT_Client
             scoreLabel.TextAlign = ContentAlignment.MiddleCenter;
             scoreLabel.Location = new Point(0, passOrFailLabel.Location.Y + passOrFailLabel.Height + 50);
             scoreLabel.ForeColor = Color.Black;
-            scoreLabel.Font = new Font(this.Font.FontFamily, 30);
+            scoreLabel.Font = new Font(this.Font.FontFamily, 60);
 
             this.Controls.Add(passOrFailLabel);
             this.Controls.Add(scoreLabel);
@@ -89,7 +89,7 @@ namespace HCT_Client
             if (quizResult.passFlag == QuizResultPassFlag.Pass)
             {
                 passOrFailLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.PassExam");
-                passOrFailLabel.ForeColor = Color.LightSeaGreen;
+                passOrFailLabel.ForeColor = Color.Green;
             }
             else if (quizResult.passFlag == QuizResultPassFlag.Fail)
             {
