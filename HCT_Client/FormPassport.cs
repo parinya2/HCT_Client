@@ -37,17 +37,19 @@ namespace HCT_Client
         private void RenderUI()
         {
             passportTextLabel = new BaseTextLabel();
-            passportTextLabel.Width = 350;
-            passportTextLabel.Location = new Point(100, headerLineLabel.Location.Y + 60);
-            passportTextLabel.TextAlign = ContentAlignment.MiddleCenter;
+            passportTextLabel.Width = 360;
+            passportTextLabel.Height = 50;
+            passportTextLabel.Location = new Point(370, headerLineLabel.Location.Y + 160);
+            passportTextLabel.TextAlign = ContentAlignment.BottomCenter;
             passportTextLabel.ForeColor = Color.Black;
+            passportTextLabel.Font = new Font(this.Font.FontFamily, 24);
 
             passportTextbox = new TextBox();
             passportTextbox.Width = 430;
-            passportTextbox.Height = 100;
-            passportTextbox.Font = new Font(this.Font.FontFamily, 22);
+            passportTextbox.Height = 110;
+            passportTextbox.Font = new Font(this.Font.FontFamily, 26);
             passportTextbox.Location = new Point(passportTextLabel.Location.X + passportTextLabel.Width + 20, 
-                                                passportTextLabel.Location.Y - 10);
+                                                passportTextLabel.Location.Y);
 
             deleteCharacterButton = new Button();
             deleteCharacterButton.Width = 120;
@@ -64,6 +66,11 @@ namespace HCT_Client
             backButton.Click += new EventHandler(BackButtonClicked);
 
             // Initialize Character buttons //
+            int characterButtonHeight = 70;
+            int characterButtonGapX = 7;
+            int characterButtonGapY = 7;
+            int characterAndNumberGapX = 50;
+            Color characterButtonColor = Color.LemonChiffon;
             characterButtonArray = new Button[26];
             string[] characterArray = { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", 
                                       "A","S","D","F","G","H","J","K","L",
@@ -87,20 +94,20 @@ namespace HCT_Client
                     yPos = 2;
                 }
 
-                int buttonGapX = 7;
-                int buttonGapY = 7;
+                int buttonGapX = characterButtonGapX;
+                int buttonGapY = characterButtonGapY;
                 Button b = new Button();
-                b.Height = 50;
+                b.Height = characterButtonHeight;
                 b.Width = (int)(b.Height * 1.3);
                 b.Text = characterArray[i];
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, 14);
-                b.BackColor = Color.White;
-                int offsetX = 120;//(SCREEN_WIDTH - (b.Width * 10) - (buttonGapX * 9)) / 2;
+                b.Font = new Font(this.Font.FontFamily, 20);
+                b.BackColor = characterButtonColor;
+                int offsetX = (SCREEN_WIDTH - (b.Width * 13) - (buttonGapX * 11) - characterAndNumberGapX) / 2;
                 if (yPos == 1)  offsetX += b.Width / 2 + buttonGapX;
                 if (yPos == 2) offsetX += (int)(b.Width * 1.5 + buttonGapX * 2);
                 
-                int offsetY = passportTextbox.Location.Y + passportTextbox.Height + 30;
+                int offsetY = passportTextbox.Location.Y + passportTextbox.Height + 70;
                 b.Location = new Point(offsetX + (b.Width + buttonGapX) * xPos,
                                        offsetY + (b.Height + buttonGapY) * yPos);
                 b.Click += new EventHandler(CharacterButtonArrayClicked);
@@ -135,17 +142,17 @@ namespace HCT_Client
                     yPos = 3;
                 }
 
-                int buttonGapX = 5;
-                int buttonGapY = 5;
+                int buttonGapX = characterButtonGapX;
+                int buttonGapY = characterButtonGapY;
                 Button b = new Button();
-                b.Height = 50;
+                b.Height = characterButtonHeight;
                 b.Width = (int)(b.Height * 1.3);
                 b.Text = numberArray[i];
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, 14);
-                b.BackColor = Color.White;
-                int offsetX = characterButtonArray[9].Location.X + characterButtonArray[9].Width + 50;//(SCREEN_WIDTH - (b.Width * 13) - (buttonGapX * 12)) / 2;
-                int offsetY = passportTextbox.Location.Y + passportTextbox.Height + 30;
+                b.Font = new Font(this.Font.FontFamily, 20);
+                b.BackColor = characterButtonColor;
+                int offsetX = characterButtonArray[9].Location.X + characterButtonArray[9].Width + characterAndNumberGapX;//(SCREEN_WIDTH - (b.Width * 13) - (buttonGapX * 12)) / 2;
+                int offsetY = passportTextbox.Location.Y + passportTextbox.Height + 70;
                 b.Location = new Point(offsetX + (b.Width + buttonGapX) * xPos,
                                        offsetY + (b.Height + buttonGapY) * yPos);
                 b.Click += new EventHandler(CharacterButtonArrayClicked);
