@@ -26,8 +26,8 @@ namespace HCT_Client
             int SCREEN_HEIGHT = SystemInformation.VirtualScreen.Height;
 
             this.mode = mode;
-            this.Width = 620;
-            this.Height = 340;
+            this.Width = 770;
+            this.Height = 460;
 
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
@@ -40,14 +40,14 @@ namespace HCT_Client
             int buttonOffsetY = 30;
 
             leftButton = new Button();
-            leftButton.Width = 150;
-            leftButton.Height = 80;
-            leftButton.Font = new Font(this.Font.FontFamily, 14);
+            leftButton.Width = 170;
+            leftButton.Height = 100;
+            leftButton.Font = new Font(this.Font.FontFamily, 20);
 
             rightButton = new Button();
-            rightButton.Width = 150;
-            rightButton.Height = 80;
-            rightButton.Font = new Font(this.Font.FontFamily, 14);
+            rightButton.Width = leftButton.Width;
+            rightButton.Height = leftButton.Height;
+            rightButton.Font = new Font(this.Font.FontFamily, 20);
 
             switch (this.mode)
             { 
@@ -79,7 +79,7 @@ namespace HCT_Client
             messageLabel.Width = this.Width - (messageLabelOffsetX * 2);
             messageLabel.Height = this.Height - rightButton.Height - messageLabelOffsetY * 2;
             messageLabel.Location = new Point(messageLabelOffsetX, messageLabelOffsetY);
-            messageLabel.Font = new Font(this.Font.FontFamily, 14);
+            messageLabel.Font = new Font(this.Font.FontFamily, 18);
             messageLabel.TextAlign = ContentAlignment.MiddleCenter;
 
             this.Controls.Add(messageLabel);

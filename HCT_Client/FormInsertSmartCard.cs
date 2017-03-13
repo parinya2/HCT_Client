@@ -57,8 +57,8 @@ namespace HCT_Client
 
             passportButton = new MediumButton();
             passportButton.Width = loginButton.Width;
-            passportButton.Height = 80;
-            passportButton.Font = new Font(this.Font.FontFamily, 15);
+            passportButton.Height = 100;
+            passportButton.Font = new Font(this.Font.FontFamily, 20);
             passportButton.Location = new Point((SCREEN_WIDTH - passportButton.Width) / 2,
                                             passportTextLabel.Location.Y + passportTextLabel.Height + 20);
             passportButton.Click += new EventHandler(PassportButtonClicked);

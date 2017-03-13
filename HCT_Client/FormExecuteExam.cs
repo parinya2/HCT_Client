@@ -733,7 +733,7 @@ namespace HCT_Client
                 if (quizObj.selectedChoice == -1)
                 {
                     sb.Append(i + 1);
-                    sb.Append(",");
+                    sb.Append(", ");
                 }
             }
             string result = sb.ToString();
