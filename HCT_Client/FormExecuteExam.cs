@@ -55,6 +55,8 @@ namespace HCT_Client
         Color correctAnswerColor = Color.ForestGreen;
         Color wrongAnswerColor = Color.Red;
 
+        Button minimizeAppButton;
+
         public ExamState examState;
 
         bool userHasTappedChoice = false;
@@ -242,6 +244,13 @@ namespace HCT_Client
             monitorPanel.BackColor = Color.Black;
             monitorPanel.Location = new Point(0, 0);
 
+            minimizeAppButton = new Button();
+            minimizeAppButton.Width = 20;
+            minimizeAppButton.Height = 20;
+            minimizeAppButton.BackColor = Color.Red;
+            minimizeAppButton.Location = new Point(0,0);
+            minimizeAppButton.Click += new EventHandler(MinimizeAppButtonClicked);
+
             userPhotoPictureBox = new PictureBox();
             userPhotoPictureBox.Width = 120;
             userPhotoPictureBox.Height = 120;
@@ -299,6 +308,7 @@ namespace HCT_Client
             nextQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.NextQuiz");
             nextQuizButton.Click += new EventHandler(NextQuizButtonClicked);
 
+            monitorPanel.Controls.Add(minimizeAppButton);
             monitorPanel.Controls.Add(prevQuizButton);
             monitorPanel.Controls.Add(nextQuizButton);
             monitorPanel.Controls.Add(submitExamButton);
@@ -662,6 +672,12 @@ namespace HCT_Client
             Label obj = (Label)sender;
             int newQuizNumber = (int)obj.Tag;
             GoToQuiz(newQuizNumber);
+        }
+
+        void MinimizeAppButtonClicked(object sender, EventArgs e)
+        {
+           this.WindowState = FormWindowState.Minimized;
+            FormsManager.GetFormBaseBackgroundView().WindowState = FormWindowState.Minimized;
         }
 
         void PrevQuizButtonClicked(object sender, EventArgs e)
