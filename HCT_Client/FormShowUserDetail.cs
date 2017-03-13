@@ -28,14 +28,14 @@ namespace HCT_Client
             attributeHeaderLabel.Location = new Point(margin, 0);
             attributeHeaderLabel.TextAlign = ContentAlignment.MiddleLeft;
             attributeHeaderLabel.BackColor = Color.Orange;
-            attributeHeaderLabel.Font = new Font(this.Font.FontFamily, 14);
+            attributeHeaderLabel.Font = new Font(this.Font.FontFamily, 20);
 
             attributeContentLabel = new Label();
             attributeContentLabel.Width = this.Width - attributeHeaderLabel.Width - gapX - margin * 2;
             attributeContentLabel.Height = attributeHeaderLabel.Height;
             attributeContentLabel.Location = new Point(attributeHeaderLabel.Width + margin + gapX, attributeHeaderLabel.Location.Y);
             attributeContentLabel.TextAlign = ContentAlignment.MiddleLeft;
-            attributeContentLabel.Font = new Font(this.Font.FontFamily, 12);
+            attributeContentLabel.Font = new Font(this.Font.FontFamily, 18);
 
             this.BackColor = Color.Transparent;
             this.Controls.Add(attributeHeaderLabel);
@@ -126,7 +126,7 @@ namespace HCT_Client
             goToExamButton.Click += new EventHandler(GoToExamButtonClicked);
 
             int attributePanelWidth = SCREEN_WIDTH - userPhotoPictureBox.Width - userPhotoPictureBox.Location.X - 100;
-            int attributePanelHeight = 60;
+            int attributePanelHeight = 90;
             fullnamePanel = new SingleUserAttributePanel(attributePanelWidth, attributePanelHeight);
             citizenIDPanel = new SingleUserAttributePanel(attributePanelWidth, attributePanelHeight);
             addressPanel = new SingleUserAttributePanel(attributePanelWidth, attributePanelHeight);
@@ -140,7 +140,7 @@ namespace HCT_Client
             attributePanelList[3] = courseNamePanel;
             attributePanelList[4] = examDatePanel;
 
-            int attributePanelStartX = userPhotoPictureBox.Location.X + userPhotoPictureBox.Width + 50;
+            int attributePanelStartX = userPhotoPictureBox.Location.X + userPhotoPictureBox.Width + 90;
             int attributePanelStartY = userPhotoPictureBox.Location.Y;
             int attributePanelGapY = 17;
             for (int i = 0; i < attributePanelList.Length; i++)

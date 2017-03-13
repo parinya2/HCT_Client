@@ -167,7 +167,6 @@ namespace HCT_Client
             int quizTextLabelOffsetY = 40;
             quizTextLabel.Width = quizPanel.Width - (quizTextLabelOffsetX * 2);
             quizTextLabel.Height = 120;
-            quizTextLabel.BackColor = Color.Yellow;
             quizTextLabel.Location = new Point(quizTextLabelOffsetX, quizTextLabelOffsetY);
             quizTextLabel.ForeColor = Color.Black;
 
