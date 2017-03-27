@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing.Drawing2D;
 
 namespace HCT_Client
 {
@@ -24,13 +25,19 @@ namespace HCT_Client
 
         void RenderUI()
         {
-            int margin = 30;           
+            int margin = 10;           
 
             examCourseIconPictureBox = new PictureBox();
             examCourseIconPictureBox.Location = new Point(margin, margin);
             examCourseIconPictureBox.Width = this.Height - margin * 2;
             examCourseIconPictureBox.Height = examCourseIconPictureBox.Width;
-            examCourseIconPictureBox.BackColor = Color.Transparent;
+            examCourseIconPictureBox.BackColor = Color.White;
+
+            GraphicsPath gp = new GraphicsPath();
+            gp.AddEllipse(0, 0, examCourseIconPictureBox.Width - 3, examCourseIconPictureBox.Height - 3);
+            Region rg = new Region(gp);
+            examCourseIconPictureBox.Region = rg;
+
 
             examCourseTextLabel = new BaseTextLabel();
             examCourseTextLabel.Location = new Point(examCourseIconPictureBox.Location.X + examCourseIconPictureBox.Width,
@@ -69,6 +76,8 @@ namespace HCT_Client
             backButton = new MediumButton();
             backButton.SetLocationForBackButton();
             backButton.Click += new EventHandler(BackButtonClicked);
+            backButton.ForeColor = Color.White;
+            backButton.BackColor = GlobalColor.redColor;
 
             examCourseTopicLabel = new BaseTextLabel();
             examCourseTopicLabel.Width = SCREEN_WIDTH;
