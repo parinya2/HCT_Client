@@ -185,7 +185,9 @@ namespace HCT_Client
         {
             loginButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             passportButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            smartCardErrorMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+
+            //Temporary disable this code
+            //smartCardErrorMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
         }
 
         void SmartCardErorMessageBoxRightButtonClicked(object sender, EventArgs e)

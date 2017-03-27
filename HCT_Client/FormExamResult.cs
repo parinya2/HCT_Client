@@ -89,12 +89,12 @@ namespace HCT_Client
             if (quizResult.passFlag == QuizResultPassFlag.Pass)
             {
                 passOrFailLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.PassExam");
-                passOrFailLabel.ForeColor = Color.LightSeaGreen;
+                passOrFailLabel.ForeColor = GlobalColor.greenColor;
             }
             else if (quizResult.passFlag == QuizResultPassFlag.Fail)
             {
                 passOrFailLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.FailExam");
-                passOrFailLabel.ForeColor = Color.Red;
+                passOrFailLabel.ForeColor = GlobalColor.redColor;
             }
             else
             {
