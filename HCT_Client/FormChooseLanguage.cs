@@ -32,7 +32,7 @@ namespace HCT_Client
             
             RenderUI();
 
-            confirmExitMessageBox = new FormLargeMessageBox(1);
+            confirmExitMessageBox = new FormLargeMessageBox(1, MessageBoxIcon.Null);
             confirmExitMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("ConfirmExitMessageBox.Message");
             confirmExitMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("ConfirmExitMessageBox.RightButton");
             confirmExitMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("ConfirmExitMessageBox.LeftButton");

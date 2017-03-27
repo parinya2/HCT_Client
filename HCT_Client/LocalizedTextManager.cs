@@ -31,8 +31,8 @@ namespace HCT_Client
             SetDictValueForKey("FormInsertSmartCard.Passport.Label", "Please enter your passport number", "Please enter your passport no.");
             SetDictValueForKey("FormInsertSmartCard.Passport.Button", "Passport No.", "Passport No.");
             SetDictValueForKey("FormInsertSmartCard.GoBack", "<< ย้อนกลับ", "<< Go Back");
-            SetDictValueForKey("FormInsertSmartCard.Error.ReaderNotFound", "ไม่พบเครื่องอ่านบัตรประชาชน กรุณาตรวจสอบเครื่องอ่านบัตรประชาชนอีกครั้ง", "ID Card Reader not found. Please check the ID Card Reader and try again.");
-            SetDictValueForKey("FormInsertSmartCard.Error.CardNotFound", "ไม่พบบัตรประชาชน กรุณาสอดบัตรประชาชนของท่าน และกดปุ่ม 'เข้าสู่ระบบ' อีกครั้ง", "ID Card not found. Please insert your ID Card and press 'Login' button again");
+            SetDictValueForKey("FormInsertSmartCard.Error.ReaderNotFound", "ไม่พบเครื่องอ่านบัตรประชาชน \n กรุณาตรวจสอบเครื่องอ่านบัตรประชาชนอีกครั้ง", "ID Card Reader not found. Please check the ID Card Reader and try again.");
+            SetDictValueForKey("FormInsertSmartCard.Error.CardNotFound", "ไม่พบบัตรประชาชน \n กรุณาสอดบัตรประชาชนของท่าน และกดปุ่ม 'เข้าสู่ระบบ' อีกครั้ง", "ID Card not found. Please insert your ID Card and press 'Login' button again");
             SetDictValueForKey("FormInsertSmartCard.Error.Unknown", "เกิดข้อผิดพลาดบางอย่างขึ้น กรุณาติดต่อผู้ดูแลระบบ", "Some errors occurred. Please contact system administrators.");
             SetDictValueForKey("SmartCardErrorMessageBox.RightButton", "ตกลง", "OK");
 

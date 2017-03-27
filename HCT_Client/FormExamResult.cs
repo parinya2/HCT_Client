@@ -26,7 +26,7 @@ namespace HCT_Client
             
             RenderUI();
 
-            finishExamMessageBox = new FormLargeMessageBox(0);
+            finishExamMessageBox = new FormLargeMessageBox(0, MessageBoxIcon.Null);
             finishExamMessageBox.Visible = false;
             finishExamMessageBox.rightButton.Click += new EventHandler(FinishExamMessageBoxRightButtonClicked);
 

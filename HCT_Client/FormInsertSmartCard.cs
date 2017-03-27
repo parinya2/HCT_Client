@@ -26,7 +26,7 @@ namespace HCT_Client
 
             RenderUI();
             fadeForm = FormsManager.GetFormFadeView();
-            smartCardErrorMessageBox = new FormLargeMessageBox(0);
+            smartCardErrorMessageBox = new FormLargeMessageBox(0, MessageBoxIcon.WarningSign);
             smartCardErrorMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.Message");
             smartCardErrorMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TimeoutMessageBox.RightButton");
             smartCardErrorMessageBox.Visible = false;
