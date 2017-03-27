@@ -21,8 +21,10 @@ namespace HCT_Client
     {
         public static Color redColor = Color.FromArgb(239, 64, 43);
         public static Color yellowColor = Color.FromArgb(255, 221, 23);
+        public static Color orangeColor = Color.FromArgb(247, 147, 29);
         public static Color purpleColor = Color.FromArgb(134, 61, 211);
         public static Color greenColor = Color.FromArgb(56, 180, 73);
+        public static Color lightGreenColor = Color.FromArgb(231, 241, 212);
         public static Color paleRoseColor = Color.FromArgb(254, 252, 233);
     }
 }

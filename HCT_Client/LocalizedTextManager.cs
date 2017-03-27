@@ -49,18 +49,18 @@ namespace HCT_Client
             SetDictValueForKey("FormCourseRegisterSetting.Label.Year", "ปี", "Year");
             SetDictValueForKey("FormCourseRegisterSetting.Label.ExamSeq", "สอบครั้งที่", "Exam Seq");
 
-            SetDictValueForKey("FormCourseRegisterSetting.Month.1", "ม.ค.", "Jan");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.2", "ก.พ.", "Feb");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.3", "มี.ค.", "Mar");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.4", "เม.ย.", "Apr");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.5", "พ.ค.", "May");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.6", "มิ.ย.", "Jun");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.7", "ก.ค.", "Jul");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.8", "ส.ค.", "Aug");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.9", "ก.ย.", "Sep");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.10", "ต.ค.", "Oct");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.11", "พ.ย.", "Nov");
-            SetDictValueForKey("FormCourseRegisterSetting.Month.12", "ธ.ค.", "Dec");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.1", "มกราคม", "January");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.2", "กุมภาพันธ์", "February");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.3", "มีนาคม", "March");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.4", "เมษายน", "April");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.5", "พฤษภาคม", "May");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.6", "มิถุนายน", "June");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.7", "กรกฏาคม", "July");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.8", "สิงหาคม", "August");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.9", "กันยายน", "September");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.10", "ตุลาคม", "October");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.11", "พฤศจิกายน", "November");
+            SetDictValueForKey("FormCourseRegisterSetting.Month.12", "ธันวาคม", "December");
 
             SetDictValueForKey("FormShowUserDetail.Button.TakePhoto", "ถ่ายภาพ", "Take a photo");
             SetDictValueForKey("FormShowUserDetail.Button.DeletePhoto", "ลบรูปภาพ", "Delete photo");
