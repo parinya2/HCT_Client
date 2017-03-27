@@ -357,8 +357,9 @@ namespace HCT_Client
             {
                 goToExamButton.BackColor = Color.White;
                 takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            }*/            
+            }            
             goToExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            */
         }
 
         private void WebCamCapture_ImageCaptured(object source, WebcamEventArgs e)

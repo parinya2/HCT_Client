@@ -43,11 +43,15 @@ namespace HCT_Client
             leftButton.Width = 200;
             leftButton.Height = 100;
             leftButton.Font = new Font(this.Font.FontFamily, 26);
+            leftButton.ForeColor = Color.White;
+            leftButton.BackColor = GlobalColor.redColor;
 
             rightButton = new Button();
             rightButton.Width = leftButton.Width;
             rightButton.Height = leftButton.Height;
             rightButton.Font = new Font(this.Font.FontFamily, 26);
+            rightButton.ForeColor = Color.White;
+            rightButton.BackColor = GlobalColor.redColor;
 
             switch (this.mode)
             { 
