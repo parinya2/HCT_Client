@@ -11,10 +11,11 @@ namespace HCT_Client
 {
     public partial class FixedSizeFormWithHeader : FixedSizeForm
     {
+        private Panel headerBackgroundPanel;
         public Label headerLineLabel;
         private Label headerTextLabel;
         private PictureBox dltLogoPictureBox;
-        private Label simulatorTextLabel;
+        private Label simulatorTextLabel;        
         int headerLineGap = 20;
 
         public FixedSizeFormWithHeader()
@@ -37,19 +38,28 @@ namespace HCT_Client
             headerLineLabel.Height = 3;
             headerLineLabel.Location = new Point(headerLineGap, dltLogoPictureBox.Location.Y + dltLogoPictureBox.Height + 10);
 
+            Color purpleColor = Color.FromArgb(134,61,211);
+
             headerTextLabel = new Label();
-            headerTextLabel.ForeColor = Color.Black;
+            headerTextLabel.ForeColor = Color.White;
+            headerTextLabel.BackColor = purpleColor;
             headerTextLabel.Width = SCREEN_WIDTH - dltLogoPictureBox.Width - dltLogoPictureBox.Location.X - headerLineGap * 3;
             headerTextLabel.Height = isSimulatorMode ? (int)(dltLogoPictureBox.Height * 0.7) : dltLogoPictureBox.Height;
             headerTextLabel.TextAlign = ContentAlignment.MiddleLeft;
             headerTextLabel.Font = new Font(this.Font.FontFamily, 22);
-            headerTextLabel.Text = "โรงเรียนสอนขับรถ หาดใหญ่ คาร์ เทรนเนอร์ \nElectronics Exam";
+            headerTextLabel.Text = "โรงเรียนสอนขับรถ หาดใหญ่ คาร์ เทรนเนอร์ | Electronics Exam";
             headerTextLabel.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap, 
                                                  dltLogoPictureBox.Location.Y);
 
+            headerBackgroundPanel = new Panel();
+            headerBackgroundPanel.Width = SCREEN_WIDTH;
+            headerBackgroundPanel.Height = dltLogoPictureBox.Location.Y + dltLogoPictureBox.Height + 10;
+            headerBackgroundPanel.BackColor = purpleColor;
+            
             this.Controls.Add(headerTextLabel);
-            this.Controls.Add(dltLogoPictureBox);
-            this.Controls.Add(headerLineLabel);
+            //this.Controls.Add(dltLogoPictureBox);
+            this.Controls.Add(headerBackgroundPanel);
+            //this.Controls.Add(headerLineLabel);
 
             if (isSimulatorMode)
             {

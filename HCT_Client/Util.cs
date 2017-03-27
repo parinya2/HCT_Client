@@ -257,18 +257,22 @@ namespace HCT_Client
         {
             buttonBlinkColorDict = new Dictionary<int, Color>();
 
-            int stateCount = 40;
-            int H = 30;
-            int S = 240;
-            int L = 240;
+            int stateCount = 40;            
+
+            int H1 = 34; //Yellow Color
+            int S1 = 100;
+            int L1 = 55;
+
             for (int i = 1; i <= stateCount; i++)
             {
-                L = 240 - i * 3;
+                int H = H1;
+                int S = S1;
+                int L = (int)(100 - (Math.Abs(100 - L1) / stateCount) * i);
                 Color targetColor = ColorFromHSL(H, S, L);
                 buttonBlinkColorDict[i] = targetColor;
             }
 
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 buttonBlinkColorDict[stateCount + i] = buttonBlinkColorDict[stateCount];
             }
@@ -408,8 +412,8 @@ namespace HCT_Client
         public static Color ColorFromHSL(int H, int S, int L)
         {
             double hue = (H / 240.0) * 360.0;
-            double sat = S / 240.0;
-            double lightness = L / 240.0;
+            double sat = S / 100.0;
+            double lightness = L / 100.0;
 
             double C = (1 - Math.Abs(2 * lightness - 1)) * sat;
             double hueTmp = hue / 60.0;
