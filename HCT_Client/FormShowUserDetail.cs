@@ -27,7 +27,7 @@ namespace HCT_Client
             attributeHeaderLabel.Height = this.Height;
             attributeHeaderLabel.Location = new Point(margin, 0);
             attributeHeaderLabel.TextAlign = ContentAlignment.MiddleLeft;
-            attributeHeaderLabel.BackColor = Color.Orange;
+            attributeHeaderLabel.BackColor = Color.Transparent;
             attributeHeaderLabel.Font = new Font(this.Font.FontFamily, 14);
 
             attributeContentLabel = new Label();
@@ -36,6 +36,7 @@ namespace HCT_Client
             attributeContentLabel.Location = new Point(attributeHeaderLabel.Width + margin + gapX, attributeHeaderLabel.Location.Y);
             attributeContentLabel.TextAlign = ContentAlignment.MiddleLeft;
             attributeContentLabel.Font = new Font(this.Font.FontFamily, 12);
+            attributeContentLabel.BackColor = GlobalColor.paleRoseColor;
 
             this.BackColor = Color.Transparent;
             this.Controls.Add(attributeHeaderLabel);
@@ -120,11 +121,15 @@ namespace HCT_Client
             goToExamButton.Location = new Point(SCREEN_WIDTH - goToExamButton.Width - 50,
                                                 SCREEN_HEIGHT - goToExamButton.Height - 50);
             goToExamButton.Click += new EventHandler(GoToExamButtonClicked);
+            goToExamButton.ForeColor = Color.White;
+            goToExamButton.BackColor = GlobalColor.redColor;
 
             backButton = new MediumButton();
             backButton.Location = new Point(goToExamButton.Location.X - backButton.Width - 50,
                                             goToExamButton.Location.Y);
             backButton.Click += new EventHandler(BackButtonClicked);
+            backButton.ForeColor = Color.White;
+            backButton.BackColor = GlobalColor.redColor;
 
             int attributePanelWidth = SCREEN_WIDTH - userPhotoPictureBox.Width - userPhotoPictureBox.Location.X - 100;
             int attributePanelHeight = 60;
@@ -339,7 +344,8 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
+            //Temporary Disable this code
+            /*bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
             if (hasUserPhoto)
             {
                 goToExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
@@ -349,7 +355,7 @@ namespace HCT_Client
             {
                 goToExamButton.BackColor = Color.White;
                 takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            }            
+            }*/            
             goToExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
         }
 
