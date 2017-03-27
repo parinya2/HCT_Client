@@ -22,6 +22,7 @@ namespace HCT_Client
         {
             InitializeComponent();
 
+            Color bgColor = GlobalColor.purpleColor;
             bool isSimulatorMode = WebServiceManager.webServiceMode == WebServiceMode.SimulatorMode;
 
             dltLogoPictureBox = new PictureBox();
@@ -40,7 +41,7 @@ namespace HCT_Client
 
             headerTextLabel = new Label();
             headerTextLabel.ForeColor = Color.White;
-            headerTextLabel.BackColor = GlobalColor.purpleColor;
+            headerTextLabel.BackColor = bgColor;
             headerTextLabel.Width = SCREEN_WIDTH - dltLogoPictureBox.Width - dltLogoPictureBox.Location.X - headerLineGap * 3;
             headerTextLabel.Height = isSimulatorMode ? (int)(dltLogoPictureBox.Height * 0.7) : dltLogoPictureBox.Height;
             headerTextLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -52,17 +53,13 @@ namespace HCT_Client
             headerBackgroundPanel = new Panel();
             headerBackgroundPanel.Width = SCREEN_WIDTH;
             headerBackgroundPanel.Height = dltLogoPictureBox.Location.Y + dltLogoPictureBox.Height + 10;
-            headerBackgroundPanel.BackColor = GlobalColor.purpleColor;
-            
-            this.Controls.Add(headerTextLabel);
-            //this.Controls.Add(dltLogoPictureBox);
-            this.Controls.Add(headerBackgroundPanel);
-            //this.Controls.Add(headerLineLabel);
+            headerBackgroundPanel.BackColor = bgColor;           
 
             if (isSimulatorMode)
             {
                 simulatorTextLabel = new Label();
-                simulatorTextLabel.ForeColor = Color.Red;
+                simulatorTextLabel.ForeColor = GlobalColor.yellowColor;
+                simulatorTextLabel.BackColor = bgColor;
                 simulatorTextLabel.Width = SCREEN_WIDTH - dltLogoPictureBox.Width - dltLogoPictureBox.Location.X - headerLineGap * 3;
                 simulatorTextLabel.Height = dltLogoPictureBox.Height - headerTextLabel.Height;
                 simulatorTextLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -72,8 +69,11 @@ namespace HCT_Client
                                                      headerTextLabel.Location.Y + headerTextLabel.Height + 5);
                 this.Controls.Add(simulatorTextLabel);
             }
-        }
 
-       
+            this.Controls.Add(headerTextLabel);
+            //this.Controls.Add(dltLogoPictureBox);
+            this.Controls.Add(headerBackgroundPanel);
+            //this.Controls.Add(headerLineLabel);
+        }       
     }
 }
