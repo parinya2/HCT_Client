@@ -27,8 +27,9 @@ namespace HCT_Client
             attributeHeaderLabel.Height = this.Height;
             attributeHeaderLabel.Location = new Point(margin, 0);
             attributeHeaderLabel.TextAlign = ContentAlignment.MiddleLeft;
-            attributeHeaderLabel.BackColor = Color.Orange;
+            attributeHeaderLabel.BackColor = Color.Transparent;
             attributeHeaderLabel.Font = new Font(this.Font.FontFamily, 28);
+
 
             attributeContentLabel = new Label();
             attributeContentLabel.Width = this.Width - attributeHeaderLabel.Width - gapX - margin * 2;
@@ -36,6 +37,8 @@ namespace HCT_Client
             attributeContentLabel.Location = new Point(attributeHeaderLabel.Width + margin + gapX, attributeHeaderLabel.Location.Y);
             attributeContentLabel.TextAlign = ContentAlignment.MiddleLeft;
             attributeContentLabel.Font = new Font(this.Font.FontFamily, 26);
+            attributeContentLabel.BackColor = GlobalColor.paleRoseColor;
+
 
             this.BackColor = Color.Transparent;
             this.Controls.Add(attributeHeaderLabel);
@@ -115,15 +118,20 @@ namespace HCT_Client
             takePhotoButton.Location = new Point(userPhotoPictureBox.Location.X,
                                                  userPhotoPictureBox.Location.Y + userPhotoPictureBox.Height + 40);
             takePhotoButton.Click += new EventHandler(TakePhotoButtonClicked);
+            takePhotoButton.BackColor = GlobalColor.yellowColor;
 
             backButton = new MediumButton();
             backButton.SetLocationForBackButton();
             backButton.Click += new EventHandler(BackButtonClicked);
+            backButton.ForeColor = Color.White;
+            backButton.BackColor = GlobalColor.redColor;
 
             goToExamButton = new MediumButton();
             goToExamButton.Location = new Point(SCREEN_WIDTH - goToExamButton.Width - backButton.Location.X,
                                                 backButton.Location.Y);
             goToExamButton.Click += new EventHandler(GoToExamButtonClicked);
+            goToExamButton.ForeColor = Color.White;
+            goToExamButton.BackColor = GlobalColor.redColor;
 
             int attributePanelWidth = SCREEN_WIDTH - userPhotoPictureBox.Width - userPhotoPictureBox.Location.X - 100;
             int attributePanelHeight = 90;
@@ -338,7 +346,8 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
+            //Temporary Disable this code
+            /*bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
             if (hasUserPhoto)
             {
                 goToExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
@@ -348,7 +357,7 @@ namespace HCT_Client
             {
                 goToExamButton.BackColor = Color.White;
                 takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            }            
+            }*/            
             goToExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
         }
 

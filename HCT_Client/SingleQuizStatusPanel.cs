@@ -56,14 +56,17 @@ namespace HCT_Client
             if (state == SingleQuizStatusPanel_State.Active)
             {
                 numberLabel.BackColor = Color.White;
+                numberLabel.ForeColor = Color.Black;
             }
             else if (state == SingleQuizStatusPanel_State.Unanswered)
             {
-                numberLabel.BackColor = Color.MediumSpringGreen;
+                numberLabel.BackColor = GlobalColor.greenColor;
+                numberLabel.ForeColor = Color.White;
             }
             else
             {
-                numberLabel.BackColor = Color.Orange;
+                numberLabel.BackColor = GlobalColor.orangeColor;
+                numberLabel.ForeColor = Color.Black;
             }
         }
     }

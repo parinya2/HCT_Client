@@ -65,6 +65,8 @@ namespace HCT_Client
             goToUserDetailButton.Location = new Point(SCREEN_WIDTH - goToUserDetailButton.Width - backButton.Location.X,
                                                       backButton.Location.Y);
             goToUserDetailButton.Click += new EventHandler(GoToUserDetailButtonClicked);
+            goToUserDetailButton.ForeColor = Color.White;
+            goToUserDetailButton.BackColor = GlobalColor.redColor;
 
             int gapX = 30;
             int gapY = 5;
@@ -388,7 +390,8 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            bool isDataComplete = selectedDayIndex >= 0 && selectedMonthIndex >= 0 &&
+            //Temporary disable this code
+            /*bool isDataComplete = selectedDayIndex >= 0 && selectedMonthIndex >= 0 &&
                                   selectedYearIndex >= 0 && selectedExamSeqIndex >= 0;
             if (isDataComplete)
             {
@@ -397,7 +400,7 @@ namespace HCT_Client
             else
             {
                 goToUserDetailButton.BackColor = Color.White;
-            }
+            }*/
         }
     }
 }
