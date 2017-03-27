@@ -153,7 +153,7 @@ namespace HCT_Client
         {
             if (Instance.instanceFormSystemProcessingMessageBox == null)
             {
-                Instance.instanceFormSystemProcessingMessageBox = new FormLargeMessageBox(-1);             
+                Instance.instanceFormSystemProcessingMessageBox = new FormLargeMessageBox(-1, MessageBoxIcon.Null);             
             }
             Instance.instanceFormSystemProcessingMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("SystemProcessingMessageBox.Message");
             return Instance.instanceFormSystemProcessingMessageBox;
@@ -163,7 +163,7 @@ namespace HCT_Client
         {
             if (Instance.instanceFormErrorMessageBox == null)
             {
-                Instance.instanceFormErrorMessageBox = new FormLargeMessageBox(0);
+                Instance.instanceFormErrorMessageBox = new FormLargeMessageBox(0, MessageBoxIcon.Null);
                 Instance.instanceFormErrorMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("ErrorMessageBox.RightButton");
                 Instance.instanceFormErrorMessageBox.rightButton.Click += new EventHandler(ErrorMessageBoxRightButtonClick);
             }

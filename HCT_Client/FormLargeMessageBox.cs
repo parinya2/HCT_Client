@@ -9,6 +9,13 @@ using System.Windows.Forms;
 
 namespace HCT_Client
 {
+    public enum MessageBoxIcon
+    { 
+        Null,
+        WarningSign,
+        CameraIcon
+    }
+
     public partial class FormLargeMessageBox : Form
     {
         public string errorCode;
@@ -16,9 +23,11 @@ namespace HCT_Client
         public Button leftButton;
         public Button rightButton;
         public Label messageLabel;
+        public PictureBox iconPictureBox;
+        public MessageBoxIcon iconType;
         int mode;
 
-        public FormLargeMessageBox(int mode)
+        public FormLargeMessageBox(int mode, MessageBoxIcon icon)
         {
             InitializeComponent();
 
@@ -28,6 +37,7 @@ namespace HCT_Client
             this.mode = mode;
             this.Width = 620;
             this.Height = 340;
+            this.iconType = icon;
 
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
@@ -36,6 +46,28 @@ namespace HCT_Client
 
         void RenderUI()
         {
+            iconPictureBox = new PictureBox();
+
+            if (iconType == MessageBoxIcon.Null)
+            {
+                iconPictureBox.Image = null;
+                iconPictureBox.Width = 1;
+                iconPictureBox.Height = 1;
+            }
+            else
+            {
+                iconPictureBox.Width = 250;
+                iconPictureBox.Height = 120;
+                string iconName = "";
+                if (iconType == MessageBoxIcon.WarningSign) iconName = "WarningSign.png";
+                if (iconType == MessageBoxIcon.CameraIcon) iconName = "CameraIcon.png";
+                Bitmap iconBitmap = Util.GetImageFromImageResources(iconName);
+                iconPictureBox.Image = iconBitmap;
+            }
+            iconPictureBox.Location = new Point((this.Width - iconPictureBox.Width) / 2, 5);
+            iconPictureBox.BackColor = Color.Transparent;
+            iconPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+
             int buttonOffsetX = 30;
             int buttonOffsetY = 30;
 
@@ -77,26 +109,27 @@ namespace HCT_Client
             }
 
             int messageLabelOffsetX = 50;
-            int messageLabelOffsetY = 50;
+            int messageLabelOffsetY = 30;
 
             messageLabel = new Label();
             messageLabel.Width = this.Width - (messageLabelOffsetX * 2);
-            messageLabel.Height = this.Height - rightButton.Height - messageLabelOffsetY * 2;
-            messageLabel.Location = new Point(messageLabelOffsetX, messageLabelOffsetY);
+            messageLabel.Height = this.Height - iconPictureBox.Height - rightButton.Height - messageLabelOffsetY * 2;
+            messageLabel.Location = new Point(messageLabelOffsetX, iconPictureBox.Location.Y + iconPictureBox.Height);
             messageLabel.Font = new Font(this.Font.FontFamily, 14);
             messageLabel.TextAlign = ContentAlignment.MiddleCenter;
 
             this.Controls.Add(messageLabel);
             this.Controls.Add(leftButton);
             this.Controls.Add(rightButton);
+            this.Controls.Add(iconPictureBox);
         }
 
         public void ShowMessageBoxAtLocation(Point location)
         {
             FormsManager.GetFormFadeView().Visible = true;
             this.BringToFront();
-            this.Visible = true;          
-            this.Location = location;                   
-        }
+            this.Visible = true;
+            this.Location = location;  
+        }    
     }
 }

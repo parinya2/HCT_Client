@@ -70,12 +70,12 @@ namespace HCT_Client
             RenderUI();
             PrepareWebcamCapture();
 
-            goToExamMessageBox = new FormLargeMessageBox(1);
+            goToExamMessageBox = new FormLargeMessageBox(1, MessageBoxIcon.Null);
             goToExamMessageBox.Visible = false;
             goToExamMessageBox.rightButton.Click += new EventHandler(GoToExamMessageBoxRightButtonClicked);
             goToExamMessageBox.leftButton.Click += new EventHandler(GoToExamMessageBoxLeftButtonClicked);
 
-            noUserPhotoMessageBox = new FormLargeMessageBox(0);
+            noUserPhotoMessageBox = new FormLargeMessageBox(0, MessageBoxIcon.CameraIcon);
             noUserPhotoMessageBox.Visible = false;
             noUserPhotoMessageBox.rightButton.Click += new EventHandler(NoUserPhotoMessageBoxRightButtonClicked);          
 

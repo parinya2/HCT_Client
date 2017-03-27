@@ -233,6 +233,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Images\SoundIcon.png" />
+    <EmbeddedResource Include="Images\WarningSign.png" />
+    <EmbeddedResource Include="Images\CameraIcon.png" />
     <Content Include="RDNIDLib.DLX">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

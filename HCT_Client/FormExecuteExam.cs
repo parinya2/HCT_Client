@@ -72,11 +72,11 @@ namespace HCT_Client
 
             RenderUI();
 
-            timeoutMessageBox = new FormLargeMessageBox(0);
+            timeoutMessageBox = new FormLargeMessageBox(0, MessageBoxIcon.Null);
             timeoutMessageBox.Visible = false;
             timeoutMessageBox.rightButton.Click += new EventHandler(TimeoutMessageBoxRightButtonClicked);
 
-            quizNotCompletedMessageBox = new FormLargeMessageBox(0);
+            quizNotCompletedMessageBox = new FormLargeMessageBox(0, MessageBoxIcon.Null);
             quizNotCompletedMessageBox.Visible = false;
             quizNotCompletedMessageBox.rightButton.Click += new EventHandler(QuizNotCompletedMessageBoxRightButtonClicked);
 
@@ -785,9 +785,9 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            timeoutMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             //Temporary Disable this code
             /*
+            timeoutMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             if (examState == ExamState.ShowAnswerState)
             {
                 submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);

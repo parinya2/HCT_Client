@@ -107,14 +107,11 @@ namespace HCT_Client
             examCourseType2panel.examCourseIconPictureBox.Click += new EventHandler(ExamCourseType2ButtonClicked);
             examCourseType2panel.examCourseTextLabel.Click += new EventHandler(ExamCourseType2ButtonClicked);
 
-            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            Stream myStream = myAssembly.GetManifestResourceStream("HCT_Client.Images.CarIcon.png");
-            Bitmap carBitmap = new Bitmap(myStream);
+            Bitmap carBitmap = Util.GetImageFromImageResources("CarIcon.png");
             examCourseType1panel.examCourseIconPictureBox.Image = carBitmap;
             examCourseType1panel.examCourseIconPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
-            myStream = myAssembly.GetManifestResourceStream("HCT_Client.Images.MotorcycleIcon.png");
-            Bitmap motocycleBitmap = new Bitmap(myStream);
+            Bitmap motocycleBitmap = Util.GetImageFromImageResources("MotorcycleIcon.png");
             examCourseType2panel.examCourseIconPictureBox.Image = motocycleBitmap;
             examCourseType2panel.examCourseIconPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 

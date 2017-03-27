@@ -44,7 +44,7 @@ namespace HCT_Client
 
             RenderUI();
 
-            dataMissingMessageBox = new FormLargeMessageBox(0);
+            dataMissingMessageBox = new FormLargeMessageBox(0, MessageBoxIcon.Null);
             dataMissingMessageBox.Visible = false;
             dataMissingMessageBox.rightButton.Click += new EventHandler(DataMissingMessageBoxRightButtonClicked);
 
