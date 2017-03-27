@@ -57,11 +57,15 @@ namespace HCT_Client
                                                         passportTextbox.Location.Y);
             deleteCharacterButton.Font = new Font(this.Font.FontFamily, 19);
             deleteCharacterButton.Click += new EventHandler(DeleteCharacterButtonClicked);
+            deleteCharacterButton.ForeColor = Color.White;
+            deleteCharacterButton.BackColor = GlobalColor.redColor;
 
             backButton = new MediumButton();
             backButton.Location = new Point(SCREEN_WIDTH - backButton.Width - 50,
                                             SCREEN_HEIGHT - backButton.Height - 50);
             backButton.Click += new EventHandler(BackButtonClicked);
+            backButton.ForeColor = Color.White;
+            backButton.BackColor = GlobalColor.redColor;
 
             // Initialize Character buttons //
             characterButtonArray = new Button[26];
@@ -95,7 +99,7 @@ namespace HCT_Client
                 b.Text = characterArray[i];
                 b.TextAlign = ContentAlignment.MiddleCenter;
                 b.Font = new Font(this.Font.FontFamily, 14);
-                b.BackColor = Color.White;
+                b.BackColor = GlobalColor.paleRoseColor;
                 int offsetX = 120;//(SCREEN_WIDTH - (b.Width * 10) - (buttonGapX * 9)) / 2;
                 if (yPos == 1)  offsetX += b.Width / 2 + buttonGapX;
                 if (yPos == 2) offsetX += (int)(b.Width * 1.5 + buttonGapX * 2);
@@ -143,7 +147,7 @@ namespace HCT_Client
                 b.Text = numberArray[i];
                 b.TextAlign = ContentAlignment.MiddleCenter;
                 b.Font = new Font(this.Font.FontFamily, 14);
-                b.BackColor = Color.White;
+                b.BackColor = GlobalColor.paleRoseColor;
                 int offsetX = characterButtonArray[9].Location.X + characterButtonArray[9].Width + 50;//(SCREEN_WIDTH - (b.Width * 13) - (buttonGapX * 12)) / 2;
                 int offsetY = passportTextbox.Location.Y + passportTextbox.Height + 30;
                 b.Location = new Point(offsetX + (b.Width + buttonGapX) * xPos,
@@ -158,6 +162,8 @@ namespace HCT_Client
             loginButton.Location = new Point((SCREEN_WIDTH - loginButton.Width) / 2,
                                             characterButtonArray.Last().Location.Y + characterButtonArray.Last().Height + 60);
             loginButton.Click += new EventHandler(LoginButtonClicked);
+            loginButton.ForeColor = Color.White;
+            loginButton.BackColor = GlobalColor.greenColor;
 
             this.Controls.Add(passportTextLabel);
             this.Controls.Add(passportTextbox);
@@ -232,15 +238,15 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            if (loginButton.Enabled)
+            //Temporary Disable this code
+            /*if (loginButton.Enabled)
             {
                 loginButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             }
             else
             {
                 loginButton.BackColor = Color.White;
-            }
-            
+            }*/         
         }
 
     }

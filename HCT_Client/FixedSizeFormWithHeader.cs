@@ -38,11 +38,9 @@ namespace HCT_Client
             headerLineLabel.Height = 3;
             headerLineLabel.Location = new Point(headerLineGap, dltLogoPictureBox.Location.Y + dltLogoPictureBox.Height + 10);
 
-            Color purpleColor = Color.FromArgb(134,61,211);
-
             headerTextLabel = new Label();
             headerTextLabel.ForeColor = Color.White;
-            headerTextLabel.BackColor = purpleColor;
+            headerTextLabel.BackColor = GlobalColor.purpleColor;
             headerTextLabel.Width = SCREEN_WIDTH - dltLogoPictureBox.Width - dltLogoPictureBox.Location.X - headerLineGap * 3;
             headerTextLabel.Height = isSimulatorMode ? (int)(dltLogoPictureBox.Height * 0.7) : dltLogoPictureBox.Height;
             headerTextLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -54,7 +52,7 @@ namespace HCT_Client
             headerBackgroundPanel = new Panel();
             headerBackgroundPanel.Width = SCREEN_WIDTH;
             headerBackgroundPanel.Height = dltLogoPictureBox.Location.Y + dltLogoPictureBox.Height + 10;
-            headerBackgroundPanel.BackColor = purpleColor;
+            headerBackgroundPanel.BackColor = GlobalColor.purpleColor;
             
             this.Controls.Add(headerTextLabel);
             //this.Controls.Add(dltLogoPictureBox);

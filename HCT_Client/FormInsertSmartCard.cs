@@ -67,6 +67,8 @@ namespace HCT_Client
             backButton.Location = new Point(SCREEN_WIDTH - backButton.Width - 50,
                                             SCREEN_HEIGHT - backButton.Height - 50);
             backButton.Click += new EventHandler(BackButtonClicked);
+            backButton.BackColor = GlobalColor.redColor;
+            backButton.ForeColor = Color.White;
 
             this.Controls.Add(loginTextLabel);
             this.Controls.Add(loginButton);
