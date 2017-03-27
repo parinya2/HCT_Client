@@ -66,6 +66,8 @@ namespace HCT_Client
             backButton = new MediumButton();
             backButton.SetLocationForBackButton();
             backButton.Click += new EventHandler(BackButtonClicked);
+            backButton.BackColor = GlobalColor.redColor;
+            backButton.ForeColor = Color.White;
 
             this.Controls.Add(loginTextLabel);
             this.Controls.Add(loginButton);

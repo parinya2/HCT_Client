@@ -59,17 +59,21 @@ namespace HCT_Client
                                                         passportTextbox.Location.Y);
             deleteCharacterButton.Font = new Font(this.Font.FontFamily, 20);
             deleteCharacterButton.Click += new EventHandler(DeleteCharacterButtonClicked);
+            deleteCharacterButton.ForeColor = Color.White;
+            deleteCharacterButton.BackColor = GlobalColor.redColor;
 
             backButton = new MediumButton();
             backButton.SetLocationForBackButton();
             backButton.Click += new EventHandler(BackButtonClicked);
+            backButton.ForeColor = Color.White;
+            backButton.BackColor = GlobalColor.redColor;
 
             // Initialize Character buttons //
             int characterButtonHeight = 70;
             int characterButtonGapX = 7;
             int characterButtonGapY = 7;
             int characterAndNumberGapX = 50;
-            Color characterButtonColor = Color.LemonChiffon;
+            Color characterButtonColor = GlobalColor.paleRoseColor;
             characterButtonArray = new Button[26];
             string[] characterArray = { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", 
                                       "A","S","D","F","G","H","J","K","L",
@@ -164,6 +168,8 @@ namespace HCT_Client
             loginButton.Location = new Point((SCREEN_WIDTH - loginButton.Width) / 2,
                                             characterButtonArray.Last().Location.Y + characterButtonArray.Last().Height + 60);
             loginButton.Click += new EventHandler(LoginButtonClicked);
+            loginButton.ForeColor = Color.White;
+            loginButton.BackColor = GlobalColor.greenColor;
 
             this.Controls.Add(passportTextLabel);
             this.Controls.Add(passportTextbox);
@@ -238,15 +244,15 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            if (loginButton.Enabled)
+            //Temporary Disable this code
+            /*if (loginButton.Enabled)
             {
                 loginButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
             }
             else
             {
                 loginButton.BackColor = Color.White;
-            }
-            
+            }*/         
         }
 
     }
