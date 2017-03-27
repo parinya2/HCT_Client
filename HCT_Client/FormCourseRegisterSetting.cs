@@ -27,8 +27,8 @@ namespace HCT_Client
         Label examSeqTopicLabel;
         Label examSeqLabel;
 
-        Color buttonClickColor = Color.Orange;
-        Color buttonDefaultColor = Color.LemonChiffon;
+        Color buttonClickColor = GlobalColor.yellowColor;
+        Color buttonDefaultColor = GlobalColor.paleRoseColor;
 
         FormLargeMessageBox dataMissingMessageBox;
         BlinkButtonSignalClock blinkButtonSignalClock;
@@ -58,6 +58,8 @@ namespace HCT_Client
             backButton = new MediumButton();
             backButton.SetLocationForBackButton();
             backButton.Click += new EventHandler(BackButtonClicked);
+            backButton.ForeColor = Color.White;
+            backButton.BackColor = GlobalColor.redColor;
 
             goToUserDetailButton = new MediumButton();
             goToUserDetailButton.Location = new Point(SCREEN_WIDTH - goToUserDetailButton.Width - backButton.Location.X,
@@ -72,7 +74,7 @@ namespace HCT_Client
             courseRegisterDateTopicLabel = new Label();
             courseRegisterDateTopicLabel.Width = SCREEN_WIDTH - gapX * 2;
             courseRegisterDateTopicLabel.Height = 60;
-            courseRegisterDateTopicLabel.BackColor = Color.Orange;
+            courseRegisterDateTopicLabel.BackColor = GlobalColor.yellowColor;
             courseRegisterDateTopicLabel.Location = new Point(gapX, headerLineLabel.Location.Y + 20);
             courseRegisterDateTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
             courseRegisterDateTopicLabel.Font = new Font(this.Font.FontFamily, 24);
@@ -137,14 +139,22 @@ namespace HCT_Client
             {
                 Button b = new Button();
                 b.Height = buttonHeight;
-                b.Width = (int)(b.Height * 1.6);
+                b.Width = (int)(b.Height * 3);
                 b.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Month." + (i + 1));
                 b.TextAlign = ContentAlignment.MiddleCenter;
                 b.Font = new Font(this.Font.FontFamily, buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
-                b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
-                                           monthLabel.Location.Y + monthLabel.Height / 2 - b.Height / 2);
+                if (i <= 5)
+                {
+                    b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
+                                               monthLabel.Location.Y + monthLabel.Height / 2 - b.Height - gapY);             
+                }
+                else
+                {
+                    b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * (i - 6),
+                                               monthLabel.Location.Y + monthLabel.Height / 2 + gapY);  
+                }
                 b.Click += new EventHandler(MonthButtonArrayClicked);
                 monthButtonArray[i] = b;
                 this.Controls.Add(b);
