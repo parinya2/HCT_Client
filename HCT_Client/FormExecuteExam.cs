@@ -52,8 +52,8 @@ namespace HCT_Client
         FormLargeMessageBox quizNotCompletedMessageBox;
         FormFadeView fadeForm;
 
-        Color correctAnswerColor = Color.ForestGreen;
-        Color wrongAnswerColor = Color.Red;
+        Color correctAnswerColor = GlobalColor.greenColor;
+        Color wrongAnswerColor = GlobalColor.redColor;
 
         Button minimizeAppButton;
 
@@ -117,7 +117,6 @@ namespace HCT_Client
             quizNotCompletedMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.RightButton");
 
             submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");
-            submitExamButton.BackColor = Color.White;
 
             for (int i = 0; i < singleQuizStatusPanelArray.Length; i++)
             {
@@ -293,6 +292,8 @@ namespace HCT_Client
             submitExamButton.Location = new Point(monitorPanel.Width - 20 - submitExamButton.Width, 
                                                   monitorPanel.Height - 20 - submitExamButton.Height);
             submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");
+            submitExamButton.ForeColor = Color.White;
+            submitExamButton.BackColor = GlobalColor.redColor;
 
             prepareQuizListPanelUI();
 
@@ -302,6 +303,7 @@ namespace HCT_Client
             prevQuizButton.Location = new Point(timerLabel.Location.X, submitExamButton.Location.Y);
             prevQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.PrevQuiz");
             prevQuizButton.Click += new EventHandler(PrevQuizButtonClicked);
+            prevQuizButton.BackColor = GlobalColor.yellowColor;
 
             nextQuizButton = new MediumButton();
             nextQuizButton.Width = 120;
@@ -309,6 +311,7 @@ namespace HCT_Client
             nextQuizButton.Location = new Point(prevQuizButton.Location.X + prevQuizButton.Width + 5, submitExamButton.Location.Y);
             nextQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.NextQuiz");
             nextQuizButton.Click += new EventHandler(NextQuizButtonClicked);
+            nextQuizButton.BackColor = GlobalColor.yellowColor;
 
             monitorPanel.Controls.Add(minimizeAppButton);
             monitorPanel.Controls.Add(prevQuizButton);
@@ -783,6 +786,8 @@ namespace HCT_Client
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
             timeoutMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            //Temporary Disable this code
+            /*
             if (examState == ExamState.ShowAnswerState)
             {
                 submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
@@ -805,6 +810,7 @@ namespace HCT_Client
                     submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
                 }
             }
+            */
         }
 
         protected void SignalClockHasChanged(int state)

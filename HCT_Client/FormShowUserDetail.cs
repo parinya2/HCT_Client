@@ -116,6 +116,7 @@ namespace HCT_Client
             takePhotoButton.Location = new Point(userPhotoPictureBox.Location.X,
                                                  userPhotoPictureBox.Location.Y + userPhotoPictureBox.Height + 40);
             takePhotoButton.Click += new EventHandler(TakePhotoButtonClicked);
+            takePhotoButton.BackColor = GlobalColor.yellowColor;
 
             goToExamButton = new MediumButton();
             goToExamButton.Location = new Point(SCREEN_WIDTH - goToExamButton.Width - 50,
