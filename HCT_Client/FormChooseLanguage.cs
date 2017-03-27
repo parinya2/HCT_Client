@@ -75,6 +75,8 @@ namespace HCT_Client
                               SCREEN_HEIGHT - exitButton.Height - 50);
             exitButton.Text = "ออกจากโปรแกรม";
             exitButton.Click += new EventHandler(ExitButtonClicked);
+            exitButton.BackColor = Color.FromArgb(239,64,43);
+            exitButton.ForeColor = Color.White;
 
             this.Controls.Add(exitButton);
             this.Controls.Add(thaiButton);
