@@ -46,13 +46,13 @@ namespace HCT_Client
             headerTextLabel1.Width = 700;
             headerTextLabel1.Height = isSimulatorMode ? (int)(dltLogoPictureBox.Height * 0.7) : dltLogoPictureBox.Height;
             headerTextLabel1.TextAlign = ContentAlignment.MiddleLeft;
-            headerTextLabel1.Font = new Font(this.Font.FontFamily, 28);
+            headerTextLabel1.Font = new Font(this.Font.FontFamily, 30);
             headerTextLabel1.Text = "โรงเรียนสอนขับรถ หาดใหญ่ คาร์ เทรนเนอร์ |";
             headerTextLabel1.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap, 
                                                  dltLogoPictureBox.Location.Y);
 
             headerTextLabel2 = new Label();
-            headerTextLabel2.ForeColor = GlobalColor.orangeColor;
+            headerTextLabel2.ForeColor = GlobalColor.yellowColor;
             headerTextLabel2.BackColor = bgColor;
             headerTextLabel2.Width = 450;
             headerTextLabel2.Height = headerTextLabel1.Height;

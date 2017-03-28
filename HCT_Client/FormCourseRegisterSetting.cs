@@ -44,7 +44,7 @@ namespace HCT_Client
 
             RenderUI();
 
-            dataMissingMessageBox = new FormLargeMessageBox(0, MessageBoxIcon.Null);
+            dataMissingMessageBox = new FormLargeMessageBox(0, MessageBoxIcon.WarningSign);
             dataMissingMessageBox.Visible = false;
             dataMissingMessageBox.rightButton.Click += new EventHandler(DataMissingMessageBoxRightButtonClicked);
 
@@ -324,7 +324,7 @@ namespace HCT_Client
             }
             if (selectedExamSeqIndex != -1)
             {
-                examSeqButtonArray[selectedExamSeqIndex].BackColor = buttonDefaultColor;
+                examSeqButtonArray[selectedExamSeqIndex].BackColor = GlobalColor.lightGreenColor;
                 selectedExamSeqIndex = -1;
             }
         }

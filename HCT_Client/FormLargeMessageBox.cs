@@ -65,7 +65,7 @@ namespace HCT_Client
                 Bitmap iconBitmap = Util.GetImageFromImageResources(iconName);
                 iconPictureBox.Image = iconBitmap;
             }
-            iconPictureBox.Location = new Point((this.Width - iconPictureBox.Width) / 2, 5);
+            iconPictureBox.Location = new Point((this.Width - iconPictureBox.Width) / 2, 30);
             iconPictureBox.BackColor = Color.Transparent;
             iconPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
