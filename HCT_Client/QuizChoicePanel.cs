@@ -35,7 +35,8 @@ namespace HCT_Client
 
             choiceHeaderLabel = new BaseTextLabel();
             choiceHeaderLabel.Location = new Point(0, 0);
-            choiceHeaderLabel.Width = (int)(this.Width * 0.1);
+            choiceHeaderLabel.Font = new Font(this.Font.FontFamily, 26, FontStyle.Bold);
+            choiceHeaderLabel.Width = (int)(this.Width * 0.13);
             choiceHeaderLabel.Height = choiceHeaderLabel.Width;;
             choiceHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (this.choiceNumber + 1)) + ". ";
             choiceHeaderLabel.TextAlign = ContentAlignment.MiddleRight;
@@ -43,12 +44,12 @@ namespace HCT_Client
             choiceHeaderLabel.Tag = this.choiceNumber;
 
             choiceTextLabel = new BaseTextLabel();
-            choiceTextLabel.Location = new Point(choiceHeaderLabel.Width + choiceHeaderLabel.Location.X, choiceHeaderLabel.Location.Y);
+            choiceTextLabel.Location = new Point(choiceHeaderLabel.Width + choiceHeaderLabel.Location.X, choiceHeaderLabel.Location.Y + margin * 2);
             choiceTextLabel.Width = (int)(this.Width * 0.75);
             choiceTextLabel.Height = this.Height;
             choiceTextLabel.BackColor = Color.Transparent;
             choiceTextLabel.Tag = this.choiceNumber;
-            choiceTextLabel.TextAlign = ContentAlignment.TopLeft;
+            choiceTextLabel.TextAlign = ContentAlignment.MiddleCenter;
 
             choiceCorrectStatusPictureBox = new PictureBox();
             choiceCorrectStatusPictureBox.Location = new Point(choiceHeaderLabel.Location.X + choiceHeaderLabel.Width + choiceTextLabel.Width, choiceHeaderLabel.Location.Y);
@@ -88,7 +89,7 @@ namespace HCT_Client
             {
                 choiceHeaderLabel.Height = choiceHeaderLabel.Width;
                 choiceTextLabel.Height = this.Height;
-                choiceTextLabel.TextAlign = ContentAlignment.MiddleCenter;
+
                 choiceImagePictureBox.Height = 0;
                 choiceImagePictureBox.Width = choiceImagePictureBox.Height;
             }

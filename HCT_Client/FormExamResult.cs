@@ -59,7 +59,7 @@ namespace HCT_Client
             viewAnswerButton = new LargeButton();
             viewAnswerButton.Click += new EventHandler(ViewAnswerButtonClicked);
             viewAnswerButton.Location = new Point(SCREEN_WIDTH / 2 - viewAnswerButton.Width- buttonOffsetX,
-                                                  scoreLabel.Location.Y + scoreLabel.Height + buttonOffsetY);
+                                                  scoreLabel.Location.Y + scoreLabel.Height + buttonOffsetY * 2);
             viewAnswerButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.ViewAnswer");
 
             finishExamButton = new LargeButton();

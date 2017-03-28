@@ -296,6 +296,7 @@ namespace HCT_Client
             timerLabel.Font = new Font(this.Font.FontFamily, 24);
 
             submitExamButton = new MediumButton();
+            submitExamButton.Font = new Font(this.Font.FontFamily, 28, FontStyle.Bold);
             submitExamButton.Location = new Point(monitorPanel.Width - 20 - submitExamButton.Width, 
                                                   monitorPanel.Height - 20 - submitExamButton.Height);
             submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");
