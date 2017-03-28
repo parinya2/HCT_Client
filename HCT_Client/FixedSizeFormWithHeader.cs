@@ -13,7 +13,8 @@ namespace HCT_Client
     {
         private Panel headerBackgroundPanel;
         public Label headerLineLabel;
-        private Label headerTextLabel;
+        private Label headerTextLabel1;
+        private Label headerTextLabel2;
         private PictureBox dltLogoPictureBox;
         private Label simulatorTextLabel;        
         int headerLineGap = 20;
@@ -39,18 +40,27 @@ namespace HCT_Client
             headerLineLabel.Height = 3;
             headerLineLabel.Location = new Point(headerLineGap, dltLogoPictureBox.Location.Y + dltLogoPictureBox.Height + 10);
 
-            headerTextLabel = new Label();
-            headerTextLabel.ForeColor = Color.White;
-            headerTextLabel.BackColor = bgColor;
-            headerTextLabel.Width = SCREEN_WIDTH - dltLogoPictureBox.Width - dltLogoPictureBox.Location.X - headerLineGap * 3;
-            headerTextLabel.Height = isSimulatorMode ? (int)(dltLogoPictureBox.Height * 0.7) : dltLogoPictureBox.Height;
-            headerTextLabel.TextAlign = ContentAlignment.MiddleLeft;
-
-            headerTextLabel.Font = new Font(this.Font.FontFamily, 28);
-            headerTextLabel.Text = "โรงเรียนสอนขับรถ หาดใหญ่ คาร์ เทรนเนอร์ |Electronics Exam";
-
-            headerTextLabel.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap, 
+            headerTextLabel1 = new Label();
+            headerTextLabel1.ForeColor = Color.White;
+            headerTextLabel1.BackColor = bgColor;
+            headerTextLabel1.Width = 700;
+            headerTextLabel1.Height = isSimulatorMode ? (int)(dltLogoPictureBox.Height * 0.7) : dltLogoPictureBox.Height;
+            headerTextLabel1.TextAlign = ContentAlignment.MiddleLeft;
+            headerTextLabel1.Font = new Font(this.Font.FontFamily, 28);
+            headerTextLabel1.Text = "โรงเรียนสอนขับรถ หาดใหญ่ คาร์ เทรนเนอร์ |";
+            headerTextLabel1.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap, 
                                                  dltLogoPictureBox.Location.Y);
+
+            headerTextLabel2 = new Label();
+            headerTextLabel2.ForeColor = GlobalColor.orangeColor;
+            headerTextLabel2.BackColor = bgColor;
+            headerTextLabel2.Width = 450;
+            headerTextLabel2.Height = headerTextLabel1.Height;
+            headerTextLabel2.TextAlign = ContentAlignment.MiddleLeft;
+            headerTextLabel2.Font = headerTextLabel1.Font;
+            headerTextLabel2.Text = " Electronics Exam";
+            headerTextLabel2.Location = new Point(headerTextLabel1.Location.X + headerTextLabel1.Width,
+                                                 headerTextLabel1.Location.Y);
 
             headerBackgroundPanel = new Panel();
             headerBackgroundPanel.Width = SCREEN_WIDTH;
@@ -63,16 +73,17 @@ namespace HCT_Client
                 simulatorTextLabel.ForeColor = GlobalColor.yellowColor;
                 simulatorTextLabel.BackColor = bgColor;
                 simulatorTextLabel.Width = SCREEN_WIDTH - dltLogoPictureBox.Width - dltLogoPictureBox.Location.X - headerLineGap * 3;
-                simulatorTextLabel.Height = dltLogoPictureBox.Height - headerTextLabel.Height;
+                simulatorTextLabel.Height = dltLogoPictureBox.Height - headerTextLabel1.Height;
                 simulatorTextLabel.TextAlign = ContentAlignment.MiddleLeft;
                 simulatorTextLabel.Font = new Font(this.Font.FontFamily, 20);
                 simulatorTextLabel.Text = "โปรแกรมนี้เป็นแบบจำลองการทำข้อสอบเท่านั้น ไม่ใช่การทำข้อสอบจริง";
                 simulatorTextLabel.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap,
-                                                     headerTextLabel.Location.Y + headerTextLabel.Height + 5);
+                                                     headerTextLabel1.Location.Y + headerTextLabel1.Height + 5);
                 this.Controls.Add(simulatorTextLabel);
             }
 
-            this.Controls.Add(headerTextLabel);
+            this.Controls.Add(headerTextLabel1);
+            this.Controls.Add(headerTextLabel2);
             //this.Controls.Add(dltLogoPictureBox);
             this.Controls.Add(headerBackgroundPanel);
             //this.Controls.Add(headerLineLabel);
