@@ -41,18 +41,6 @@ namespace HCT_Client
             int buttonOffsetX = 50;
             int buttonOffsetY = 30;
 
-            finishExamButton = new LargeButton();
-            finishExamButton.Click += new EventHandler(FinishExamButtonClicked);
-            finishExamButton.Location = new Point(SCREEN_WIDTH - buttonOffsetX - finishExamButton.Width,
-                                                  SCREEN_HEIGHT - buttonOffsetY - finishExamButton.Height);
-            finishExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.FinishButton");
-
-            viewAnswerButton = new LargeButton();
-            viewAnswerButton.Click += new EventHandler(ViewAnswerButtonClicked);
-            viewAnswerButton.Location = new Point(finishExamButton.Location.X - buttonOffsetX - viewAnswerButton.Width,
-                                                  finishExamButton.Location.Y);
-            viewAnswerButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.ViewAnswer");
-
             passOrFailLabel = new BaseTextLabel();
             passOrFailLabel.Width = SCREEN_WIDTH;
             passOrFailLabel.Height = 140;
@@ -67,6 +55,18 @@ namespace HCT_Client
             scoreLabel.Location = new Point(0, passOrFailLabel.Location.Y + passOrFailLabel.Height + 50);
             scoreLabel.ForeColor = Color.Black;
             scoreLabel.Font = new Font(this.Font.FontFamily, 60);
+
+            viewAnswerButton = new LargeButton();
+            viewAnswerButton.Click += new EventHandler(ViewAnswerButtonClicked);
+            viewAnswerButton.Location = new Point(SCREEN_WIDTH / 2 - viewAnswerButton.Width- buttonOffsetX,
+                                                  scoreLabel.Location.Y + scoreLabel.Height + buttonOffsetY);
+            viewAnswerButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.ViewAnswer");
+
+            finishExamButton = new LargeButton();
+            finishExamButton.Click += new EventHandler(FinishExamButtonClicked);
+            finishExamButton.Location = new Point(SCREEN_WIDTH / 2 + buttonOffsetX,
+                                                  viewAnswerButton.Location.Y);
+            finishExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExamResult.FinishButton");
 
             this.Controls.Add(passOrFailLabel);
             this.Controls.Add(scoreLabel);
