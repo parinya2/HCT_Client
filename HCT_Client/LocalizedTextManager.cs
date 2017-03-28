@@ -43,7 +43,7 @@ namespace HCT_Client
             SetDictValueForKey("FormCourseRegisterSetting.Button.GoBack", "<< ย้อนกลับ", "<< Go Back");
             SetDictValueForKey("FormCourseRegisterSetting.Button.Next", "ถัดไป >>", "Next >>");
             SetDictValueForKey("FormCourseRegisterSetting.Topic.CourseRegisterDate", "กรุณาระบุวันที่ท่านสมัครเรียน", "Please specify your course registration date.");
-            SetDictValueForKey("FormCourseRegisterSetting.Topic.ExamSeq", "ครั้งนี้ท่านสอบเป็นครั้งที่เท่าไหร่", "Please specify your exam seq.");
+            SetDictValueForKey("FormCourseRegisterSetting.Topic.ExamSeq", "สอบครั้งที่", "Exam Seq.");
             SetDictValueForKey("FormCourseRegisterSetting.Label.Day", "วันที่", "Day");
             SetDictValueForKey("FormCourseRegisterSetting.Label.Month", "เดือน", "Month");
             SetDictValueForKey("FormCourseRegisterSetting.Label.Year", "ปี", "Year");

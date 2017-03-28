@@ -32,7 +32,7 @@ namespace HCT_Client
 
 
             attributeContentLabel = new Label();
-            attributeContentLabel.Width = this.Width - attributeHeaderLabel.Width - gapX - margin * 2;
+            attributeContentLabel.Width = this.Width - attributeHeaderLabel.Width - gapX - margin * 4;
             attributeContentLabel.Height = attributeHeaderLabel.Height;
             attributeContentLabel.Location = new Point(attributeHeaderLabel.Width + margin + gapX, attributeHeaderLabel.Location.Y);
             attributeContentLabel.TextAlign = ContentAlignment.MiddleLeft;

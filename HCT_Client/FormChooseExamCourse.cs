@@ -40,9 +40,9 @@ namespace HCT_Client
 
 
             examCourseTextLabel = new BaseTextLabel();
-            examCourseTextLabel.Location = new Point(examCourseIconPictureBox.Location.X + examCourseIconPictureBox.Width,
+            examCourseTextLabel.Location = new Point(examCourseIconPictureBox.Location.X,
                                                      examCourseIconPictureBox.Location.Y);
-            examCourseTextLabel.Width = this.Width - examCourseIconPictureBox.Width - margin * 2;
+            examCourseTextLabel.Width = this.Width;
             examCourseTextLabel.Height = examCourseIconPictureBox.Height;
             examCourseTextLabel.BackColor = Color.Transparent;
             examCourseTextLabel.TextAlign = ContentAlignment.MiddleCenter;
