@@ -12,6 +12,7 @@ using System.Net.Mime;
 using System.Net;
  
 using Spire.Xls;
+using System.Drawing.Drawing2D;
 /* To download Spire.XLS
  * 1. Install nuget.exe
  * 2. open CMD, type "nuget install FreeSpire.XLS"
@@ -202,10 +203,11 @@ namespace HCT_Client
                 workSheet1.Range["A11"].Text = "หมายเลข Passport";
             }
 
-            Image userPhoto = UserProfileManager.GetUserPhoto();
+            Image userPhoto = UserProfileManager.GetUserPhoto();            
             if (userPhoto != null)
             {
-                workSheet1.Pictures.Add(10, 8, userPhoto);
+                Image resizedPhoto = ResizeImage(userPhoto, 60);
+                workSheet1.Pictures.Add(10, 7, resizedPhoto);
             }
 
             workbook.ConverterSetting.SheetFitToPage = true;
@@ -222,6 +224,24 @@ namespace HCT_Client
 
             dict["pdfBase64String"] = pdfBase64String;
             return dict;
+        }
+
+        static Image ResizeImage(Image imgToResize, double nPercent)
+        {
+            int sourceWidth = imgToResize.Width;
+            int sourceHeight = imgToResize.Height;
+
+            int destWidth = (int)(sourceWidth * nPercent / 100.0);
+            int destHeight = (int)(sourceHeight * nPercent / 100.0);
+
+            Bitmap b = new Bitmap(destWidth, destHeight);
+            Graphics g = Graphics.FromImage((Image)b);
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+            g.DrawImage(imgToResize, 0, 0, destWidth, destHeight);
+            g.Dispose();
+
+            return (Image)b;
         }
 
         static void DeleteFileIfExists(string filePath)
