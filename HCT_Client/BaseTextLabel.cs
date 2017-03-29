@@ -13,7 +13,7 @@ namespace HCT_Client
         {
             this.Width = 200;
             this.Height = 50;
-            this.Font = new Font(this.Font.FontFamily, 26);
+            this.Font = UtilFonts.GetTHSarabunFont(26);
             this.ForeColor = Color.White;
         }
     }

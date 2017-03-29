@@ -42,7 +42,7 @@ namespace HCT_Client
             selectedAnswerLabel.Height = this.Height;
             selectedAnswerLabel.Text = "-";
             selectedAnswerLabel.TextAlign = ContentAlignment.MiddleCenter;            
-            selectedAnswerLabel.Font = new Font(this.Font.FontFamily, 26, FontStyle.Bold);
+            selectedAnswerLabel.Font = UtilFonts.GetTHSarabunFont(26);
             selectedAnswerLabel.Font = UtilFonts.GetTHSarabunFont(26);
             selectedAnswerLabel.ForeColor = Color.White;
             selectedAnswerLabel.Location = new Point(numberLabel.Width, 0);

@@ -266,7 +266,7 @@ namespace HCT_Client
             usernameLabel.Height += 10;
             usernameLabel.Location = new Point(userPhotoPictureBox.Location.X + userPhotoPictureBox.Width + 10,
                                                userPhotoPictureBox.Location.Y);
-            usernameLabel.Font = new Font(this.Font.FontFamily, 24);
+            usernameLabel.Font = UtilFonts.GetTHSarabunFont(24);
 
             examCourseLabel = new BaseTextLabel2();
             examCourseLabel.Width = usernameLabel.Width;
@@ -294,10 +294,10 @@ namespace HCT_Client
             timerLabel.Location = new Point(userPhotoPictureBox.Location.X,
                                             userPhotoPictureBox.Location.Y + userPhotoPictureBox.Height + 20);
             timerLabel.Width = monitorPanel.Width - (userPhotoPictureBox.Location.X * 2);
-            timerLabel.Font = new Font(this.Font.FontFamily, 24);
+            timerLabel.Font = UtilFonts.GetTHSarabunFont(24);
 
             submitExamButton = new MediumButton();
-            submitExamButton.Font = new Font(this.Font.FontFamily, 28, FontStyle.Bold);
+            submitExamButton.Font = UtilFonts.GetTHSarabunFont(28);
             submitExamButton.Location = new Point(monitorPanel.Width - 20 - submitExamButton.Width, 
                                                   monitorPanel.Height - 20 - submitExamButton.Height);
             submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");
@@ -310,7 +310,7 @@ namespace HCT_Client
             prevQuizButton.Width = 150;
             prevQuizButton.Height = submitExamButton.Height;
             prevQuizButton.BackColor = Color.Yellow;
-            prevQuizButton.Font = new Font(this.Font.FontFamily, 20);
+            prevQuizButton.Font = UtilFonts.GetTHSarabunFont(20);
             prevQuizButton.Location = new Point(timerLabel.Location.X, submitExamButton.Location.Y);
             prevQuizButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.PrevQuiz");
             prevQuizButton.Click += new EventHandler(PrevQuizButtonClicked);

@@ -42,7 +42,7 @@ namespace HCT_Client
             passportTextLabel.Location = new Point(370, headerLineLabel.Location.Y + 160);
             passportTextLabel.TextAlign = ContentAlignment.BottomCenter;
             passportTextLabel.ForeColor = Color.Black;
-            passportTextLabel.Font = new Font(this.Font.FontFamily, 24);
+            passportTextLabel.Font = UtilFonts.GetTHSarabunFont(24);
 
             passportTextbox = new TextBox();
             passportTextbox.Width = 430;
