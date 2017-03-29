@@ -79,7 +79,7 @@ namespace HCT_Client
             courseRegisterDateTopicLabel.BackColor = GlobalColor.yellowColor;
             courseRegisterDateTopicLabel.Location = new Point(gapX, headerLineLabel.Location.Y + 20);
             courseRegisterDateTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
-            courseRegisterDateTopicLabel.Font = new Font(this.Font.FontFamily, 28, FontStyle.Bold);
+            courseRegisterDateTopicLabel.Font = UtilFonts.GetTHSarabunFont(28);
 
             //int heightPerRow = (backButton.Location.Y - (courseRegisterDateTopicLabel.Location.Y + courseRegisterDateTopicLabel.Height) - gapY * 3) / 5;
             dayLabel = new Label();
@@ -87,7 +87,7 @@ namespace HCT_Client
             dayLabel.Height = buttonHeight * 2 + gapY * 2;
             dayLabel.Location = new Point(gapX * 3, courseRegisterDateTopicLabel.Location.Y + courseRegisterDateTopicLabel.Height + gapY * 6);
             dayLabel.TextAlign = ContentAlignment.MiddleLeft;
-            dayLabel.Font = new Font(this.Font.FontFamily, 26);
+            dayLabel.Font = UtilFonts.GetTHSarabunFont(26);
 
             monthLabel = new Label();
             monthLabel.Size = new Size(dayLabel.Width, buttonHeight * 2 + gapY * 2);
@@ -110,7 +110,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 1.2);
                 b.Text = "" + (i + 1);
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
+                b.Font = UtilFonts.GetTHSarabunFont(buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 if (i <= 15)
@@ -136,7 +136,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 3.5);
                 b.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Month." + (i + 1));
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
+                b.Font = UtilFonts.GetTHSarabunFont(buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 if (i <= 5)
@@ -165,7 +165,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 2);
                 b.Text = (thisYear - (yearButtonArray.Length - 1 - i)) + "";
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
+                b.Font = UtilFonts.GetTHSarabunFont(buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
@@ -204,8 +204,9 @@ namespace HCT_Client
                 b.Width = (int)(b.Height);
                 b.Text = "" + (i + 1);
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, buttonFontSize + 4);
+                b.Font = UtilFonts.GetTHSarabunFont(buttonFontSize + 4);
                 b.BackColor = GlobalColor.lightGreenColor;
+
                 b.Tag = i;
                 if (i <= 2)
                 {

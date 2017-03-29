@@ -75,14 +75,14 @@ namespace HCT_Client
             leftButton = new Button();
             leftButton.Width = 200;
             leftButton.Height = 100;
-            leftButton.Font = new Font(this.Font.FontFamily, 26);
+            leftButton.Font = UtilFonts.GetTHSarabunFont(26);
             leftButton.ForeColor = Color.White;
             leftButton.BackColor = GlobalColor.redColor;
 
             rightButton = new Button();
             rightButton.Width = leftButton.Width;
             rightButton.Height = leftButton.Height;
-            rightButton.Font = new Font(this.Font.FontFamily, 26);
+            rightButton.Font = UtilFonts.GetTHSarabunFont(26);
             rightButton.ForeColor = Color.White;
             rightButton.BackColor = GlobalColor.redColor;
 
@@ -116,8 +116,7 @@ namespace HCT_Client
             messageLabel.Width = this.Width - (messageLabelOffsetX * 2);
             messageLabel.Height = this.Height - iconPictureBox.Height - rightButton.Height - messageLabelOffsetY * 2;
             messageLabel.Location = new Point(messageLabelOffsetX, iconPictureBox.Location.Y + iconPictureBox.Height);
-            messageLabel.Font = new Font(this.Font.FontFamily, 24);
-
+            messageLabel.Font = UtilFonts.GetTHSarabunFont(24);
             messageLabel.TextAlign = ContentAlignment.MiddleCenter;
 
             this.Controls.Add(messageLabel);

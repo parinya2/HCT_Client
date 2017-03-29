@@ -47,7 +47,8 @@ namespace HCT_Client
             passportTextbox = new TextBox();
             passportTextbox.Width = 430;
             passportTextbox.Height = 110;
-            passportTextbox.Font = new Font(this.Font.FontFamily, 26);
+            passportTextbox.Font = UtilFonts.GetTHSarabunFont(26);
+
             passportTextbox.Location = new Point(passportTextLabel.Location.X + passportTextLabel.Width + 20, 
                                                 passportTextLabel.Location.Y);
 
@@ -57,7 +58,7 @@ namespace HCT_Client
             deleteCharacterButton.TextAlign = ContentAlignment.MiddleCenter;
             deleteCharacterButton.Location = new Point(passportTextbox.Location.X + passportTextbox.Width + 20,
                                                         passportTextbox.Location.Y);
-            deleteCharacterButton.Font = new Font(this.Font.FontFamily, 20);
+            deleteCharacterButton.Font = UtilFonts.GetTHSarabunFont(20);
             deleteCharacterButton.Click += new EventHandler(DeleteCharacterButtonClicked);
             deleteCharacterButton.ForeColor = Color.White;
             deleteCharacterButton.BackColor = GlobalColor.redColor;
@@ -104,9 +105,10 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 1.3);
                 b.Text = characterArray[i];
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, 24);
+                b.Font = UtilFonts.GetTHSarabunFont(24);
                 b.BackColor = characterButtonColor;
                 int offsetX = (SCREEN_WIDTH - (b.Width * 13) - (buttonGapX * 11) - characterAndNumberGapX) / 2;
+
                 if (yPos == 1)  offsetX += b.Width / 2 + buttonGapX;
                 if (yPos == 2) offsetX += (int)(b.Width * 1.5 + buttonGapX * 2);
                 
@@ -152,7 +154,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 1.3);
                 b.Text = numberArray[i];
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, 24);
+                b.Font = UtilFonts.GetTHSarabunFont(24);
                 b.BackColor = characterButtonColor;
                 int offsetX = characterButtonArray[9].Location.X + characterButtonArray[9].Width + characterAndNumberGapX;//(SCREEN_WIDTH - (b.Width * 13) - (buttonGapX * 12)) / 2;
                 int offsetY = passportTextbox.Location.Y + passportTextbox.Height + 70;

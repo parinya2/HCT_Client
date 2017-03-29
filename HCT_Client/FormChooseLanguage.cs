@@ -70,7 +70,7 @@ namespace HCT_Client
             exitButton = new Button();
             exitButton.Width = 200;
             exitButton.Height = 90;
-            exitButton.Font = new Font(this.Font.FontFamily, 18);
+            exitButton.Font = UtilFonts.GetTHSarabunFont(18);
             exitButton.Location = new Point(SCREEN_WIDTH - exitButton.Width - 50,
                               SCREEN_HEIGHT - exitButton.Height - 50);
             exitButton.Text = "ออกจากโปรแกรม";

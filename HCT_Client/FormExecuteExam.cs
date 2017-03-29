@@ -273,13 +273,14 @@ namespace HCT_Client
             examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
             examCourseLabel.Location = new Point(usernameLabel.Location.X,
                                                  usernameLabel.Location.Y + usernameLabel.Height + 15);
-            examCourseLabel.Font = new Font(this.Font.FontFamily, 20);
+            examCourseLabel.Font = UtilFonts.GetTHSarabunFont(20);
 
             questionCountLabel = new BaseTextLabel2();
             questionCountLabel.Width = usernameLabel.Width;
             questionCountLabel.Location = new Point(usernameLabel.Location.X,
-                                                 examCourseLabel.Location.Y + examCourseLabel.Height + 15);
-            questionCountLabel.Font = new Font(this.Font.FontFamily, 20);
+                                                    examCourseLabel.Location.Y + examCourseLabel.Height + 15);
+            questionCountLabel.Font = UtilFonts.GetTHSarabunFont(20);
+
             
             string answeredCountText = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.AnsweredCount");
             answeredCountText = answeredCountText.Replace(LocalizedTextManager.PARAM_1, totalAnsweredCount + "");

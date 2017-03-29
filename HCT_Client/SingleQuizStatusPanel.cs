@@ -31,7 +31,7 @@ namespace HCT_Client
             numberLabel.Height = this.Height;
             numberLabel.Text = (quizNumber + 1) + "";
             numberLabel.TextAlign = ContentAlignment.MiddleCenter;
-            numberLabel.Font = new Font(this.Font.FontFamily, 20);
+            numberLabel.Font = UtilFonts.GetTHSarabunFont(20);
             numberLabel.ForeColor = Color.Black;
             numberLabel.Location = new Point(0, 0);
             numberLabel.BackColor = Color.Orange;
@@ -43,6 +43,7 @@ namespace HCT_Client
             selectedAnswerLabel.Text = "-";
             selectedAnswerLabel.TextAlign = ContentAlignment.MiddleCenter;            
             selectedAnswerLabel.Font = new Font(this.Font.FontFamily, 26, FontStyle.Bold);
+            selectedAnswerLabel.Font = UtilFonts.GetTHSarabunFont(26);
             selectedAnswerLabel.ForeColor = Color.White;
             selectedAnswerLabel.Location = new Point(numberLabel.Width, 0);
             selectedAnswerLabel.Tag = quizNumber;
