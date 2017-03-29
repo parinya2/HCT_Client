@@ -182,8 +182,8 @@ namespace HCT_Client
             dateStringForFileName = dateStringForFileName.Replace(" ", "_เวลา_");
 
             string executingPath = GetExecutingPath();
-            string EXAM_RESULT_TEMPLATE_PATH = executingPath + "/ExamResultTemplate.xls";
-            string EXAM_RESULT_TEMPLATE_TEMP_PATH = executingPath + "/ExamResultTemplate_Temp.xls";
+            string EXAM_RESULT_TEMPLATE_PATH = executingPath + "/ExamResultTemplate.xlsx";
+            string EXAM_RESULT_TEMPLATE_TEMP_PATH = executingPath + "/ExamResultTemplate_Temp.xlsx";
             string USER_PHOTO_TEMP_PATH = executingPath + "/UserPhoto.jpeg";
 
             string userFullNameForFile = userFullname.Replace(" ", "_");
@@ -194,25 +194,27 @@ namespace HCT_Client
             Workbook workbook = new Workbook();
             workbook.LoadFromFile(EXAM_RESULT_TEMPLATE_PATH);
             Worksheet workSheet1 = workbook.Worksheets[0];
-            workSheet1.Range["C10"].Text = userFullname;
-            workSheet1.Range["C11"].Text = citizenID;
-            workSheet1.Range["C12"].Text = courseName;
-            workSheet1.Range["C13"].Text = courseRegisterDateString;
-            workSheet1.Range["C14"].Text = examSeq;
-            workSheet1.Range["C15"].Text = paperTestNumber;
-            workSheet1.Range["C16"].Text = passOrFail;
-            workSheet1.Range["C17"].Text = examStartDateString;
-            workSheet1.Range["C18"].Text = examEndDateString;
+            string targetColumn = "E";
+            int targetStartRow = 12;
             if (!useCitizenID)
             {
-                workSheet1.Range["A11"].Text = "หมายเลข Passport";
+                workSheet1.Range["A" + (targetStartRow + 1)].Text = "หมายเลข Passport";
             }
+            workSheet1.Range[targetColumn + targetStartRow++].Text = userFullname;
+            workSheet1.Range[targetColumn + targetStartRow++].Text = citizenID;
+            workSheet1.Range[targetColumn + targetStartRow++].Text = courseName;
+            workSheet1.Range[targetColumn + targetStartRow++].Text = courseRegisterDateString;
+            workSheet1.Range[targetColumn + targetStartRow++].Text = examSeq;
+            workSheet1.Range[targetColumn + targetStartRow++].Text = paperTestNumber;
+            workSheet1.Range[targetColumn + targetStartRow++].Text = passOrFail;
+            workSheet1.Range[targetColumn + targetStartRow++].Text = examStartDateString;
+            workSheet1.Range[targetColumn + targetStartRow++].Text = examEndDateString;
 
             Image userPhoto = UserProfileManager.GetUserPhoto();            
             if (userPhoto != null)
             {
                 Image resizedPhoto = ResizeImage(userPhoto, 60);
-                workSheet1.Pictures.Add(10, 7, resizedPhoto);
+                workSheet1.Pictures.Add(10, 5, resizedPhoto);
             }
 
             workbook.ConverterSetting.SheetFitToPage = true;
