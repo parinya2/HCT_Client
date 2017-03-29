@@ -170,6 +170,7 @@
     <Compile Include="Stopwatch.cs" />
     <Compile Include="UserProfileManager.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="UtilFonts.cs" />
     <Compile Include="UtilSOAP.cs" />
     <Compile Include="WebCamCapture.cs">
       <SubType>UserControl</SubType>
@@ -196,6 +197,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Private\Keystore\hct_keystore.p12">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Private\Fonts\THSarabunNewBold.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

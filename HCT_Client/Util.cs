@@ -104,6 +104,11 @@ namespace HCT_Client
             return GetExecutingPath() + "/Private/Keystore/hct_keystore.p12";
         }
 
+        public static string GetFontsFolderPath()
+        {
+            return GetExecutingPath() + "/Private/Fonts";
+        }
+
         static string GetTokenPath()
         {
             return GetExecutingPath() + "/Private/token";
