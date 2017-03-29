@@ -38,27 +38,27 @@ namespace HCT_Client
         {
             passportTextLabel = new BaseTextLabel();
             passportTextLabel.Width = 360;
-            passportTextLabel.Height = 50;
+            passportTextLabel.Height = 60;
             passportTextLabel.Location = new Point(370, headerLineLabel.Location.Y + 160);
             passportTextLabel.TextAlign = ContentAlignment.BottomCenter;
             passportTextLabel.ForeColor = Color.Black;
-            passportTextLabel.Font = UtilFonts.GetTHSarabunFont(24);
+            passportTextLabel.Font = UtilFonts.GetTHSarabunFont(38);
 
             passportTextbox = new TextBox();
             passportTextbox.Width = 430;
             passportTextbox.Height = 110;
-            passportTextbox.Font = UtilFonts.GetTHSarabunFont(26);
+            passportTextbox.Font = UtilFonts.GetTHSarabunFont(38);
 
             passportTextbox.Location = new Point(passportTextLabel.Location.X + passportTextLabel.Width + 20, 
                                                 passportTextLabel.Location.Y);
 
             deleteCharacterButton = new Button();
-            deleteCharacterButton.Width = 120;
+            deleteCharacterButton.Width = 150;
             deleteCharacterButton.Height = passportTextbox.Height;
             deleteCharacterButton.TextAlign = ContentAlignment.MiddleCenter;
             deleteCharacterButton.Location = new Point(passportTextbox.Location.X + passportTextbox.Width + 20,
                                                         passportTextbox.Location.Y);
-            deleteCharacterButton.Font = UtilFonts.GetTHSarabunFont(20);
+            deleteCharacterButton.Font = UtilFonts.GetTHSarabunFont(30);
             deleteCharacterButton.Click += new EventHandler(DeleteCharacterButtonClicked);
             deleteCharacterButton.ForeColor = Color.White;
             deleteCharacterButton.BackColor = GlobalColor.redColor;
@@ -105,7 +105,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 1.3);
                 b.Text = characterArray[i];
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = UtilFonts.GetTHSarabunFont(24);
+                b.Font = UtilFonts.GetTHSarabunFont(33);
                 b.BackColor = characterButtonColor;
                 int offsetX = (SCREEN_WIDTH - (b.Width * 13) - (buttonGapX * 11) - characterAndNumberGapX) / 2;
 
@@ -154,7 +154,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 1.3);
                 b.Text = numberArray[i];
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = UtilFonts.GetTHSarabunFont(24);
+                b.Font = UtilFonts.GetTHSarabunFont(33);
                 b.BackColor = characterButtonColor;
                 int offsetX = characterButtonArray[9].Location.X + characterButtonArray[9].Width + characterAndNumberGapX;//(SCREEN_WIDTH - (b.Width * 13) - (buttonGapX * 12)) / 2;
                 int offsetY = passportTextbox.Location.Y + passportTextbox.Height + 70;
@@ -166,7 +166,8 @@ namespace HCT_Client
             }
 
             loginButton = new LargeButton();
-            loginButton.Height = 100;
+            loginButton.Font = UtilFonts.GetTHSarabunFont((int)loginButton.Font.Size + 5);
+            loginButton.Height = 110;
             loginButton.Location = new Point((SCREEN_WIDTH - loginButton.Width) / 2,
                                             characterButtonArray.Last().Location.Y + characterButtonArray.Last().Height + 60);
             loginButton.Click += new EventHandler(LoginButtonClicked);

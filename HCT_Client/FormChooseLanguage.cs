@@ -55,6 +55,7 @@ namespace HCT_Client
             int buttonGap = 100;
 
             thaiButton = new LargeButton();
+            thaiButton.Font = UtilFonts.GetTHSarabunFont((int)thaiButton.Font.Size + 5);
             thaiButton.Location = new Point((SCREEN_WIDTH  / 2 - thaiButton.Width - buttonGap / 2),
                                              (SCREEN_HEIGHT - thaiButton.Height) / 2);
             thaiButton.Text = "ภาษาไทย";
@@ -62,15 +63,16 @@ namespace HCT_Client
 
 
             engButton = new LargeButton();
+            engButton.Font = thaiButton.Font;
             engButton.Location = new Point((SCREEN_WIDTH / 2 + buttonGap / 2),
                                              (SCREEN_HEIGHT - engButton.Height) / 2);
             engButton.Text = "ENGLISH";
             engButton.Click += new EventHandler(ButtonClickedEN);
 
             exitButton = new Button();
-            exitButton.Width = 200;
-            exitButton.Height = 90;
-            exitButton.Font = UtilFonts.GetTHSarabunFont(18);
+            exitButton.Width = 250;
+            exitButton.Height = 120;
+            exitButton.Font = UtilFonts.GetTHSarabunFont(26);
             exitButton.Location = new Point(SCREEN_WIDTH - exitButton.Width - 50,
                               SCREEN_HEIGHT - exitButton.Height - 50);
             exitButton.Text = "ออกจากโปรแกรม";

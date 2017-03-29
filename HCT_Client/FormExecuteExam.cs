@@ -139,7 +139,7 @@ namespace HCT_Client
             for (int i = 0; i < choicePanelArray.Length; i++)
             {
                 QuizChoicePanel obj = choicePanelArray[i];
-                obj.choiceHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (i + 1)) + ". ";
+                obj.choiceHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (i + 1));
                 obj.choiceCorrectStatusPictureBox.Image = null;
             }
 
@@ -272,13 +272,13 @@ namespace HCT_Client
             examCourseLabel.Width = usernameLabel.Width;
             examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
             examCourseLabel.Location = new Point(usernameLabel.Location.X,
-                                                 usernameLabel.Location.Y + usernameLabel.Height + 15);
+                                                 usernameLabel.Location.Y + usernameLabel.Height + 3);
             examCourseLabel.Font = UtilFonts.GetTHSarabunFont(20);
 
             questionCountLabel = new BaseTextLabel2();
             questionCountLabel.Width = usernameLabel.Width;
             questionCountLabel.Location = new Point(usernameLabel.Location.X,
-                                                    examCourseLabel.Location.Y + examCourseLabel.Height + 15);
+                                                    examCourseLabel.Location.Y + examCourseLabel.Height + 3);
             questionCountLabel.Font = UtilFonts.GetTHSarabunFont(20);
 
             
@@ -289,15 +289,16 @@ namespace HCT_Client
 
 
             timerLabel = new BaseTextLabel2();
+            timerLabel.Height += 10;
             timerLabel.Text = "";
             timerLabel.ForeColor = Color.Yellow;
             timerLabel.Location = new Point(userPhotoPictureBox.Location.X,
                                             userPhotoPictureBox.Location.Y + userPhotoPictureBox.Height + 20);
             timerLabel.Width = monitorPanel.Width - (userPhotoPictureBox.Location.X * 2);
-            timerLabel.Font = UtilFonts.GetTHSarabunFont(24);
+            timerLabel.Font = UtilFonts.GetTHSarabunFont(28);
 
             submitExamButton = new MediumButton();
-            submitExamButton.Font = UtilFonts.GetTHSarabunFont(28);
+            submitExamButton.Font = UtilFonts.GetTHSarabunFont(35);
             submitExamButton.Location = new Point(monitorPanel.Width - 20 - submitExamButton.Width, 
                                                   monitorPanel.Height - 20 - submitExamButton.Height);
             submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");

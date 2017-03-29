@@ -35,8 +35,8 @@ namespace HCT_Client
 
             choiceHeaderLabel = new BaseTextLabel();
             choiceHeaderLabel.Location = new Point(0, 0);
-            choiceHeaderLabel.Font = UtilFonts.GetTHSarabunFont(26);
-            choiceHeaderLabel.Width = (int)(this.Width * 0.13);
+            choiceHeaderLabel.Font = UtilFonts.GetTHSarabunFont((int)choiceHeaderLabel.Font.Size + 5);
+            choiceHeaderLabel.Width = (int)(this.Width * 0.11);
             choiceHeaderLabel.Height = choiceHeaderLabel.Width;;
             choiceHeaderLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizChoicePanel.ChoiceHeader." + (this.choiceNumber + 1)) + ". ";
             choiceHeaderLabel.TextAlign = ContentAlignment.MiddleRight;

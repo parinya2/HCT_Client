@@ -47,7 +47,7 @@ namespace HCT_Client
             examCourseTextLabel.BackColor = Color.Transparent;
             examCourseTextLabel.TextAlign = ContentAlignment.MiddleCenter;
             examCourseTextLabel.ForeColor = Color.Black;
-            examCourseTextLabel.Font = UtilFonts.GetTHSarabunFont(28);
+            examCourseTextLabel.Font = UtilFonts.GetTHSarabunFont(40);
 
             this.Controls.Add(examCourseIconPictureBox);
             this.Controls.Add(examCourseTextLabel);
@@ -80,19 +80,21 @@ namespace HCT_Client
             backButton.BackColor = GlobalColor.redColor;
 
             examCourseTopicLabel = new BaseTextLabel();
+            examCourseTopicLabel.Font = UtilFonts.GetTHSarabunFont((int)examCourseTopicLabel.Font.Size + 10);
             examCourseTopicLabel.Width = SCREEN_WIDTH;
+            examCourseTopicLabel.Height += 20;
             examCourseTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
             examCourseTopicLabel.ForeColor = Color.Black;
             examCourseTopicLabel.Location = new Point(0, headerLineLabel.Location.Y + 60);
 
-            int buttonGapX = 240;
+            int buttonGapX = 350;
             int buttonGapY = 30;
 
             int width = SCREEN_WIDTH - buttonGapX * 2;
             int height = 160;
             examCourseType1panel = new SingleExamCoursePanel(width, height);
             examCourseType1panel.Location = new Point(buttonGapX, 
-                                                        examCourseTopicLabel.Location.Y + examCourseTopicLabel.Height + buttonGapY);
+                                                        examCourseTopicLabel.Location.Y + examCourseTopicLabel.Height + buttonGapY * 3);
             examCourseType1panel.Click += new EventHandler(ExamCourseType1ButtonClicked);
             examCourseType1panel.examCourseIconPictureBox.Click += new EventHandler(ExamCourseType1ButtonClicked);
             examCourseType1panel.examCourseTextLabel.Click += new EventHandler(ExamCourseType1ButtonClicked);

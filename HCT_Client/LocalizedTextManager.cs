@@ -75,7 +75,7 @@ namespace HCT_Client
 
             SetDictValueForKey("FormExecuteExam.TimerLabel", "เหลือเวลา", "Time Remain");
             SetDictValueForKey("FormExecuteExam.QuizTextLabel.Header", "ข้อที่", "Question No.");
-            SetDictValueForKey("FormExecuteExam.SubmitExamButton", "ส่งข้อสอบ", "Submit Answer");
+            SetDictValueForKey("FormExecuteExam.SubmitExamButton", "ส่งข้อสอบ", "Submit");
             SetDictValueForKey("FormExecuteExam.GoBack", "<< ย้อนกลับ", "<< Go Back");
             SetDictValueForKey("FormExecuteExam.AnsweredCount", "ตอบแล้ว " + PARAM_1 + " ข้อ ยังไม่ตอบ " + PARAM_2 + " ข้อ", "Answered " + PARAM_1 + " Unanswered " + PARAM_2);
             SetDictValueForKey("FormExecuteExam.PrevQuiz", "ข้อก่อนหน้า", "Previous");

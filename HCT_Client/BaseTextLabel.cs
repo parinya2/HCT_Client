@@ -12,8 +12,8 @@ namespace HCT_Client
         public BaseTextLabel() 
         {
             this.Width = 200;
-            this.Height = 50;
-            this.Font = UtilFonts.GetTHSarabunFont(26);
+            this.Height = 70;
+            this.Font = UtilFonts.GetTHSarabunFont(33);
             this.ForeColor = Color.White;
         }
     }
@@ -23,7 +23,7 @@ namespace HCT_Client
         public BaseTextLabel2()
         {
             this.Width = 200;
-            this.Height = 30;
+            this.Height = 40;
             this.Font = UtilFonts.GetTHSarabunFont(22);
             this.ForeColor = Color.White;
         }

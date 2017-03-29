@@ -79,7 +79,7 @@ namespace HCT_Client
             courseRegisterDateTopicLabel.BackColor = GlobalColor.yellowColor;
             courseRegisterDateTopicLabel.Location = new Point(gapX, headerLineLabel.Location.Y + 20);
             courseRegisterDateTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
-            courseRegisterDateTopicLabel.Font = UtilFonts.GetTHSarabunFont(28);
+            courseRegisterDateTopicLabel.Font = UtilFonts.GetTHSarabunFont(32);
 
             //int heightPerRow = (backButton.Location.Y - (courseRegisterDateTopicLabel.Location.Y + courseRegisterDateTopicLabel.Height) - gapY * 3) / 5;
             dayLabel = new Label();
@@ -204,7 +204,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height);
                 b.Text = "" + (i + 1);
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = UtilFonts.GetTHSarabunFont(buttonFontSize + 4);
+                b.Font = UtilFonts.GetTHSarabunFont(buttonFontSize + 15);
                 b.BackColor = GlobalColor.lightGreenColor;
 
                 b.Tag = i;

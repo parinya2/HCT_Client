@@ -14,7 +14,7 @@ namespace HCT_Client
         {
             this.Width = 380;
             this.Height = 150;
-            this.Font = UtilFonts.GetTHSarabunFont(32);
+            this.Font = UtilFonts.GetTHSarabunFont(40);
         }
     }
 

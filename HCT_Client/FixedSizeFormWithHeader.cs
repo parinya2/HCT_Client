@@ -43,10 +43,10 @@ namespace HCT_Client
             headerTextLabel1 = new Label();
             headerTextLabel1.ForeColor = Color.White;
             headerTextLabel1.BackColor = bgColor;
-            headerTextLabel1.Width = 700;
+            headerTextLabel1.Width = 710;
             headerTextLabel1.Height = isSimulatorMode ? (int)(dltLogoPictureBox.Height * 0.7) : dltLogoPictureBox.Height;
             headerTextLabel1.TextAlign = ContentAlignment.MiddleLeft;
-            headerTextLabel1.Font = UtilFonts.GetTHSarabunFont(30);
+            headerTextLabel1.Font = UtilFonts.GetTHSarabunFont(35);
             headerTextLabel1.Text = "โรงเรียนสอนขับรถ หาดใหญ่ คาร์ เทรนเนอร์ |";
             headerTextLabel1.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap, 
                                                  dltLogoPictureBox.Location.Y);
