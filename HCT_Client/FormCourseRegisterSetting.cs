@@ -80,7 +80,7 @@ namespace HCT_Client
             courseRegisterDateTopicLabel.BackColor = GlobalColor.yellowColor;
             courseRegisterDateTopicLabel.Location = new Point(gapX, headerLineLabel.Location.Y + 20);
             courseRegisterDateTopicLabel.TextAlign = ContentAlignment.MiddleCenter;
-            courseRegisterDateTopicLabel.Font = new Font(this.Font.FontFamily, 18);
+            courseRegisterDateTopicLabel.Font = UtilFonts.GetTHSarabunFont(18);
 
             examSeqTopicLabel = new Label();
             examSeqTopicLabel.Width = courseRegisterDateTopicLabel.Width;
@@ -96,7 +96,7 @@ namespace HCT_Client
             dayLabel.Height = heightPerRow * 2;
             dayLabel.Location = new Point(gapX * 3, courseRegisterDateTopicLabel.Location.Y + courseRegisterDateTopicLabel.Height + gapY);
             dayLabel.TextAlign = ContentAlignment.MiddleLeft;
-            dayLabel.Font = new Font(this.Font.FontFamily, 18);
+            dayLabel.Font = UtilFonts.GetTHSarabunFont(18);
 
             monthLabel = new Label();
             monthLabel.Size = new Size(dayLabel.Width, heightPerRow);
@@ -119,7 +119,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 1.6);
                 b.Text = "" + (i + 1);
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
+                b.Font = UtilFonts.GetTHSarabunFont(buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 if (i <= 15)
@@ -145,7 +145,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 3);
                 b.Text = LocalizedTextManager.GetLocalizedTextForKey("FormCourseRegisterSetting.Month." + (i + 1));
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
+                b.Font = UtilFonts.GetTHSarabunFont(buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 if (i <= 5)
@@ -174,7 +174,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 2);
                 b.Text = (thisYear - (2 - i)) + "";
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
+                b.Font = UtilFonts.GetTHSarabunFont(buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 b.Location = new Point(dayLabel.Location.X + dayLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,
@@ -198,7 +198,7 @@ namespace HCT_Client
                 b.Width = (int)(b.Height * 1.6);
                 b.Text = "" + (i + 1);
                 b.TextAlign = ContentAlignment.MiddleCenter;
-                b.Font = new Font(this.Font.FontFamily, buttonFontSize);
+                b.Font = UtilFonts.GetTHSarabunFont(buttonFontSize);
                 b.BackColor = buttonDefaultColor;
                 b.Tag = i;
                 b.Location = new Point(examSeqLabel.Location.X + examSeqLabel.Width + dayButtonGapX + (b.Width + dayButtonGapX) * i,

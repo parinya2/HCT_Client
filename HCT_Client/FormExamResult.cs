@@ -46,7 +46,7 @@ namespace HCT_Client
             passOrFailLabel.Height = 100;
             passOrFailLabel.TextAlign = ContentAlignment.MiddleCenter;
             passOrFailLabel.Location = new Point(0, headerLineLabel.Location.Y + 60);
-            passOrFailLabel.Font = new Font(this.Font.FontFamily, 50);
+            passOrFailLabel.Font = UtilFonts.GetTHSarabunFont(50);
 
             scoreLabel = new BaseTextLabel();
             scoreLabel.Width = SCREEN_WIDTH;
@@ -54,7 +54,7 @@ namespace HCT_Client
             scoreLabel.TextAlign = ContentAlignment.MiddleCenter;
             scoreLabel.Location = new Point(0, passOrFailLabel.Location.Y + passOrFailLabel.Height + 50);
             scoreLabel.ForeColor = Color.Black;
-            scoreLabel.Font = new Font(this.Font.FontFamily, 30);
+            scoreLabel.Font = UtilFonts.GetTHSarabunFont(30);
 
             viewAnswerButton = new LargeButton();
             viewAnswerButton.Click += new EventHandler(ViewAnswerButtonClicked);

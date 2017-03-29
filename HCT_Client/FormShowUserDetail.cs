@@ -28,14 +28,14 @@ namespace HCT_Client
             attributeHeaderLabel.Location = new Point(margin, 0);
             attributeHeaderLabel.TextAlign = ContentAlignment.MiddleLeft;
             attributeHeaderLabel.BackColor = Color.Transparent;
-            attributeHeaderLabel.Font = new Font(this.Font.FontFamily, 14);
+            attributeHeaderLabel.Font = UtilFonts.GetTHSarabunFont(14);
 
             attributeContentLabel = new Label();
             attributeContentLabel.Width = this.Width - attributeHeaderLabel.Width - gapX - margin * 2;
             attributeContentLabel.Height = attributeHeaderLabel.Height;
             attributeContentLabel.Location = new Point(attributeHeaderLabel.Width + margin + gapX, attributeHeaderLabel.Location.Y);
             attributeContentLabel.TextAlign = ContentAlignment.MiddleLeft;
-            attributeContentLabel.Font = new Font(this.Font.FontFamily, 12);
+            attributeContentLabel.Font = UtilFonts.GetTHSarabunFont(12);
             attributeContentLabel.BackColor = GlobalColor.paleRoseColor;
 
             this.BackColor = Color.Transparent;

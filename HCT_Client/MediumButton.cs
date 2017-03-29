@@ -13,7 +13,7 @@ namespace HCT_Client
         {
             this.Width = 160;
             this.Height = 80;
-            this.Font = new Font(this.Font.FontFamily, 12);
+            this.Font = UtilFonts.GetTHSarabunFont(12);
             this.TextAlign = ContentAlignment.MiddleCenter;
             this.BackColor = Color.White;
             this.ForeColor = Color.Black;

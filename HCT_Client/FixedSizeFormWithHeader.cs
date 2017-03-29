@@ -46,7 +46,8 @@ namespace HCT_Client
             headerTextLabel1.Width = 700;
             headerTextLabel1.Height = isSimulatorMode ? (int)(dltLogoPictureBox.Height * 0.7) : dltLogoPictureBox.Height;
             headerTextLabel1.TextAlign = ContentAlignment.MiddleLeft;
-            headerTextLabel1.Font = new Font(this.Font.FontFamily, 22);
+            headerTextLabel1.Font = UtilFonts.GetTHSarabunFont(22);
+            UtilFonts.GetTHSarabunFont(22);
             headerTextLabel1.Text = "โรงเรียนสอนขับรถ หาดใหญ่ คาร์ เทรนเนอร์ |";
             headerTextLabel1.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap, 
                                                  dltLogoPictureBox.Location.Y);
@@ -75,7 +76,7 @@ namespace HCT_Client
                 simulatorTextLabel.Width = SCREEN_WIDTH - dltLogoPictureBox.Width - dltLogoPictureBox.Location.X - headerLineGap * 3;
                 simulatorTextLabel.Height = dltLogoPictureBox.Height - headerTextLabel1.Height;
                 simulatorTextLabel.TextAlign = ContentAlignment.MiddleLeft;
-                simulatorTextLabel.Font = new Font(this.Font.FontFamily, 14);
+                simulatorTextLabel.Font = UtilFonts.GetTHSarabunFont(14);
                 simulatorTextLabel.Text = "โปรแกรมนี้เป็นแบบจำลองการทำข้อสอบเท่านั้น ไม่ใช่การทำข้อสอบจริง";
                 simulatorTextLabel.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap,
                                                      headerTextLabel1.Location.Y + headerTextLabel1.Height + 5);

@@ -24,6 +24,7 @@ namespace HCT_Client
 
         public static Font GetTHSarabunFont(int fontSize)
         {
+            fontSize += 5;
             Font font = new Font(GetTHSarabunFontFamily(), fontSize, FontStyle.Bold);
             return font;
         }
