@@ -48,7 +48,7 @@ namespace HCT_Client
             headerTextLabel1.TextAlign = ContentAlignment.MiddleLeft;
             headerTextLabel1.Font = UtilFonts.GetTHSarabunFont(35);
             headerTextLabel1.Text = "โรงเรียนสอนขับรถ หาดใหญ่ คาร์ เทรนเนอร์ |";
-            headerTextLabel1.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap, 
+            headerTextLabel1.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + 220, 
                                                  dltLogoPictureBox.Location.Y);
 
             headerTextLabel2 = new Label();
