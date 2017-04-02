@@ -799,12 +799,10 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            //Temporary Disable this code
-            /*
-            timeoutMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            timeoutMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);
             if (examState == ExamState.ShowAnswerState)
             {
-                submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+                submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Red(state);
             }
             else if (examState == ExamState.TakingExamState)
             {
@@ -821,10 +819,10 @@ namespace HCT_Client
 
                 if (allQuizAnswered)
                 {
-                    submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+                    submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Red(state);
                 }
             }
-            */
+            
         }
 
         protected void SignalClockHasChanged(int state)
