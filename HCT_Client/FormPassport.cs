@@ -247,15 +247,14 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            //Temporary Disable this code
-            /*if (loginButton.Enabled)
+            if (loginButton.Enabled)
             {
-                loginButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+                loginButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);
             }
             else
             {
-                loginButton.BackColor = Color.White;
-            }*/         
+                loginButton.BackColor = GlobalColor.grayColor;
+            }        
         }
 
     }

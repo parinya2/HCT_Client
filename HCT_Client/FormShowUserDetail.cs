@@ -349,11 +349,13 @@ namespace HCT_Client
             if (hasUserPhoto)
             {
                 goToExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);
+                goToExamButton.ForeColor = Color.White;
                 takePhotoButton.BackColor = GlobalColor.yellowColor;
             }
             else
             {
                 goToExamButton.BackColor = GlobalColor.grayColor;
+                goToExamButton.ForeColor = Color.Black;
                 takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Yellow(state);
             }
             goToExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);        
