@@ -45,6 +45,7 @@ namespace HCT_Client
 
             choiceTextLabel = new BaseTextLabel();
             choiceTextLabel.Location = new Point(choiceHeaderLabel.Width + choiceHeaderLabel.Location.X, choiceHeaderLabel.Location.Y + margin * 2);
+            choiceTextLabel.Font = UtilFonts.GetTHSarabunFont((int)choiceTextLabel.Font.Size - 12);
             choiceTextLabel.Width = (int)(this.Width * 0.75);
             choiceTextLabel.Height = this.Height;
             choiceTextLabel.BackColor = Color.Transparent;

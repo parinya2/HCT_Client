@@ -168,8 +168,8 @@ namespace HCT_Client
             loginButton = new LargeButton();
             loginButton.Font = UtilFonts.GetTHSarabunFont((int)loginButton.Font.Size + 5);
             loginButton.Height = 110;
-            loginButton.Location = new Point((SCREEN_WIDTH - loginButton.Width) / 2,
-                                            characterButtonArray.Last().Location.Y + characterButtonArray.Last().Height + 60);
+            loginButton.Location = new Point(SCREEN_WIDTH - loginButton.Width - backButton.Location.X,
+                                             backButton.Location.Y);
             loginButton.Click += new EventHandler(LoginButtonClicked);
             loginButton.ForeColor = Color.White;
             loginButton.BackColor = GlobalColor.greenColor;
