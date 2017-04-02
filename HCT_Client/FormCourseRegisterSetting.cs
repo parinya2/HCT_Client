@@ -391,17 +391,16 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            //Temporary disable this code
-            /*bool isDataComplete = selectedDayIndex >= 0 && selectedMonthIndex >= 0 &&
+            bool isDataComplete = selectedDayIndex >= 0 && selectedMonthIndex >= 0 &&
                                   selectedYearIndex >= 0 && selectedExamSeqIndex >= 0;
             if (isDataComplete)
             {
-                goToUserDetailButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+                goToUserDetailButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);
             }
             else
             {
-                goToUserDetailButton.BackColor = Color.White;
-            }*/
+                goToUserDetailButton.BackColor = GlobalColor.grayColor;
+            }
         }
     }
 }

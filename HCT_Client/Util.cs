@@ -24,7 +24,7 @@ namespace HCT_Client
 {
     public class Util
     {
-        private static Dictionary<int, Color> buttonBlinkColorDict_Orange;
+        private static Dictionary<int, Color> buttonBlinkColorDict_Yellow;
         private static Dictionary<int, Color> buttonBlinkColorDict_Red;
         private static Dictionary<int, Color> buttonBlinkColorDict_Green;
 
@@ -284,13 +284,13 @@ namespace HCT_Client
 
         public static void GenerateButtonBlinkColorDict()
         {
-            buttonBlinkColorDict_Orange = new Dictionary<int, Color>();
+            buttonBlinkColorDict_Yellow = new Dictionary<int, Color>();
             buttonBlinkColorDict_Red = new Dictionary<int, Color>();
             buttonBlinkColorDict_Green = new Dictionary<int, Color>();
 
             int stateCount = 40;            
 
-            int H1 = 34; //Orange Color
+            int H1 = 34; //Yellow Color
             int S1 = 100;
             int L1 = 55;
 
@@ -308,7 +308,7 @@ namespace HCT_Client
                 int S = S1;
                 int L = (int)(100 - (Math.Abs(100 - L1) / stateCount) * i);
                 Color targetColor = ColorFromHSL(H, S, L);
-                buttonBlinkColorDict_Orange[i] = targetColor;
+                buttonBlinkColorDict_Yellow[i] = targetColor;
 
                 H = H2;
                 S = S2;
@@ -325,15 +325,15 @@ namespace HCT_Client
 
             for (int i = 1; i <= 10; i++)
             {
-                buttonBlinkColorDict_Orange[stateCount + i] = buttonBlinkColorDict_Orange[stateCount];
+                buttonBlinkColorDict_Yellow[stateCount + i] = buttonBlinkColorDict_Yellow[stateCount];
                 buttonBlinkColorDict_Red[stateCount + i] = buttonBlinkColorDict_Red[stateCount];
                 buttonBlinkColorDict_Green[stateCount + i] = buttonBlinkColorDict_Green[stateCount];
             }
         }
 
-        public static Color GetButtonBlinkColorAtSignalState_Orange(int state)
+        public static Color GetButtonBlinkColorAtSignalState_Yellow(int state)
         {
-            return buttonBlinkColorDict_Orange[state];
+            return buttonBlinkColorDict_Yellow[state];
         }
 
         public static Color GetButtonBlinkColorAtSignalState_Red(int state)

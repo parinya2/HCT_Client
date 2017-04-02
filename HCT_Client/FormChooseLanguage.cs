@@ -146,8 +146,8 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            thaiButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Orange(state);
-            engButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Orange(state);
+            thaiButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Yellow(state);
+            engButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Yellow(state);
         }
     }
 }

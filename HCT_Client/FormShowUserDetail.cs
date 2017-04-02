@@ -345,20 +345,18 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            //Temporary Disable this code
-            /*bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
+            bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
             if (hasUserPhoto)
             {
-                goToExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-                takePhotoButton.BackColor = Color.White;
+                goToExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);
+                takePhotoButton.BackColor = GlobalColor.yellowColor;
             }
             else
             {
-                goToExamButton.BackColor = Color.White;
-                takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            }            
-            goToExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            */
+                goToExamButton.BackColor = GlobalColor.grayColor;
+                takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Yellow(state);
+            }
+            goToExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);        
         }
 
         private void WebCamCapture_ImageCaptured(object source, WebcamEventArgs e)
