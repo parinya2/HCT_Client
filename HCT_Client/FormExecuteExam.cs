@@ -53,7 +53,7 @@ namespace HCT_Client
         FormFadeView fadeForm;
 
         Color correctAnswerColor = GlobalColor.greenColor;
-        Color wrongAnswerColor = GlobalColor.redColor;
+        Color wrongAnswerColor = Color.Red;
 
         Button minimizeAppButton;
 
