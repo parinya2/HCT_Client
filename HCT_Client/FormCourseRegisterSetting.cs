@@ -396,10 +396,12 @@ namespace HCT_Client
             if (isDataComplete)
             {
                 goToUserDetailButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);
+                goToUserDetailButton.ForeColor = Color.White;
             }
             else
             {
                 goToUserDetailButton.BackColor = GlobalColor.grayColor;
+                goToUserDetailButton.ForeColor = Color.Black;
             }
         }
     }
