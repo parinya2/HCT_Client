@@ -78,7 +78,7 @@ namespace HCT_Client
                 simulatorTextLabel.TextAlign = ContentAlignment.MiddleLeft;
                 simulatorTextLabel.Font = UtilFonts.GetTHSarabunFont(14);
                 simulatorTextLabel.Text = "โปรแกรมนี้เป็นแบบจำลองการทำข้อสอบเท่านั้น ไม่ใช่การทำข้อสอบจริง";
-                simulatorTextLabel.Location = new Point(dltLogoPictureBox.Location.X + dltLogoPictureBox.Width + headerLineGap,
+                simulatorTextLabel.Location = new Point(headerTextLabel1.Location.X,
                                                      headerTextLabel1.Location.Y + headerTextLabel1.Height + 5);
                 this.Controls.Add(simulatorTextLabel);
             }
