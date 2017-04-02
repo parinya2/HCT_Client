@@ -26,5 +26,6 @@ namespace HCT_Client
         public static Color greenColor = Color.FromArgb(56, 180, 73);
         public static Color lightGreenColor = Color.FromArgb(231, 241, 212);
         public static Color paleRoseColor = Color.FromArgb(254, 252, 233);
+        public static Color grayColor = Color.FromArgb(209, 210, 212);
     }
 }

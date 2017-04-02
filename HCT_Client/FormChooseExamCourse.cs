@@ -171,8 +171,8 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            examCourseType1panel.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            examCourseType2panel.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            examCourseType1panel.BackColor = Util.GetButtonBlinkColorAtSignalState_Yellow(state);
+            examCourseType2panel.BackColor = Util.GetButtonBlinkColorAtSignalState_Yellow(state);
         }
     }
 }

@@ -246,7 +246,7 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            finishExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            finishExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Yellow(state);
             //Temporary disable this code
             //finishExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
         }
