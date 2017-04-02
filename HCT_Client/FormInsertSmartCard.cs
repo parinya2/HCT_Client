@@ -183,8 +183,8 @@ namespace HCT_Client
 
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
-            loginButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
-            passportButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);
+            loginButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Orange(state);
+            passportButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Orange(state);
 
             //Temporary disable this code
             //smartCardErrorMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState(state);

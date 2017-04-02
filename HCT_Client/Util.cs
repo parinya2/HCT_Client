@@ -24,7 +24,9 @@ namespace HCT_Client
 {
     public class Util
     {
-        private static Dictionary<int, Color> buttonBlinkColorDict;
+        private static Dictionary<int, Color> buttonBlinkColorDict_Orange;
+        private static Dictionary<int, Color> buttonBlinkColorDict_Red;
+        private static Dictionary<int, Color> buttonBlinkColorDict_Green;
 
         public static void SendEmailWithAttachment(string pdfName, string emailBody)
         {
@@ -282,13 +284,23 @@ namespace HCT_Client
 
         public static void GenerateButtonBlinkColorDict()
         {
-            buttonBlinkColorDict = new Dictionary<int, Color>();
+            buttonBlinkColorDict_Orange = new Dictionary<int, Color>();
+            buttonBlinkColorDict_Red = new Dictionary<int, Color>();
+            buttonBlinkColorDict_Green = new Dictionary<int, Color>();
 
             int stateCount = 40;            
 
-            int H1 = 34; //Yellow Color
+            int H1 = 34; //Orange Color
             int S1 = 100;
             int L1 = 55;
+
+            int H2 = 4; //Red Color
+            int S2 = 86;
+            int L2 = 55;
+
+            int H3 = 85; //Green Color
+            int S3 = 53;
+            int L3 = 46;
 
             for (int i = 1; i <= stateCount; i++)
             {
@@ -296,18 +308,42 @@ namespace HCT_Client
                 int S = S1;
                 int L = (int)(100 - (Math.Abs(100 - L1) / stateCount) * i);
                 Color targetColor = ColorFromHSL(H, S, L);
-                buttonBlinkColorDict[i] = targetColor;
+                buttonBlinkColorDict_Orange[i] = targetColor;
+
+                H = H2;
+                S = S2;
+                L = (int)(100 - (Math.Abs(100 - L2) / stateCount) * i);
+                targetColor = ColorFromHSL(H, S, L);
+                buttonBlinkColorDict_Red[i] = targetColor;
+
+                H = H3;
+                S = S3;
+                L = (int)(100 - (Math.Abs(100 - L3) / stateCount) * i);
+                targetColor = ColorFromHSL(H, S, L);
+                buttonBlinkColorDict_Green[i] = targetColor;
             }
 
             for (int i = 1; i <= 10; i++)
             {
-                buttonBlinkColorDict[stateCount + i] = buttonBlinkColorDict[stateCount];
+                buttonBlinkColorDict_Orange[stateCount + i] = buttonBlinkColorDict_Orange[stateCount];
+                buttonBlinkColorDict_Red[stateCount + i] = buttonBlinkColorDict_Red[stateCount];
+                buttonBlinkColorDict_Green[stateCount + i] = buttonBlinkColorDict_Green[stateCount];
             }
         }
 
-        public static Color GetButtonBlinkColorAtSignalState(int state)
+        public static Color GetButtonBlinkColorAtSignalState_Orange(int state)
         {
-            return buttonBlinkColorDict[state];
+            return buttonBlinkColorDict_Orange[state];
+        }
+
+        public static Color GetButtonBlinkColorAtSignalState_Red(int state)
+        {
+            return buttonBlinkColorDict_Red[state];
+        }
+
+        public static Color GetButtonBlinkColorAtSignalState_Green(int state)
+        {
+            return buttonBlinkColorDict_Green[state];
         }
 
         public static int GetMinuteDifferentOfTwoDates(DateTime dt1, DateTime dt2)
