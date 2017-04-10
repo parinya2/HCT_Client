@@ -17,6 +17,7 @@ namespace HCT_Client
         Image userPhoto;
         string courseRegisterDate;
         string examSeq; //ครั้งที่สอบ
+        string studentEnrolDetailJSON;
 
         public UserProfileManager()
         { 
@@ -211,6 +212,16 @@ namespace HCT_Client
             return instance.examSeq;
         }
 
+        public static string GetStudentEnrolDetailJSON()
+        {
+            return instance.studentEnrolDetailJSON;
+        }
+
+        public static void SetStudentEnrolDetailJSON(string text)
+        {
+            instance.studentEnrolDetailJSON = text;
+        }
+
         public static void ClearUserProfile()
         {
             instance.citizenID = null;
@@ -221,6 +232,7 @@ namespace HCT_Client
             instance.userPhoto = null;
             instance.courseRegisterDate = null;
             instance.examSeq = null;
+            instance.studentEnrolDetailJSON = null;
         }
     }
 }

@@ -21,7 +21,8 @@ namespace HCT_Client
     class WebServiceManager
     {
         const string DLT_WEB_SERVICE_URI = "https://ws.dlt.go.th/EExam/EExamService";
-        const string HCT_LOG_SERVER_URI = "https://main.clickeexam.in:8443/addExamHistory/";
+        const string HCT_SERVER_AddExamHistory_URI = "https://main.clickeexam.in:8443/addExamHistory/";
+        const string HCT_SERVER_SearchStudentEnrol_URI = "https://main.clickeexam.in:8443/searchStudentEnrol/";
         const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
         const string CONTENT_DICT_SOAP_KEY = "SOAP";
         const bool IMAGE_IS_MTOM_ATTACHMENT = true;
@@ -742,7 +743,18 @@ namespace HCT_Client
             return result;            
         }
 
-        public static void SendExamResultToHCTLogServer()
+        public static string GetStudentEnrolDetailJSONFromHCTServer()
+        {
+            string citizenId = UserProfileManager.GetAvailablePersonID();
+            var values = new NameValueCollection();
+            values["citizenId"] = citizenId;
+
+            string JSONresponse = SendPOSTRequestToHCTServer(HCT_SERVER_SearchStudentEnrol_URI, values);
+
+            return JSONresponse;
+        }
+
+        public static void SendExamResultToHCTServer()
         {
             string fullname = UserProfileManager.GetFullnameTH().Length > 0 ?  UserProfileManager.GetFullnameTH() : 
                                                                                UserProfileManager.GetFullnameEN();
@@ -776,25 +788,26 @@ namespace HCT_Client
             values["examResult"] = examResult;
             values["schoolCertNo"] = GlobalData.SCHOOL_CERT_NUMBER;
             values["examResultPdfBase64String"] = QuizManager.GetQuizResult().quizResultPdfBase64String;
-            SendPOSTRequestToHCTLogServer(values);
+            SendPOSTRequestToHCTServer(HCT_SERVER_AddExamHistory_URI, values);
         }
 
-        private static string SendPOSTRequestToHCTLogServer(NameValueCollection valueDict)
+        private static string SendPOSTRequestToHCTServer(string URI, NameValueCollection valueDict)
         {
+            string responseString = null;
             using (var client = new WebClient())
             {
                 try
                 {
-                    var response = client.UploadValues(HCT_LOG_SERVER_URI, valueDict);
-                    var responseString = Encoding.UTF8.GetString(response);
+                    var response = client.UploadValues(URI, valueDict);
+                    responseString = Encoding.UTF8.GetString(response);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("SendPOSTRequestToHCTLogServer : " + e.ToString());
+                    Console.WriteLine("SendPOSTRequestToHCTServer : " + e.ToString());
                 }
                 
             }
-            return "";
+            return responseString;
         }
 
         private static byte[] SendSoapRequestToWebService(string soapRequestMessage)
@@ -1084,6 +1097,8 @@ namespace HCT_Client
         public const string ERROR_CHECK_EEXAM_RESULT_EMPTY_RESPONSE = "ERROR_CheckEExamResultEmptyResponse";
 
         public const string ERROR_CANNOT_CHECK_EEXAM_CORRECT_ANSWER = "ERROR_CannotCheckEExamCorrectAnswer";
+
+        public const string ERROR_STUDENT_ENROL_NOT_FOUND = "ERROR_CourseRegistrationNotFound";
 
         public static bool IsErrorCode(string code)
         {

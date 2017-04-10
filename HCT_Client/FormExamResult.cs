@@ -200,7 +200,7 @@ namespace HCT_Client
                 {
                     Thread.Sleep(10);
                     GenerateExamResultDocument();
-                    WebServiceManager.SendExamResultToHCTLogServer();                    
+                    WebServiceManager.SendExamResultToHCTServer();                    
                 }
              );
             bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(

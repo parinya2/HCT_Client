@@ -114,6 +114,7 @@ namespace HCT_Client
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_SERVER_INTERNAL + ".Message", "Server มีปัญหาบางประการ กรุณาติดต่อเจ้าหน้าที่", "Internal Server error");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_LOAD_EEXAM_EMPTY_RESPONSE + ".Message", "Server ไม่ส่งข้อมูลชุดคำถามกลับมาให้ ท่านอาจกรอกข้อมูลครั้งที่สอบผิด กรุณาติดต่อเจ้าหน้าที่", "Server returned an empty questions data, you might choose wrong exam seq. Please contact an officer.");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_CHECK_EEXAM_RESULT_EMPTY_RESPONSE + ".Message", "Server ไม่ส่งข้อมูลผลการสอบกลับมาให้ กรุณาติดต่อเจ้าหน้าที่", "Server returned an empty exam result, please contact an officer.");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_STUDENT_ENROL_NOT_FOUND + ".Message", "ไม่พบข้อมูลการลงทะเบียนเรียนของท่าน กรุณาติดต่อเจ้าหน้าที่", "Your course registration detail not found, please contact an officer.");
             SetDictValueForKey("ErrorMessageBox.RightButton", "ตกลง", "OK");
 
             SetDictValueForKey("NoUserPhotoMessageBox.Message", "กรุณากดปุ่ม 'ถ่ายภาพ' เพื่อถ่ายภาพของท่านก่อน จึงจะสามารถไปทำข้อสอบได้", "Please press 'Take a photo' button before you proceed.");
