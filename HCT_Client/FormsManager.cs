@@ -182,7 +182,12 @@ namespace HCT_Client
             msgBox.callerForm.Enabled = true;
             msgBox.callerForm.BringToFront();
 
-            if (msgBox.callerForm.GetType() == typeof(FormCourseRegisterSetting) && msgBox.errorCode != null
+            if (msgBox.callerForm.GetType() == typeof(FormChooseExamCourse) && msgBox.errorCode != null
+                 && msgBox.errorCode.Equals(WebServiceResultStatus.ERROR_HTTP_TIMEOUT))
+            {
+                ((FormChooseExamCourse)(msgBox.callerForm)).GoToNextForm();
+            }
+            else if (msgBox.callerForm.GetType() == typeof(FormCourseRegisterSetting) && msgBox.errorCode != null
                 && msgBox.errorCode.Equals(WebServiceResultStatus.ERROR_HTTP_TIMEOUT))
             {
                 ((FormCourseRegisterSetting)(msgBox.callerForm)).GoToNextForm();
