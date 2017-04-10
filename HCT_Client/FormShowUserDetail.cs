@@ -335,11 +335,11 @@ namespace HCT_Client
         void GoToPreviousForm()
         {
             StopWebcam();
-            FormCourseRegisterSetting instanceFormCourseRegisterSetting = FormsManager.GetFormCourseRegisterSetting();
-            instanceFormCourseRegisterSetting.Visible = true;
-            instanceFormCourseRegisterSetting.Enabled = true;
-            instanceFormCourseRegisterSetting.RefreshUI();
-            instanceFormCourseRegisterSetting.BringToFront();
+            FormChooseExamCourse instanceFormChooseExamCourse = FormsManager.GetFormChooseExamCourse();
+            instanceFormChooseExamCourse.Visible = true;
+            instanceFormChooseExamCourse.Enabled = true;
+            instanceFormChooseExamCourse.RefreshUI();
+            instanceFormChooseExamCourse.BringToFront();
             this.Visible = false;
         }
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Drawing2D;
+using System.Threading;
 
 namespace HCT_Client
 {
@@ -143,14 +144,121 @@ namespace HCT_Client
             GoToNextForm();
         }
 
-        void GoToNextForm()
+        public void GoToNextForm()
         {
-            FormCourseRegisterSetting instanceFormCourseRegisterSetting = FormsManager.GetFormCourseRegisterSetting();
-            instanceFormCourseRegisterSetting.Visible = true;
-            instanceFormCourseRegisterSetting.Enabled = true;
-            instanceFormCourseRegisterSetting.RefreshUI();
-            instanceFormCourseRegisterSetting.BringToFront();
-            this.Visible = false;
+            string JSONstr = UserProfileManager.GetStudentEnrolDetailJSON();
+            bool foundStudentEnrol= false;
+            if (JSONstr.Length > 4)
+            {
+                string[] tmpArr = new string[2];
+                JSONstr = JSONstr.Replace("\"","");
+                int a1 = JSONstr.IndexOf("{");
+                int a2 = JSONstr.IndexOf("}");
+                tmpArr[0] = JSONstr.Substring(a1 + 1, a2 - a1 - 1);
+
+                JSONstr = JSONstr.Substring(a2 + 1);
+                int b1 = JSONstr.IndexOf("{");
+                int b2 = JSONstr.IndexOf("}");
+                tmpArr[1] = (b1 > -1 && b2 > -1) ? JSONstr.Substring(b1 + 1, b2 - b1 - 1) : "";
+
+                ExamCourseType examCourseType = QuizManager.GetExamCourseType();
+                string targetJSONStr = "";
+                for (int i = 0; i < tmpArr.Length; i++)
+                {
+                    if ((tmpArr[i].Contains("CourseType:1") && examCourseType == ExamCourseType.Car) ||
+                        (tmpArr[i].Contains("CourseType:2") && examCourseType == ExamCourseType.Motorcycle))
+                    {
+                        targetJSONStr = tmpArr[i];
+                        foundStudentEnrol = true;
+                    }
+                }
+
+                string[] tmpArr2 = targetJSONStr.Split(',');
+                for (int i = 0; i < tmpArr2.Length; i++)
+                {
+                    string tmpStr = tmpArr2[i];
+                    int idx = tmpStr.IndexOf(":");
+                    if (idx == -1) continue;
+                    string value = tmpStr.Substring(idx + 1);
+                    if (tmpStr.Contains("EnrolDate"))
+                    {
+                        try
+                        {
+                            string[] dateArr = value.Split('/');
+                            int day = Int32.Parse(dateArr[0]);
+                            int month = Int32.Parse(dateArr[1]);
+                            int year = Int32.Parse(dateArr[2]);
+                            year = (year < 2500) ? year + 543 : year;
+
+                            string dayStr = (day < 10) ? "0" + day : "" + day;
+                            string monthStr = (month < 10) ? "0" + month : "" + month;
+                            string yearStr = year + "";
+                            string dateStr = dayStr + "/" + monthStr + "/" + yearStr;
+
+                            UserProfileManager.SetCourseRegisterDate(dateStr);
+                        }
+                        catch (Exception e)
+                        {
+                            foundStudentEnrol = false;
+                        }
+                    }
+                    else if (tmpStr.Contains("ExamCount"))
+                    {
+                        try
+                        {
+                            int examCount = Int32.Parse(value);
+                            UserProfileManager.SetExamSeq((examCount + 1) + "");
+                        }
+                        catch (Exception e)
+                        {
+                            foundStudentEnrol = false;
+                        }
+                    }
+                }
+            }
+
+            if (!foundStudentEnrol && WebServiceManager.webServiceMode != WebServiceMode.SimulatorMode)
+            {
+                FormLargeMessageBox errorFormMessageBox = FormsManager.GetFormErrorMessageBox(WebServiceResultStatus.ERROR_STUDENT_ENROL_NOT_FOUND, this);
+                Point centerPoint = new Point((SCREEN_WIDTH - errorFormMessageBox.Width) / 2,
+                                              (SCREEN_HEIGHT - errorFormMessageBox.Height) / 2);
+                errorFormMessageBox.ShowMessageBoxAtLocation(centerPoint);
+                return;
+            }
+
+            FormsManager.GetFormLoadingView().ShowLoadingView(true);
+            BackgroundWorker bw = new BackgroundWorker();
+            string status = "";
+            bw.DoWork += new DoWorkEventHandler(
+                delegate(object o, DoWorkEventArgs args)
+                {
+                    Thread.Sleep(10);
+                    status = WebServiceManager.GetPaperTestNumberFromServer();
+                }
+             );
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+                delegate(object o, RunWorkerCompletedEventArgs args)
+                {
+                    FormsManager.GetFormLoadingView().ShowLoadingView(false);
+                    if (status.Equals(WebServiceResultStatus.SUCCESS))
+                    {
+                        FormShowUserDetail instanceFormShowUserDetail = FormsManager.GetFormShowUserDetail();
+                        instanceFormShowUserDetail.Visible = true;
+                        instanceFormShowUserDetail.Enabled = true;
+                        instanceFormShowUserDetail.RefreshUI();
+                        instanceFormShowUserDetail.BringToFront();
+                        this.Visible = false;
+                    }
+                    else
+                    {
+                        FormLargeMessageBox errorFormMessageBox = FormsManager.GetFormErrorMessageBox(status, this);
+                        Point centerPoint = new Point((SCREEN_WIDTH - errorFormMessageBox.Width) / 2,
+                                                      (SCREEN_HEIGHT - errorFormMessageBox.Height) / 2);
+                        errorFormMessageBox.ShowMessageBoxAtLocation(centerPoint);
+                    }
+                }
+            );
+            bw.RunWorkerAsync();
         }
 
         void BackButtonClicked(object sender, EventArgs e)
