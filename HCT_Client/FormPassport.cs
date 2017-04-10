@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace HCT_Client
 {
@@ -227,13 +228,32 @@ namespace HCT_Client
         }
 
         private void GoToNextForm()
-        {     
-            FormChooseExamCourse instanceFormChooseExamCourse = FormsManager.GetFormChooseExamCourse();
-            instanceFormChooseExamCourse.Visible = true;
-            instanceFormChooseExamCourse.Enabled = true;
-            instanceFormChooseExamCourse.RefreshUI();
-            instanceFormChooseExamCourse.BringToFront();
-            this.Visible = false;
+        {
+            FormsManager.GetFormLoadingView().ShowLoadingView(true);
+            BackgroundWorker bw = new BackgroundWorker();
+            string JSONstring = "";
+            bw.DoWork += new DoWorkEventHandler(
+                delegate(object o, DoWorkEventArgs args)
+                {
+                    Thread.Sleep(10);
+                    JSONstring = WebServiceManager.GetStudentEnrolDetailJSONFromHCTServer();
+                }
+             );
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+                delegate(object o, RunWorkerCompletedEventArgs args)
+                {
+                    FormsManager.GetFormLoadingView().ShowLoadingView(false);
+                    UserProfileManager.SetStudentEnrolDetailJSON(JSONstring);
+                    Console.WriteLine("JSON = " + JSONstring);
+                    FormChooseExamCourse instanceFormChooseExamCourse = FormsManager.GetFormChooseExamCourse();
+                    instanceFormChooseExamCourse.Visible = true;
+                    instanceFormChooseExamCourse.Enabled = true;
+                    instanceFormChooseExamCourse.RefreshUI();
+                    instanceFormChooseExamCourse.BringToFront();
+                    this.Visible = false;
+                }
+            );
+            bw.RunWorkerAsync();
         }
 
         private void GoToPreviousForm()
