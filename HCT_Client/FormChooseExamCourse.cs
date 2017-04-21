@@ -146,7 +146,7 @@ namespace HCT_Client
 
         public void GoToNextForm()
         {
-            string JSONstr = UserProfileManager.GetStudentEnrolDetailJSON();
+            string JSONstr = "" + UserProfileManager.GetStudentEnrolDetailJSON();
             bool foundStudentEnrol= false;
             if (JSONstr.Length > 4)
             {
@@ -217,7 +217,7 @@ namespace HCT_Client
                 }
             }
 
-            if (!foundStudentEnrol && WebServiceManager.webServiceMode != WebServiceMode.SimulatorMode)
+            if (!foundStudentEnrol && WebServiceManager.webServiceMode == WebServiceMode.NormalMode)
             {
                 FormLargeMessageBox errorFormMessageBox = FormsManager.GetFormErrorMessageBox(WebServiceResultStatus.ERROR_STUDENT_ENROL_NOT_FOUND, this);
                 Point centerPoint = new Point((SCREEN_WIDTH - errorFormMessageBox.Width) / 2,
