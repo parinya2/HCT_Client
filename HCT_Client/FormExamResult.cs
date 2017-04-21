@@ -116,8 +116,8 @@ namespace HCT_Client
             string examEndDateString = Util.ConvertDateToNormalDateString(QuizManager.GetExamEndDateTime(), true);
             string paperTestNumber = QuizManager.GetPaperTestNumber();
             string examDuration = "" + Util.GetMinuteDifferentOfTwoDates(QuizManager.GetExamStartDateTime(), QuizManager.GetExamEndDateTime());
-            string courseRegisterDateString = UserProfileManager.GetCourseRegisterDateString();
-            string examSeqString = UserProfileManager.GetExamSeq();
+            string courseRegisterDateString = "" + UserProfileManager.GetCourseRegisterDateString();
+            string examSeqString = "" + UserProfileManager.GetExamSeq();
             bool isCitizenIDAvailable = UserProfileManager.IsCitizenIDAvailable();
 
             string passOrFail = "";
