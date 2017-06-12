@@ -137,12 +137,12 @@ namespace HCT_Client
 
                 if (tmpArr.Length == 7)
                 {
-                    quizObj.paperQuestSeq = tmpArr[0]; //หมายเลขโจทย์
-                    quizObj.correctChoice = Int32.Parse(tmpArr[6]) - 1;
+                    quizObj.paperQuestSeq = tmpArr[0].Trim(); //หมายเลขโจทย์
+                    quizObj.correctChoice = Int32.Parse(tmpArr[6].Trim()) - 1;
 
                     string[] tmpQuest_Arr = tmpArr[1].Split('$');
-                    quizObj.quizText = tmpQuest_Arr[0];
-                    quizObj.quizImage = tmpQuest_Arr[1].Equals("x") ? null : (Bitmap)Image.FromFile(simulatorImageFolderPath + "/" + tmpQuest_Arr[1]);
+                    quizObj.quizText = tmpQuest_Arr[0].Trim();
+                    quizObj.quizImage = tmpQuest_Arr[1].Trim().Equals("x") ? null : (Bitmap)Image.FromFile(simulatorImageFolderPath + "/" + tmpQuest_Arr[1].Trim());
                     quizObj.quizSoundPlayer = Util.GetSoundPlayerFromSoundResources("SampleSound.wav");
                     
                     List<SingleChoiceObject> choiceList = new List<SingleChoiceObject>();
@@ -150,8 +150,8 @@ namespace HCT_Client
                     {
                         SingleChoiceObject choiceObj = new SingleChoiceObject();
                         string[] tmpChoice_Arr = tmpArr[m].Split('$');
-                        choiceObj.choiceText = tmpChoice_Arr[0];
-                        choiceObj.choiceImage = tmpChoice_Arr[1].Equals("x") ? null : (Bitmap)Image.FromFile(simulatorImageFolderPath + "/" + tmpChoice_Arr[1]);
+                        choiceObj.choiceText = tmpChoice_Arr[0].Trim();
+                        choiceObj.choiceImage = tmpChoice_Arr[1].Trim().Equals("x") ? null : (Bitmap)Image.FromFile(simulatorImageFolderPath + "/" + tmpChoice_Arr[1].Trim());
                         choiceObj.choiceSoundPlayer = Util.GetSoundPlayerFromSoundResources("SampleSound.wav");
 
                         choiceList.Add(choiceObj);
