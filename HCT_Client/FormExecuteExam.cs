@@ -113,6 +113,11 @@ namespace HCT_Client
 
             examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("FormChooseExamCourse.Button." + QuizManager.GetExamCourseType());
 
+            if (WebServiceManager.webServiceMode == WebServiceMode.SimulatorMode)
+            {
+                examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("SimulatorQuizHeader") + QuizManager.GetPaperTestNumber();
+            }
+
             quizNotCompletedMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.Message");
             quizNotCompletedMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.RightButton");
 

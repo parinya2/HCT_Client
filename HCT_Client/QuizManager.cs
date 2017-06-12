@@ -82,6 +82,37 @@ namespace HCT_Client
             }
         }
 
+        private static string RandomSimulatorQuizNumber()
+        {
+            string simulatorConfigFilePath = Util.GetSimulatorQuizFolderPath() + "/SimulatorSetting.txt";
+            string[] contentsArr = File.ReadAllLines(simulatorConfigFilePath);
+            bool shouldRandom = false;
+            string targetQuizNumber = "1";
+            if (contentsArr.Length >= 2)
+            {
+                string[] line1Arr = contentsArr[0].Split('=');
+                shouldRandom = line1Arr[1].ToLower().Contains("y");
+
+                string[] line2Arr = contentsArr[1].Split('=');
+                targetQuizNumber = line2Arr[1];
+            }
+            else
+            {
+                return "1";
+            }
+
+            if (shouldRandom)
+            {
+                int totolFolderCount = Directory.GetDirectories(Util.GetSimulatorQuizFolderPath()).Length;
+                int oldNumber = Int32.Parse(targetQuizNumber);
+                int newNumber = (oldNumber == totolFolderCount) ? 1 : oldNumber + 1;
+
+                contentsArr[1] = contentsArr[1].Replace("=" + oldNumber, "=" + newNumber);
+                File.WriteAllLines(simulatorConfigFilePath, contentsArr);
+            }
+            return targetQuizNumber;
+        }
+
         public static void GenerateQuizFromSimulatorFolder()
         {
             /* ข้อมูล Simulator หน้าตาแบบนี้
@@ -90,7 +121,8 @@ namespace HCT_Client
              8|เมื่อใบอนุญาตขับรถสูญหายหรือชำรุดต้องยื่นขอรับใบแทนต่อนายทะเบียนภายในกี่วัน$x|
              20 วัน$x|30 วัน$x|15 วัน$x|45 วัน$x|2# 
              */
-            string simulatorFolderPath = Util.GetSimulatorQuizFolderPath();
+            string quizSetNumber = RandomSimulatorQuizNumber();
+            string simulatorFolderPath = Util.GetSimulatorQuizFolderPath() + "/QuizSet" + quizSetNumber;
             string simulatorImageFolderPath = simulatorFolderPath + "/SimulatorImages";
             string quizDataString = File.ReadAllText(simulatorFolderPath + "/SimulatorQuiz.txt");
             quizDataString = quizDataString.Replace(Environment.NewLine, "");
@@ -106,7 +138,7 @@ namespace HCT_Client
                 if (tmpArr.Length == 7)
                 {
                     quizObj.paperQuestSeq = tmpArr[0]; //หมายเลขโจทย์
-                    quizObj.correctChoice = Int32.Parse(tmpArr[6]);
+                    quizObj.correctChoice = Int32.Parse(tmpArr[6]) - 1;
 
                     string[] tmpQuest_Arr = tmpArr[1].Split('$');
                     quizObj.quizText = tmpQuest_Arr[0];
@@ -129,6 +161,7 @@ namespace HCT_Client
                 quizList.Add(quizObj);
             }
             instance.quizArray = quizList.ToArray();
+            instance.paperTestNumber = quizSetNumber;
         }
 
         public static void MockQuiz()
