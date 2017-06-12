@@ -130,6 +130,8 @@ namespace HCT_Client
             SetDictValueForKey("FormExamResult.FailExam", "คุณสอบไม่ผ่าน", "You failed");
             SetDictValueForKey("FormExamResult.ScoreText", "คุณได้คะแนน ", "You scored ");
 
+            SetDictValueForKey("SimulatorQuizHeader", "ข้อสอบจำลอง ชุดที่ ", "Simulator Quiz No. ");
+
             SetDictValueForKey("MockQuiz.QuizText", "สัญลักษณ์นี้หมายความว่าอย่างไร ", "What does this sign mean ?");
             SetDictValueForKey("MockQuiz.1.Choice.1", "ห้ามเลี้ยวซ้าย", "Do not turn left");
             SetDictValueForKey("MockQuiz.1.Choice.2", "ห้ามเลี้ยวขวา", "Do not turn right");
