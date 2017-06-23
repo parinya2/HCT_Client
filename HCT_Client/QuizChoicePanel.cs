@@ -95,12 +95,12 @@ namespace HCT_Client
             else
             {
                 choiceHeaderLabel.Height = choiceHeaderLabel.Width;
-                choiceTextLabel.Height = (int)(this.Height * 0.2);
+                choiceTextLabel.Height = choiceTextLabel.Text.Length > 0 ? (int)(this.Height * 0.25) : 0;
 
-                choiceImagePictureBox.Height = this.Height - choiceHeaderLabel.Height - margin;
+                choiceImagePictureBox.Height = this.Height - choiceTextLabel.Height - margin;
                 choiceImagePictureBox.Width = choiceImagePictureBox.Height;
-                choiceImagePictureBox.Location = new Point(this.Width - choiceCorrectStatusPictureBox.Width - margin - choiceImagePictureBox.Width,
-                                                            choiceHeaderLabel.Height + margin / 2);
+                choiceImagePictureBox.Location = new Point(choiceHeaderLabel.Width * 3 + margin,
+                                                            choiceTextLabel.Height + margin / 2);
             }
         }
 
