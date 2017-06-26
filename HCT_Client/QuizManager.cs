@@ -156,9 +156,9 @@ namespace HCT_Client
 
                         choiceList.Add(choiceObj);
                     }
-                    quizObj.choiceObjArray = choiceList.ToArray();                 
-                }
-                quizList.Add(quizObj);
+                    quizObj.choiceObjArray = choiceList.ToArray();
+                    quizList.Add(quizObj);
+                }                
             }
             instance.quizArray = quizList.ToArray();
             instance.paperTestNumber = quizSetNumber;
