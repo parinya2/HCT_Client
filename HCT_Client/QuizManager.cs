@@ -55,6 +55,8 @@ namespace HCT_Client
         DateTime examEndDateTime;
         SingleQuizObject[] quizArray;
 
+        string simulatorQuizName;
+
         private static QuizManager instance;
         
         public QuizManager()
@@ -125,6 +127,36 @@ namespace HCT_Client
             string simulatorFolderPath = Util.GetSimulatorQuizFolderPath() + "/QuizSet" + quizSetNumber;
             string simulatorImageFolderPath = simulatorFolderPath + "/SimulatorImages";
             string quizDataString = File.ReadAllText(simulatorFolderPath + "/SimulatorQuiz.txt");
+
+            string quizNameFilePath = simulatorFolderPath + "/QuizName.txt";
+            QuizManager.SetSimulatorQuizName(LocalizedTextManager.GetLocalizedTextForKey("SimulatorQuizName.NotFound"));
+            if (File.Exists(quizNameFilePath))
+            {
+                string[] quizNameStringArr = File.ReadAllLines(simulatorFolderPath + "/QuizName.txt");
+                if (quizNameStringArr.Length == 2)
+                {
+                    string quizThaiName = "";
+                    string quizEngName = "";
+
+                    string tmpLine1 = quizNameStringArr[0];
+                    string[] tmpLine1Arr = tmpLine1.Split('=');
+                    if (tmpLine1Arr.Length == 2)
+                    {
+                        quizThaiName = tmpLine1Arr[1].Trim();
+                    }
+
+                    string tmpLine2 = quizNameStringArr[1];
+                    string[] tmpLine2Arr = tmpLine2.Split('=');
+                    if (tmpLine2Arr.Length == 2)
+                    {
+                        quizEngName = tmpLine2Arr[1].Trim();
+                    }
+
+                    string quizName = LocalizedTextManager.GetLanguage() == LocalizedTextManager.LanguageMode.TH ? quizThaiName : quizEngName;
+                    QuizManager.SetSimulatorQuizName(quizName);
+                }
+            }
+            
             quizDataString = quizDataString.Replace(Environment.NewLine, "");
 
             List<SingleQuizObject> quizList = new List<SingleQuizObject>();
@@ -251,6 +283,16 @@ namespace HCT_Client
             return instance.paperTestNumber;
         }
 
+        public static void SetSimulatorQuizName(string name)
+        {
+            instance.simulatorQuizName = name;
+        }
+
+        public static string GetSimulatorQuizName()
+        {
+            return instance.simulatorQuizName;
+        }
+
         public static string GetExamCourseCode()
         {
             return instance.examCourseCode;
@@ -302,7 +344,8 @@ namespace HCT_Client
             instance.examEndDateTime = DateTime.Now;
             instance.paperTestNumber = null;
             instance.quizArray = null;
-            instance.quizResult = null;            
+            instance.quizResult = null;
+            instance.simulatorQuizName = null;
         }
     }
 }

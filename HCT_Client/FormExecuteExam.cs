@@ -115,7 +115,7 @@ namespace HCT_Client
 
             if (WebServiceManager.webServiceMode == WebServiceMode.SimulatorMode)
             {
-                examCourseLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("SimulatorQuizHeader") + QuizManager.GetPaperTestNumber();
+                examCourseLabel.Text = QuizManager.GetSimulatorQuizName();
             }
 
             quizNotCompletedMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.Message");
