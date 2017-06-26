@@ -133,7 +133,7 @@ namespace HCT_Client
             if (File.Exists(quizNameFilePath))
             {
                 string[] quizNameStringArr = File.ReadAllLines(simulatorFolderPath + "/QuizName.txt");
-                if (quizNameStringArr.Length == 2)
+                if (quizNameStringArr.Length >= 2)
                 {
                     string quizThaiName = "";
                     string quizEngName = "";
