@@ -146,6 +146,7 @@
       <DependentUpon>FormShowUserDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsManager.cs" />
+    <Compile Include="GeneralSignalClock.cs" />
     <Compile Include="GlobalData.cs" />
     <Compile Include="LargeButton.cs">
       <SubType>Component</SubType>

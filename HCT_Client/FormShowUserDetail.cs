@@ -60,8 +60,13 @@ namespace HCT_Client
         FormLargeMessageBox noUserPhotoMessageBox;
         FormFadeView fadeForm;
         private BlinkButtonSignalClock blinkButtonSignalClock;
+        private GeneralSignalClock generalSignalClock;
 
         private WebCamCapture webcamCapture;
+
+        private int takePhotoCountdown = -1;
+        private int takePhotoSignalClockState = -1;
+        const int TAKE_PHOTO_COUNTDOWN_MAX = 3;
 
         public FormShowUserDetail()
         {
@@ -83,6 +88,9 @@ namespace HCT_Client
 
             blinkButtonSignalClock = new BlinkButtonSignalClock();
             blinkButtonSignalClock.TheTimeChanged += new BlinkButtonSignalClock.BlinkButtonSignalClockTickHandler(BlinkButtonSignalClockHasChanged);
+
+            generalSignalClock = new GeneralSignalClock();
+            generalSignalClock.TheTimeChanged += new GeneralSignalClock.GeneralSignalClockTickHandler(GeneralSignalClockHasChanged);
         }
 
         private void PrepareWebcamCapture()
@@ -201,6 +209,9 @@ namespace HCT_Client
             userPhotoPictureBox.Image = null;
             UserProfileManager.ClearUserPhoto();
             StartWebcam();
+
+            takePhotoCountdown = -1;
+            takePhotoSignalClockState = -1;
         }
 
         void GoToExamButtonClicked(object sender, EventArgs e)
@@ -254,6 +265,9 @@ namespace HCT_Client
 
         void TakePhotoButtonClicked(object sender, EventArgs e)
         {
+            if (takePhotoCountdown != -1)
+                return;
+
             bool hasUserPhoto = (UserProfileManager.GetUserPhoto() != null);
             if (hasUserPhoto)
             {
@@ -266,10 +280,27 @@ namespace HCT_Client
                 if (userPhotoPictureBox.Image == null)
                     return;
 
-                UserProfileManager.SetUserPhoto(userPhotoPictureBox.Image);
-                StopWebcam();
-                takePhotoButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Button.DeletePhoto");   
-            }
+                BackgroundWorker bw = new BackgroundWorker();
+                bw.DoWork += new DoWorkEventHandler(
+                    delegate(object o, DoWorkEventArgs args)
+                    {
+                        takePhotoCountdown = TAKE_PHOTO_COUNTDOWN_MAX;
+                        Thread.Sleep(3100);
+                    }
+                );
+                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
+                    delegate(object o, RunWorkerCompletedEventArgs args)
+                    {
+                        takePhotoCountdown = -1;
+                        takePhotoSignalClockState = -1;
+
+                        UserProfileManager.SetUserPhoto(userPhotoPictureBox.Image);
+                        StopWebcam();
+                        takePhotoButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormShowUserDetail.Button.DeletePhoto");
+                    }
+                );
+                bw.RunWorkerAsync();          
+           }
         }
 
         void StartWebcam()
@@ -359,6 +390,26 @@ namespace HCT_Client
                 takePhotoButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Yellow(state);
             }
             goToExamMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);        
+        }
+
+        protected void GeneralSignalClockHasChanged(int state)
+        {
+            if (takePhotoCountdown == TAKE_PHOTO_COUNTDOWN_MAX && takePhotoSignalClockState == -1)
+            {
+                takePhotoSignalClockState = state;
+                takePhotoButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TakePhotoCountdown.Ready") + " 3";
+            }
+            else
+            {
+                if (takePhotoSignalClockState == state && takePhotoCountdown >= 0)
+                {
+                    takePhotoCountdown--;
+                    if (takePhotoCountdown >= 0)
+                    {
+                        takePhotoButton.Text = LocalizedTextManager.GetLocalizedTextForKey("TakePhotoCountdown.Ready") + " " + takePhotoCountdown;
+                    }
+                }
+            }
         }
 
         private void WebCamCapture_ImageCaptured(object source, WebcamEventArgs e)
