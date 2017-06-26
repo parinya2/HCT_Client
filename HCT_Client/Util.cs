@@ -472,6 +472,21 @@ namespace HCT_Client
             return str;
         }
 
+        public static Bitmap GetImageFromPath(string path)
+        {
+            bool isExist = File.Exists(path);
+            Bitmap img;
+            if (isExist)
+            {
+                img = (Bitmap)Image.FromFile(path);
+            }
+            else
+            {
+                img = GetImageFromImageResources("ImageNotFound.png");
+            }
+            return img;
+        }
+
         public static Color ColorFromHSL(int H, int S, int L)
         {
             double hue = (H / 240.0) * 360.0;

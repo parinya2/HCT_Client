@@ -239,6 +239,9 @@
     <EmbeddedResource Include="Images\SoundIcon.png" />
     <EmbeddedResource Include="Images\WarningSign.png" />
     <EmbeddedResource Include="Images\CameraIcon.png" />
+    <EmbeddedResource Include="Images\ImageNotFound.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="RDNIDLib.DLX">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
