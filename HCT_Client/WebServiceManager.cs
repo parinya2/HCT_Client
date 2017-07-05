@@ -944,6 +944,7 @@ namespace HCT_Client
                     }
                 }
 
+                Util.SendEmailWithAttachment(null, errStr, "HCT EExam มีปัญหา");
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
             }
             catch (Exception e)
@@ -962,6 +963,7 @@ namespace HCT_Client
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL };
                 }
 
+                Util.SendEmailWithAttachment(null, errStr, "HCT EExam มีปัญหา");
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
             }
             finally
@@ -1028,7 +1030,7 @@ namespace HCT_Client
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
                 }
                 if (errStr.Contains("The remote name could not be resolved"))
-                {
+                {                    
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
                 }
                 if (errStr.Contains("Could not create SSL/TLS secure channel"))
@@ -1049,6 +1051,7 @@ namespace HCT_Client
                         }
                     }
 
+                    Util.SendEmailWithAttachment(null, errStr, "HCT EExam มีปัญหา");
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
                 }
 
@@ -1069,6 +1072,7 @@ namespace HCT_Client
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL };
                 }
 
+                Util.SendEmailWithAttachment(null, errStr, "HCT EExam มีปัญหา");
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
             }
             finally

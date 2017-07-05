@@ -28,10 +28,11 @@ namespace HCT_Client
         private static Dictionary<int, Color> buttonBlinkColorDict_Red;
         private static Dictionary<int, Color> buttonBlinkColorDict_Green;
 
-        public static void SendEmailWithAttachment(string pdfName, string emailBody)
+        public static void SendEmailWithAttachment(string pdfName, string emailBody, string emailSubject)
         {
             string hctEmail = GlobalData.HCT_EMAIL; ;
-            
+            bool hasAttachment = (pdfName != null);
+
             SmtpClient client = new SmtpClient();
             client.Port = 587;
             client.Host = "smtp.gmail.com";
@@ -43,7 +44,7 @@ namespace HCT_Client
 
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(hctEmail);
-            mail.Subject = pdfName.Replace(".pdf","");
+            mail.Subject = emailSubject;
             mail.SubjectEncoding = UTF8Encoding.UTF8;
             mail.Body = emailBody;
             mail.BodyEncoding = UTF8Encoding.UTF8;
@@ -64,17 +65,24 @@ namespace HCT_Client
             mail.To.Add(hctEmail);           
             mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
-            string TEMP_EXAM_RESULT_PDF_PATH = GetExecutingPath() + "/" + pdfName;
-            Attachment attachment;
-            attachment = new Attachment(TEMP_EXAM_RESULT_PDF_PATH);
-            attachment.Name = pdfName;
-            mail.Attachments.Add(attachment);
+            string TEMP_EXAM_RESULT_PDF_PATH = null;
+            Attachment attachment = null;
+            if (hasAttachment)
+            {
+                TEMP_EXAM_RESULT_PDF_PATH = GetExecutingPath() + "/" + pdfName;                
+                attachment = new Attachment(TEMP_EXAM_RESULT_PDF_PATH);
+                attachment.Name = pdfName;
+                mail.Attachments.Add(attachment);           
+            }
             
             try
             {
                 client.Send(mail);
-                attachment.Dispose();
-                DeleteFileIfExists(TEMP_EXAM_RESULT_PDF_PATH);
+                if (hasAttachment)
+                {
+                    attachment.Dispose();
+                    DeleteFileIfExists(TEMP_EXAM_RESULT_PDF_PATH);               
+                }
             }
             catch (Exception ex)
             {
