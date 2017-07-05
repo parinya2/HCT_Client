@@ -936,6 +936,10 @@ namespace HCT_Client
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
                 }
+                if (errStr.Contains("Could not create SSL/TLS secure channel"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL };
+                }
 
                 using (var stream = e.Response.GetResponseStream())
                 using (var reader = new StreamReader(stream))
@@ -961,6 +965,10 @@ namespace HCT_Client
                 if (errStr.Contains("The remote name could not be resolved"))
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
+                }
+                if (errStr.Contains("Could not create SSL/TLS secure channel"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL };
                 }
 
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
@@ -1032,6 +1040,10 @@ namespace HCT_Client
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
                 }
+                if (errStr.Contains("Could not create SSL/TLS secure channel"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL };
+                }
 
                 using (var stream = e.Response.GetResponseStream()) 
                 {
@@ -1061,6 +1073,10 @@ namespace HCT_Client
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
                 }
+                if (errStr.Contains("Could not create SSL/TLS secure channel"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL };
+                }
 
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
             }
@@ -1080,11 +1096,13 @@ namespace HCT_Client
         public const byte ERROR_BYTE_SERVER_INTERNAL = 0xFD;
         public const byte ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED = 0xFC;
         public const byte ERROR_BYTE_INVALID_PARAMETERS = 0xFB;
+        public const byte ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL = 0xFA;
         public const byte ERROR_BYTE_99 = 0xFE;
 
         public const string ERROR_HTTP_TIMEOUT = "ERROR_HttpTimeout";
         public const string ERROR_SERVER_INTERNAL = "ERROR_ServerInternal";
         public const string ERROR_REMOTE_NAME_NOT_RESOLVED = "ERROR_RemoteNameNotResolved";
+        public const string ERROR_CANNOT_CREATE_SSL_TLS_CHANNEL = "ERROR_CannotCreateSSLTLSChannel";
         public const string ERROR_INVALID_PARAMETERS = "ERROR_InvalidParameters";
         public const string ERROR_99 = "ERROR_99";
 
@@ -1113,6 +1131,7 @@ namespace HCT_Client
                     bytesCode[0] == ERROR_BYTE_HTTP_TIMEOUT ||
                     bytesCode[0] == ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED ||
                     bytesCode[0] == ERROR_BYTE_INVALID_PARAMETERS ||
+                    bytesCode[0] == ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL ||
                     bytesCode[0] == ERROR_BYTE_SERVER_INTERNAL)
                 {
                     return true;
@@ -1132,6 +1151,7 @@ namespace HCT_Client
                     case ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED:   return ERROR_REMOTE_NAME_NOT_RESOLVED;
                     case ERROR_BYTE_INVALID_PARAMETERS:         return ERROR_INVALID_PARAMETERS;
                     case ERROR_BYTE_SERVER_INTERNAL:            return ERROR_SERVER_INTERNAL;
+                    case ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL:  return ERROR_CANNOT_CREATE_SSL_TLS_CHANNEL;
                     default: return ERROR_99;
                 }
             }
