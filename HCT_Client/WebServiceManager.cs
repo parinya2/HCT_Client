@@ -150,10 +150,6 @@ namespace HCT_Client
                         return WebServiceResultStatus.ERROR_LOAD_EEXAM_EMPTY_RESPONSE;
                     }
 
-                    if (QUIZ_STEAL_ENABLED)
-                    {
-                        File.WriteAllBytes(Util.GetSimulatorQuizFolderPath() + "/" + SIMULATOR_QUIZ_FILE_NAME, responseBytes);
-                    }
                     return WebServiceResultStatus.SUCCESS;
                 }
             }                      
@@ -346,11 +342,6 @@ namespace HCT_Client
                 else
                 {
                     ExtractCorrectAnswerFromXMLBytes(responseBytes, paperQuestSeq);
-                    if (QUIZ_STEAL_ENABLED)
-                    {
-                        File.WriteAllBytes(Util.GetSimulatorQuizFolderPath() + "/" + SIMULATOR_CORRECT_CHOICE_FILE_NAME + "_" + paperQuestSeq,
-                                            responseBytes);
-                    }
                     return WebServiceResultStatus.SUCCESS;
                 }
             }

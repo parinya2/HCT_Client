@@ -116,9 +116,18 @@ namespace HCT_Client
             return GetExecutingPath() + "/Private/token";
         }
 
-        public static string GetSimulatorQuizFolderPath()
+        public static string GetSimulatorQuizFolderPath(ExamCourseType courseType)
         {
             string folderPath = GetExecutingPath() + "/SimulatorQuiz";
+            if (courseType == ExamCourseType.Car)
+            {
+                folderPath += "/Car";
+            }
+            if (courseType == ExamCourseType.Motorcycle)
+            {
+                folderPath += "/Motorcycle";
+            }
+
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);

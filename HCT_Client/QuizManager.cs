@@ -86,7 +86,7 @@ namespace HCT_Client
 
         private static string RandomSimulatorQuizNumber()
         {
-            string simulatorConfigFilePath = Util.GetSimulatorQuizFolderPath() + "/SimulatorSetting.txt";
+            string simulatorConfigFilePath = Util.GetSimulatorQuizFolderPath(QuizManager.GetExamCourseType()) + "/SimulatorSetting.txt";
             string[] contentsArr = File.ReadAllLines(simulatorConfigFilePath);
             bool shouldRandom = false;
             string targetQuizNumber = "1";
@@ -105,7 +105,7 @@ namespace HCT_Client
 
             if (shouldRandom)
             {
-                int totolFolderCount = Directory.GetDirectories(Util.GetSimulatorQuizFolderPath()).Length;
+                int totolFolderCount = Directory.GetDirectories(Util.GetSimulatorQuizFolderPath(QuizManager.GetExamCourseType())).Length;
                 int oldNumber = Int32.Parse(targetQuizNumber);
                 int newNumber = (oldNumber == totolFolderCount) ? 1 : oldNumber + 1;
 
@@ -124,7 +124,7 @@ namespace HCT_Client
              20 วัน$x|30 วัน$x|15 วัน$x|45 วัน$x|2# 
              */
             string quizSetNumber = RandomSimulatorQuizNumber();
-            string simulatorFolderPath = Util.GetSimulatorQuizFolderPath() + "/QuizSet" + quizSetNumber;
+            string simulatorFolderPath = Util.GetSimulatorQuizFolderPath(QuizManager.GetExamCourseType()) + "/QuizSet" + quizSetNumber;
             string simulatorImageFolderPath = simulatorFolderPath + "/SimulatorImages";
             string quizDataString = File.ReadAllText(simulatorFolderPath + "/SimulatorQuiz.txt");
 
