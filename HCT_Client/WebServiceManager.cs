@@ -20,13 +20,13 @@ namespace HCT_Client
 
     class WebServiceManager
     {
-        const string DLT_WEB_SERVICE_URI = "https://ws.dlt.go.th/EExam/EExamService";
+        const string DLT_WEB_SERVICE_URI = "https://ws.dlt.go.th/DltEExam/DltEExamService"; 
         const string HCT_SERVER_AddExamHistory_URI = "https://main.clickeexam.in:8443/addExamHistory/";
         const string HCT_SERVER_SearchStudentEnrol_URI = "https://main.clickeexam.in:8443/searchStudentEnrol/";
         const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
         const string CONTENT_DICT_SOAP_KEY = "SOAP";
         const bool IMAGE_IS_MTOM_ATTACHMENT = true;
-        public const WebServiceMode webServiceMode = WebServiceMode.SimulatorMode;
+        public const WebServiceMode webServiceMode = WebServiceMode.NormalMode;
         public const bool QUIZ_STEAL_ENABLED = false;
         const string SIMULATOR_QUIZ_FILE_NAME = "SimulatorQuiz";
         const string SIMULATOR_CORRECT_CHOICE_FILE_NAME = "SimulatorCorrectChoice";

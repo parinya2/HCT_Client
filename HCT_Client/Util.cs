@@ -103,7 +103,7 @@ namespace HCT_Client
 
         public static string GetKeystorePath()
         {
-            return GetExecutingPath() + "/Private/Keystore/hct_keystore.p12";
+            return GetExecutingPath() + "/Private/Keystore/hct_p12_real.p12";
         }
 
         public static string GetFontsFolderPath()
