@@ -20,13 +20,13 @@ namespace HCT_Client
 
     class WebServiceManager
     {
-        const string DLT_WEB_SERVICE_URI = "https://ws.dlt.go.th/EExam/EExamService";
+        const string DLT_WEB_SERVICE_URI = "https://ws.dlt.go.th/DltEExam/DltEExamService"; 
         const string HCT_SERVER_AddExamHistory_URI = "https://main.clickeexam.in:8443/addExamHistory/";
         const string HCT_SERVER_SearchStudentEnrol_URI = "https://main.clickeexam.in:8443/searchStudentEnrol/";
         const string BUSINESS_ERROR_FAULT = "BusinessErrorFault";
         const string CONTENT_DICT_SOAP_KEY = "SOAP";
         const bool IMAGE_IS_MTOM_ATTACHMENT = true;
-        public const WebServiceMode webServiceMode = WebServiceMode.SimulatorMode;
+        public const WebServiceMode webServiceMode = WebServiceMode.NormalMode;
         public const bool QUIZ_STEAL_ENABLED = false;
         const string SIMULATOR_QUIZ_FILE_NAME = "SimulatorQuiz";
         const string SIMULATOR_CORRECT_CHOICE_FILE_NAME = "SimulatorCorrectChoice";
@@ -150,10 +150,6 @@ namespace HCT_Client
                         return WebServiceResultStatus.ERROR_LOAD_EEXAM_EMPTY_RESPONSE;
                     }
 
-                    if (QUIZ_STEAL_ENABLED)
-                    {
-                        File.WriteAllBytes(Util.GetSimulatorQuizFolderPath() + "/" + SIMULATOR_QUIZ_FILE_NAME, responseBytes);
-                    }
                     return WebServiceResultStatus.SUCCESS;
                 }
             }                      
@@ -346,11 +342,6 @@ namespace HCT_Client
                 else
                 {
                     ExtractCorrectAnswerFromXMLBytes(responseBytes, paperQuestSeq);
-                    if (QUIZ_STEAL_ENABLED)
-                    {
-                        File.WriteAllBytes(Util.GetSimulatorQuizFolderPath() + "/" + SIMULATOR_CORRECT_CHOICE_FILE_NAME + "_" + paperQuestSeq,
-                                            responseBytes);
-                    }
                     return WebServiceResultStatus.SUCCESS;
                 }
             }
@@ -936,6 +927,10 @@ namespace HCT_Client
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
                 }
+                if (errStr.Contains("Could not create SSL/TLS secure channel"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL };
+                }
 
                 using (var stream = e.Response.GetResponseStream())
                 using (var reader = new StreamReader(stream))
@@ -949,6 +944,7 @@ namespace HCT_Client
                     }
                 }
 
+                Util.SendEmailWithAttachment(null, errStr, "HCT EExam มีปัญหา");
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
             }
             catch (Exception e)
@@ -962,7 +958,12 @@ namespace HCT_Client
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
                 }
+                if (errStr.Contains("Could not create SSL/TLS secure channel"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL };
+                }
 
+                Util.SendEmailWithAttachment(null, errStr, "HCT EExam มีปัญหา");
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
             }
             finally
@@ -1029,8 +1030,12 @@ namespace HCT_Client
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_HTTP_TIMEOUT };
                 }
                 if (errStr.Contains("The remote name could not be resolved"))
-                {
+                {                    
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
+                }
+                if (errStr.Contains("Could not create SSL/TLS secure channel"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL };
                 }
 
                 using (var stream = e.Response.GetResponseStream()) 
@@ -1046,6 +1051,7 @@ namespace HCT_Client
                         }
                     }
 
+                    Util.SendEmailWithAttachment(null, errStr, "HCT EExam มีปัญหา");
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
                 }
 
@@ -1061,7 +1067,12 @@ namespace HCT_Client
                 {
                     return new byte[] { WebServiceResultStatus.ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED };
                 }
+                if (errStr.Contains("Could not create SSL/TLS secure channel"))
+                {
+                    return new byte[] { WebServiceResultStatus.ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL };
+                }
 
+                Util.SendEmailWithAttachment(null, errStr, "HCT EExam มีปัญหา");
                 return new byte[] { WebServiceResultStatus.ERROR_BYTE_99 };
             }
             finally
@@ -1080,11 +1091,13 @@ namespace HCT_Client
         public const byte ERROR_BYTE_SERVER_INTERNAL = 0xFD;
         public const byte ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED = 0xFC;
         public const byte ERROR_BYTE_INVALID_PARAMETERS = 0xFB;
+        public const byte ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL = 0xFA;
         public const byte ERROR_BYTE_99 = 0xFE;
 
         public const string ERROR_HTTP_TIMEOUT = "ERROR_HttpTimeout";
         public const string ERROR_SERVER_INTERNAL = "ERROR_ServerInternal";
         public const string ERROR_REMOTE_NAME_NOT_RESOLVED = "ERROR_RemoteNameNotResolved";
+        public const string ERROR_CANNOT_CREATE_SSL_TLS_CHANNEL = "ERROR_CannotCreateSSLTLSChannel";
         public const string ERROR_INVALID_PARAMETERS = "ERROR_InvalidParameters";
         public const string ERROR_99 = "ERROR_99";
 
@@ -1113,6 +1126,7 @@ namespace HCT_Client
                     bytesCode[0] == ERROR_BYTE_HTTP_TIMEOUT ||
                     bytesCode[0] == ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED ||
                     bytesCode[0] == ERROR_BYTE_INVALID_PARAMETERS ||
+                    bytesCode[0] == ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL ||
                     bytesCode[0] == ERROR_BYTE_SERVER_INTERNAL)
                 {
                     return true;
@@ -1132,6 +1146,7 @@ namespace HCT_Client
                     case ERROR_BYTE_REMOTE_NAME_NOT_RESOLVED:   return ERROR_REMOTE_NAME_NOT_RESOLVED;
                     case ERROR_BYTE_INVALID_PARAMETERS:         return ERROR_INVALID_PARAMETERS;
                     case ERROR_BYTE_SERVER_INTERNAL:            return ERROR_SERVER_INTERNAL;
+                    case ERROR_BYTE_CANNOT_CREATE_SSL_TLS_CHANNEL:  return ERROR_CANNOT_CREATE_SSL_TLS_CHANNEL;
                     default: return ERROR_99;
                 }
             }
