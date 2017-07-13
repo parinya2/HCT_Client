@@ -481,6 +481,7 @@ namespace HCT_Client
 
         public static string GetUTF8fromHTMLEntity(string str)
         {
+            if (str == null) return "";
             if (str.Contains("&#") && str.Contains(";"))
             {
                 string newStr = WebUtility.HtmlDecode(str);
