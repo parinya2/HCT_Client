@@ -794,6 +794,7 @@ namespace HCT_Client
                 }
                 catch (Exception e)
                 {
+                    Util.SendEmailWithAttachment(null, e.ToString(), "ไม่สามารถส่งผลสอบไปที่ hct.ClickEExam.in ได้");
                     Console.WriteLine("SendPOSTRequestToHCTServer : " + e.ToString());
                 }
                 
