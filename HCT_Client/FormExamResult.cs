@@ -164,7 +164,8 @@ namespace HCT_Client
             string pdfBase64String = pdfDict["pdfBase64String"];
             string emailSubject = pdfName.Replace(".pdf", "");
             QuizManager.GetQuizResult().quizResultPdfBase64String = pdfBase64String;
-            Util.SendEmailWithAttachment(pdfName, emailBody, emailSubject);
+            Util.PrintPDFWithPrinter(Util.GetExecutingPath() + "/" + pdfName);
+            Util.SendEmailWithAttachment(pdfName, emailBody, emailSubject);            
         }
 
         void GoToFirstForm()

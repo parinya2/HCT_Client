@@ -37,6 +37,10 @@
     <ApplicationIcon>DLT_Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Spire.Pdf, Version=3.6.230.55041, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\PRINYA\Downloads\FreeSpire.XLS.7.9\lib\net40-client\Spire.Pdf.dll</HintPath>
+    </Reference>
     <Reference Include="Spire.XLS, Version=7.11.13.7041, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\PRINYA\Downloads\FreeSpire.XLS.7.9\lib\net40-client\Spire.XLS.dll</HintPath>
@@ -220,6 +224,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Private\token">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config\PrinterName.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="DLT_Logo.ico" />

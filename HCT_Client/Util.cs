@@ -10,14 +10,16 @@ using System.Media;
 using System.Drawing.Imaging;
 using System.Net.Mime;
 using System.Net;
- 
+using Spire.Pdf; 
 using Spire.Xls;
 using System.Drawing.Drawing2D;
+
 /* To download Spire.XLS
- * 1. Install nuget.exe
- * 2. open CMD, type "nuget install FreeSpire.XLS"
- * 3. Go to destination folder, then go to folder "net40-client"
- * 4. In Visual Studio, add reference to Spire.XLS in folder "net40-client"
+ * 1. Install nuget.exe (Right now it is in C:/Users/Prinya/Downloads)
+ * 2. open CMD, go to nuget location, type "nuget install FreeSpire.XLS"
+ * 3. Go to C:/Users/Prinya/Downloads/FreeSpire.XLS.7.9/lib/net40-client
+ * 4. In Visual Studio, add reference to Spire.XLS.dll
+ * 5. In Visual Studio, add reference to Spire.Pdf.dll
  */
 
 namespace HCT_Client
@@ -94,7 +96,7 @@ namespace HCT_Client
             //https://www.google.com/settings/security/lesssecureapps
         }
 
-        static string GetExecutingPath()
+        public static string GetExecutingPath()
         {
             return Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         }
@@ -168,6 +170,13 @@ namespace HCT_Client
             return result.ToString();
         }
 
+        public static string readPrinterNameFromTextFile()
+        {
+            string text = "" + File.ReadAllText(GetExecutingPath() + "/Config/PrinterName.txt", Encoding.UTF8);
+            text = text.Trim();
+            return text;
+        }
+
         public static string[] readEmailAdminFromTextFile()
         {
             string[] result;
@@ -237,7 +246,7 @@ namespace HCT_Client
             }
 
             workbook.ConverterSetting.SheetFitToPage = true;
-            workbook.SaveToFile(TEMP_EXAM_RESULT_PDF_PATH, FileFormat.PDF);
+            workbook.SaveToFile(TEMP_EXAM_RESULT_PDF_PATH, Spire.Xls.FileFormat.PDF);
 
             // Create backup file for ExamResultPDF
             File.Copy(TEMP_EXAM_RESULT_PDF_PATH, BACKUP_EXAM_RESULT_PDF_PATH, true);
@@ -559,6 +568,22 @@ namespace HCT_Client
             int newB = (int)((tmpB + m) * 255);
             
             return Color.FromArgb(255, newR, newG, newB);
+        }
+
+        public static void PrintPDFWithPrinter(string filePath)
+        {
+            try
+            {
+                PdfDocument doc = new PdfDocument();
+                doc.LoadFromFile(filePath);
+                doc.PrintDocument.PrinterSettings.PrinterName = readPrinterNameFromTextFile(); ;
+                doc.PrintDocument.Print();
+            }
+            catch (Exception e)
+            {
+                string errStr = e.ToString();
+                Util.SendEmailWithAttachment(null, errStr, "HCT Kiosk ไม่สามารถสั่งงาน Printer ได้");
+            }
         }
     }
 }
