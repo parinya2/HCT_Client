@@ -93,6 +93,11 @@ namespace HCT_Client
                                                                      "You must answer all questions, otherwise you will fail." + Environment.NewLine + "Unanswered questions are ");
             SetDictValueForKey("QuizNotCompletedMessageBox.RightButton", "ย้อนกลับ", "Go Back");
 
+            SetDictValueForKey("QuizConfirmSubmitMessageBox.Message", "คุณแน่ใจว่าจะส่งคำตอบแล้วใช่หรือไม่",
+                                                         "Are you sure to submit your answers ?");
+            SetDictValueForKey("QuizConfirmSubmitMessageBox.RightButton", "ส่งคำตอบ", "Submit");
+            SetDictValueForKey("QuizConfirmSubmitMessageBox.LeftButton", "ย้อนกลับ", "Go Back");
+
             SetDictValueForKey("ConfirmExitMessageBox.Message", "คุณต้องการออกจากโปรแกรมใช่หรือไม่", "Do you want to exit the program ?");
             SetDictValueForKey("ConfirmExitMessageBox.RightButton", "ตกลง", "OK");
             SetDictValueForKey("ConfirmExitMessageBox.LeftButton", "ย้อนกลับ", "Go Back");
