@@ -50,6 +50,7 @@ namespace HCT_Client
 
         FormLargeMessageBox timeoutMessageBox;
         FormLargeMessageBox quizNotCompletedMessageBox;
+        FormLargeMessageBox quizConfirmSubmitMessageBox;
         FormFadeView fadeForm;
 
         Color correctAnswerColor = GlobalColor.greenColor;
@@ -79,6 +80,11 @@ namespace HCT_Client
             quizNotCompletedMessageBox = new FormLargeMessageBox(0, MessageBoxIcon.Null);
             quizNotCompletedMessageBox.Visible = false;
             quizNotCompletedMessageBox.rightButton.Click += new EventHandler(QuizNotCompletedMessageBoxRightButtonClicked);
+
+            quizConfirmSubmitMessageBox = new FormLargeMessageBox(1, MessageBoxIcon.Null);
+            quizConfirmSubmitMessageBox.Visible = false;
+            quizConfirmSubmitMessageBox.rightButton.Click += new EventHandler(QuizConfirmSubmitMessageBoxRightButtonClicked);
+            quizConfirmSubmitMessageBox.leftButton.Click += new EventHandler(QuizConfirmSubmitMessageBoxLeftButtonClicked);
 
             submitExamButton.Click += new EventHandler(SubmitExamButtonClicked);
 
@@ -120,6 +126,10 @@ namespace HCT_Client
 
             quizNotCompletedMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.Message");
             quizNotCompletedMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizNotCompletedMessageBox.RightButton");
+
+            quizConfirmSubmitMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizConfirmSubmitMessageBox.Message");
+            quizConfirmSubmitMessageBox.rightButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizConfirmSubmitMessageBox.RightButton");
+            quizConfirmSubmitMessageBox.leftButton.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizConfirmSubmitMessageBox.LeftButton");
 
             submitExamButton.Text = LocalizedTextManager.GetLocalizedTextForKey("FormExecuteExam.SubmitExamButton");
 
@@ -628,6 +638,20 @@ namespace HCT_Client
             GoToFormExamResult();
         }
 
+        void QuizConfirmSubmitMessageBoxLeftButtonClicked(object sender, EventArgs e)
+        {
+            quizConfirmSubmitMessageBox.Visible = false;
+            fadeForm.Visible = false;
+            this.Visible = true;
+            this.Enabled = true;
+            this.BringToFront();
+        }
+
+        void QuizConfirmSubmitMessageBoxRightButtonClicked(object sender, EventArgs e)
+        {
+            GoToFormExamResult();
+        }
+
         void QuizNotCompletedMessageBoxRightButtonClicked(object sender, EventArgs e)
         {
             quizNotCompletedMessageBox.Visible = false;
@@ -727,7 +751,14 @@ namespace HCT_Client
                 }
                 if (canProceed)
                 {
-                    GoToFormExamResult();
+                    fadeForm.Visible = true;
+                    fadeForm.BringToFront();
+
+                    quizConfirmSubmitMessageBox.Visible = true;
+                    quizConfirmSubmitMessageBox.BringToFront();
+                    quizConfirmSubmitMessageBox.Location = new Point((SCREEN_WIDTH - quizConfirmSubmitMessageBox.Width) / 2,
+                                                                        (SCREEN_HEIGHT - quizConfirmSubmitMessageBox.Height) / 2);
+                    quizConfirmSubmitMessageBox.messageLabel.Text = LocalizedTextManager.GetLocalizedTextForKey("QuizConfirmSubmitMessageBox.Message");             
                 }
                 else
                 {
@@ -791,6 +822,7 @@ namespace HCT_Client
         protected void BlinkButtonSignalClockHasChanged(int state)
         {
             timeoutMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);
+            quizConfirmSubmitMessageBox.rightButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Green(state);
             if (examState == ExamState.ShowAnswerState)
             {
                 submitExamButton.BackColor = Util.GetButtonBlinkColorAtSignalState_Red(state);
