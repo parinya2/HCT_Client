@@ -30,6 +30,7 @@ namespace HCT_Client
         public const bool QUIZ_STEAL_ENABLED = false;
         const string SIMULATOR_QUIZ_FILE_NAME = "SimulatorQuiz";
         const string SIMULATOR_CORRECT_CHOICE_FILE_NAME = "SimulatorCorrectChoice";
+        public const string HCT_SERVER_CONNECTION_FAIL_RESPONSE = "HctServerConnectionFail";
 
         public static string GetPaperTestNumberFromServer()
         {
@@ -794,8 +795,15 @@ namespace HCT_Client
                 }
                 catch (Exception e)
                 {
-                    Util.SendEmailWithAttachment(null, e.ToString(), "ไม่สามารถส่งผลสอบไปที่ hct.ClickEExam.in ได้");
-                    Console.WriteLine("SendPOSTRequestToHCTServer : " + e.ToString());
+                    if (URI.Equals(HCT_SERVER_AddExamHistory_URI))
+                    {
+                        Util.SendEmailWithAttachment(null, e.ToString(), "ไม่สามารถส่งผลสอบไปที่ hct.ClickEExam.in ได้");
+                        Console.WriteLine("SendPOSTRequestToHCTServer : " + e.ToString());                  
+                    }
+                    else if (URI.Equals(HCT_SERVER_SearchStudentEnrol_URI))
+                    {
+                        responseString = HCT_SERVER_CONNECTION_FAIL_RESPONSE;
+                    }
                 }
                 
             }
@@ -1113,6 +1121,7 @@ namespace HCT_Client
         public const string ERROR_CANNOT_CHECK_EEXAM_CORRECT_ANSWER = "ERROR_CannotCheckEExamCorrectAnswer";
 
         public const string ERROR_STUDENT_ENROL_NOT_FOUND = "ERROR_CourseRegistrationNotFound";
+        public const string ERROR_STUDENT_ENROL_CONNECTION_FAIL = "ERROR_StudentEnrolConnectionFail";
 
         public static bool IsErrorCode(string code)
         {

@@ -148,7 +148,7 @@ namespace HCT_Client
         {
             string JSONstr = "" + UserProfileManager.GetStudentEnrolDetailJSON();
             bool foundStudentEnrol= false;
-            if (JSONstr.Length > 4)
+            if (JSONstr.Length > 4 && !JSONstr.Equals(WebServiceManager.HCT_SERVER_CONNECTION_FAIL_RESPONSE))
             {
                 string[] tmpArr = new string[2];
                 JSONstr = JSONstr.Replace("\"","");
@@ -219,7 +219,11 @@ namespace HCT_Client
 
             if (!foundStudentEnrol && WebServiceManager.webServiceMode == WebServiceMode.NormalMode)
             {
-                FormLargeMessageBox errorFormMessageBox = FormsManager.GetFormErrorMessageBox(WebServiceResultStatus.ERROR_STUDENT_ENROL_NOT_FOUND, this);
+                string errorCode = JSONstr.Equals(WebServiceManager.HCT_SERVER_CONNECTION_FAIL_RESPONSE) ? 
+                                        WebServiceResultStatus.ERROR_STUDENT_ENROL_CONNECTION_FAIL :
+                                        WebServiceResultStatus.ERROR_STUDENT_ENROL_NOT_FOUND;
+
+                FormLargeMessageBox errorFormMessageBox = FormsManager.GetFormErrorMessageBox(errorCode, this);
                 Point centerPoint = new Point((SCREEN_WIDTH - errorFormMessageBox.Width) / 2,
                                               (SCREEN_HEIGHT - errorFormMessageBox.Height) / 2);
                 errorFormMessageBox.ShowMessageBoxAtLocation(centerPoint);

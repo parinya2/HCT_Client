@@ -120,6 +120,7 @@ namespace HCT_Client
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_LOAD_EEXAM_EMPTY_RESPONSE + ".Message", "Server ไม่ส่งข้อมูลชุดคำถามกลับมาให้ ท่านอาจกรอกข้อมูลครั้งที่สอบผิด กรุณาติดต่อเจ้าหน้าที่", "Server returned an empty questions data, you might choose wrong exam seq. Please contact an officer.");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_CHECK_EEXAM_RESULT_EMPTY_RESPONSE + ".Message", "Server ไม่ส่งข้อมูลผลการสอบกลับมาให้ กรุณาติดต่อเจ้าหน้าที่", "Server returned an empty exam result, please contact an officer.");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_STUDENT_ENROL_NOT_FOUND + ".Message", "ไม่พบข้อมูลการลงทะเบียนเรียนของท่านในฐานข้อมูลของโรงเรียน กรุณาติดต่อเจ้าหน้าที่", "Your course registration detail not found, please contact an officer.");
+            SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_STUDENT_ENROL_CONNECTION_FAIL + ".Message", "ไม่สามารถเชื่อมต่อกับฐานข้อมูลของโรงเรียน กรุณาตรวจสอบสัญญาณ Internet หรือตรวจสอบ Server ของโรงเรียน", "Cannot connect School Database, please check Internet Connection or School Server.");
             SetDictValueForKey("ErrorMessageBox." + WebServiceResultStatus.ERROR_CANNOT_CREATE_SSL_TLS_CHANNEL + ".Message", "ไม่สามารถเชื่อมต่อแบบ Secure Channel กับ Server ได้ กรุณาติดต่อเจ้าหน้าที่", "Could not create SSL/TLS secure channel with Server, please contact an officer.");
             SetDictValueForKey("ErrorMessageBox.RightButton", "ตกลง", "OK");
 
