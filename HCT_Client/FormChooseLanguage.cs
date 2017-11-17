@@ -29,7 +29,8 @@ namespace HCT_Client
             CardReaderManager.InitInstance();
             QuizManager.InitInstance();
             Util.GenerateButtonBlinkColorDict();
-            
+            WifiManager.InitInstance();
+
             RenderUI();
 
             confirmExitMessageBox = new FormLargeMessageBox(1, MessageBoxIcon.Null);
