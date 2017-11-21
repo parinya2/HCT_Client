@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SimpleWifi;
+//using SimpleWifi;
 using System.IO;
 using System.Timers;
 
@@ -10,9 +10,9 @@ namespace HCT_Client
 {
     class WifiManager
     {
-        static bool AUTO_WIFI_CONNECT_AVAILABLE = true;
+        static bool AUTO_WIFI_CONNECT_AVAILABLE = false;
         static WifiManager instance;
-        static Wifi wifi;
+        //static Wifi wifi;
         static string targetWifiName = null;
         static string targetWifiPassword = null;
         static bool isConnectingWifi = false;
@@ -55,7 +55,7 @@ namespace HCT_Client
             if (!AUTO_WIFI_CONNECT_AVAILABLE)
                 return;
 
-            wifi = new Wifi();
+            //wifi = new Wifi();
         }
 
         private static void TimerEvent(object source, ElapsedEventArgs e)
@@ -65,7 +65,7 @@ namespace HCT_Client
 
             try
             {
-                List<AccessPoint> aps = wifi.GetAccessPoints();
+                /*List<AccessPoint> aps = wifi.GetAccessPoints();
                 foreach (AccessPoint ap in aps)
                 {
                     if (ap.Name.Equals(targetWifiName))
@@ -79,7 +79,7 @@ namespace HCT_Client
                         request.Password = targetWifiPassword;
                         ap.ConnectAsync(request, false, x => { isConnectingWifi = false; });
                     }
-                }
+                }*/
             }
             catch (Exception ex)
             {

@@ -585,5 +585,51 @@ namespace HCT_Client
                 Util.SendEmailWithAttachment(null, errStr, "HCT Kiosk ไม่สามารถสั่งงาน Printer ได้");
             }
         }
+
+        public static void CreateLatestExamLog()
+        {
+            try
+            {
+                string latestExamFolderPath = GetExecutingPath() + "/LatestExamLog";
+                if (!Directory.Exists(latestExamFolderPath))
+                {
+                    Directory.CreateDirectory(latestExamFolderPath);
+                }
+                
+                StringBuilder content = new StringBuilder();
+                content.AppendLine("ชื่อนักเรียน = " + UserProfileManager.GetFullnameTH());
+                content.AppendLine("เลข ปชช หรือ พาสปอร์ต = " + UserProfileManager.GetAvailablePersonID());
+
+                string courseName = "";
+                if (QuizManager.GetExamCourseType() == ExamCourseType.Car)
+                    courseName = "หลักสูตรสอนขับรถยนต์";
+                else if (QuizManager.GetExamCourseType() == ExamCourseType.Motorcycle)
+                    courseName = "หลักสูตรสอนขับรถจักรยนต์";
+                
+                content.AppendLine("หลักสูตรที่สมัครเรียน = " + courseName);
+                content.AppendLine("วันที่สมัครเรียน = " + UserProfileManager.GetCourseRegisterDateString());
+                content.AppendLine("หมายเลขชุดข้อสอบ = " + QuizManager.GetPaperTestNumber());
+                content.AppendLine("คะแนน = " + QuizManager.GetQuizResult().quizScore);
+
+                DateTime dt1 = QuizManager.GetExamStartDateTime();
+                string startExamTime = dt1.Day + " / " + dt1.Month + " / " + (dt1.Year < 2500 ? dt1.Year + 543 : dt1.Year)
+                                        + "  " + dt1.Hour + ":" + dt1.Minute + ":" + dt1.Second;
+
+                DateTime dt2 = QuizManager.GetExamEndDateTime();
+                string endExamTime = dt2.Day + " / " + dt2.Month + " / " + (dt2.Year < 2500 ? dt2.Year + 543 : dt2.Year)
+                                        + "  " + dt2.Hour + ":" + dt2.Minute + ":" + dt2.Second;
+
+                content.AppendLine("วันเวลาเริ่มทำข้อสอบ = " + startExamTime);
+                content.AppendLine("วันเวลาส่งข้อสอบ = " + endExamTime);
+                content.AppendLine("เวลาที่ใช้ (นาที) = " + Util.GetMinuteDifferentOfTwoDates(dt1, dt2));
+
+                string latestExamFilePath = latestExamFolderPath + "/LatestExamLog.txt";
+                File.WriteAllText(latestExamFilePath, content.ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
     }
 }
