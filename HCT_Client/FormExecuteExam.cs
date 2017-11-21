@@ -556,6 +556,7 @@ namespace HCT_Client
                         FormsManager.GetFormLoadingView().ShowLoadingView(false);
                         if (status.Equals(WebServiceResultStatus.SUCCESS))
                         {
+                            Util.CreateLatestExamLog();
                             FormExamResult instanceFormExamResult = FormsManager.GetFormExamResult();
                             instanceFormExamResult.RefreshUI();
                             instanceFormExamResult.Visible = true;
