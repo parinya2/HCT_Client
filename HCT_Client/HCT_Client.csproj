@@ -37,9 +37,6 @@
     <ApplicationIcon>DLT_Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SimpleWifi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleWifi.1.0.0.0\lib\net40\SimpleWifi.dll</HintPath>
-    </Reference>
     <Reference Include="Spire.Pdf, Version=3.6.230.55041, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\PRINYA\Downloads\FreeSpire.XLS.7.9\lib\net40-client\Spire.Pdf.dll</HintPath>
